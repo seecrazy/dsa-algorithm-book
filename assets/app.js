@@ -326,6 +326,34 @@
     if (!p) return errorPanel('题目不存在', `题库中没有 ${id}。`);
     const solved = state.solved.has(id);
     const chapter = state.chapters.find(c => c.id === p.chapter);
+    const understanding = p.solution && p.solution.understanding;
+    const deepExplanation = understanding ? `
+      <h2>从“看答案”到“知其所以然”</h2>
+      <div class="problem">
+        <h3>第 1 问：笨办法是什么？</h3>
+        <p>${escapeHtml(understanding.brute_force)}</p>
+        <h3>第 2 问：瓶颈在哪里？</h3>
+        <p>${escapeHtml(understanding.bottleneck)}</p>
+        <h3>第 3 问：关键观察是什么？</h3>
+        <p>${escapeHtml(understanding.key_observation)}</p>
+        <h3>第 4 问：为什么这样是对的？</h3>
+        <p>${escapeHtml(understanding.why_correct)}</p>
+        <h3>第 5 问：示例怎么一步步走？</h3>
+        <ol>${(understanding.trace || []).map(step => `<li>${escapeHtml(step)}</li>`).join('')}</ol>
+        <h3>换一道题时怎么迁移？</h3>
+        <ul>${(understanding.transfer || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>` : `
+      <h2>从“看答案”到“知其所以然”</h2>
+      <div class="problem">
+        <p>这题的完整五问讲解还在分批撰写中。先按下面的脚手架自己推导，比直接抄模板更有效：</p>
+        <ol>
+          <li><b>先写笨办法：</b>不用任何“技巧”，写一个正确但可能慢的做法。</li>
+          <li><b>找出瓶颈：</b>哪里在重复计算？哪些组合注定不合法？</li>
+          <li><b>找关键观察：</b>数据是否有序？是否需要记录历史？是否有依赖或单调性？</li>
+          <li><b>检查不变量：</b>每次循环/递归前后，哪个性质必须保持？</li>
+          <li><b>走小例子：</b>用规模 0、1、2 的输入手动追踪状态。</li>
+        </ol>
+      </div>`;
     return `
       <h1 class="page-title">${escapeHtml(p.title)}</h1>
       <p class="page-subtitle">${difficultyBadge(p.difficulty)} ${(p.tags || []).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join(' ')}</p>
@@ -346,6 +374,7 @@
         <h3>复杂度</h3><p>${escapeHtml(p.solution.complexity)}</p>
         <h3>易错点</h3><ul>${(p.solution.pitfalls || []).map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>
       </details>
+      ${deepExplanation}
       ${(p.solution.code || []).map(item => `<h3>${escapeHtml(item.language)} 参考</h3><pre><button class="code-copy" type="button" data-copy="${encodeURIComponent(item.source)}">复制</button><code>${escapeHtml(item.source)}</code></pre>`).join('')}
       <div class="problem-head">
         <a class="link-btn primary" href="#/problems">返回题库</a>

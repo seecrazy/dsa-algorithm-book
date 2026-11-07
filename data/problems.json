@@ -38,7 +38,23 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (seen.containsKey(target - nums[i])) return new int[]{seen.get(target - nums[i]), i};\n            seen.put(nums[i], i);\n        }\n        return new int[0];\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有下标对 (i,j)，检查 nums[i] + nums[j] 是否等于 target。这个做法一定能找到答案，因为没有任何组合被漏掉。",
+        "bottleneck": "每个 x 都要回头尝试所有之前见过的数，本质是在反复回答“target-x 之前出现过吗”。两层循环让同一个问题被重复判断。",
+        "key_observation": "哈希表可以把“某个值之前是否出现过”从 O(n) 查找变成 O(1)。它记录的不是所有 pair，而是每个历史值和它的位置。",
+        "why_correct": "扫描到 i 时，seen 只包含下标小于 i 的数。若答案包含 i，另一个下标 j 一定小于 i；此时 seen[target-x] 正好能找到它。因此不会漏解，也不会把 i 和自己配对。",
+        "trace": [
+          "nums = [2,7,11,15]，target = 9。",
+          "i=0，x=2：需要 7，seen 里还没有 7，于是记录 2 -> 0。",
+          "i=1，x=7：需要 2，seen[2]=0 存在，所以答案就是 [0,1]。",
+          "不需要再看后面的数，因为题目保证恰好有一组答案。"
+        ],
+        "transfer": [
+          "题目要找“两数满足某种关系”时，先问能否一边扫描一边记住历史对象。",
+          "返回下标时必须存下标；只判断存在性时可以用集合。"
+        ]
+      }
     }
   },
   {
@@ -80,7 +96,25 @@
           "language": "Java",
           "source": "class Solution {\n    public int maxSubArray(int[] nums) {\n        int ans = nums[0], cur = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            cur = Math.max(nums[i], cur + nums[i]);\n            ans = Math.max(ans, cur);\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有连续子数组 [i,j]，求和并取最大值。做法直观，但一个起点要从 i 扩展到多个终点，导致重复求和。",
+        "bottleneck": "两个不同终点可能共享同一个前缀。比如以 i 开头的多个子数组反复加 nums[i], nums[i]+nums[i+1]，重复计算没有提供新信息。",
+        "key_observation": "走到位置 i 时，只需关心“以 i 结尾的最大和”。若前一段以 i-1 结尾的和为负，它只会拖累 nums[i]，应该丢弃；若为正，则可以接上。",
+        "why_correct": "cur 表示以当前元素结尾的最优解。第 i 步只有两种选择：单独从 nums[i] 开始，或接在以 i-1 结尾的最优段后。二者覆盖所有以 i 结尾的子数组，所以状态转移完整。",
+        "trace": [
+          "nums = [-2,1,-3,4,-1,2,1,-5,4]。",
+          "x=-2：cur=-2，ans=-2。",
+          "x=1：前缀 cur=-2 是负数，接上反而更小，所以 cur=1，ans=1。",
+          "x=-3：接在 1 后得 -2，仍小于单独从 -3 开始？实际上接上也是 -2，比 -3 大，所以 cur=-2。",
+          "x=4：cur=-2 是负数，丢掉，cur=4；ans 更新为 4。",
+          "随后 4,-1,2,1 的 cur 依次是 3、5、6，最终 ans=6。"
+        ],
+        "transfer": [
+          "“必须连续”优先考虑以当前位置结尾的状态。",
+          "如果要求同时返回左右边界，要在 ans 更新时记录起点。"
+        ]
+      }
     }
   },
   {
@@ -121,7 +155,23 @@
           "language": "Java",
           "source": "class Solution {\n    public int maxArea(int[] height) {\n        int left = 0, right = height.length - 1, ans = 0;\n        while (left < right) {\n            ans = Math.max(ans, (right - left) * Math.min(height[left], height[right]));\n            if (height[left] < height[right]) left++;\n            else right--;\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举两条竖线 (i,j)，按宽度和较短高度算水量，保留最大值。它正确地检查了所有容器。",
+        "bottleneck": "许多 pair 可以提前排除。若左线较短，右线向左移动时宽度变小、高度上限仍是左线，不可能得到更大的水量。",
+        "key_observation": "比较左右高度后，较短边无法和当前区间内任何其他边组成更优答案，所以它的候选已经全部检查完，可以安全移动。",
+        "why_correct": "每一步排除的是“不可能改善答案”的容器，不是漏掉可能答案。区间 [l,r] 内任何更优答案要么已被记录，要么不包含当前较短边。",
+        "trace": [
+          "height = [1,8,6,2,5,4,8,3,7]，l=0，r=8。",
+          "左边高度 1，右边高度 7，水量 8*1=8；左边更短，移动 l。",
+          "l=1，r=8，高度 8 和 7，水量 7*7=49，ans=49。",
+          "之后移动较短边，宽度不断变小，无法得到超过 49 的面积。"
+        ],
+        "transfer": [
+          "对撞双指针适用于“两侧候选比较后，弱的一侧可整体淘汰”的问题。",
+          "关键不是移动指针本身，而是证明被跳过的区间不可能更优。"
+        ]
+      }
     }
   },
   {
@@ -328,7 +378,23 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        Arrays.sort(nums);\n        List<List<Integer>> ans = new ArrayList<>();\n        for (int i = 0; i < nums.length - 2; i++) {\n            if (i > 0 && nums[i] == nums[i - 1]) continue;\n            int l = i + 1, r = nums.length - 1;\n            while (l < r) {\n                int sum = nums[i] + nums[l] + nums[r];\n                if (sum < 0) l++;\n                else if (sum > 0) r--;\n                else {\n                    ans.add(new ArrayList<>(List.of(nums[i], nums[l++], nums[r--])));\n                    while (l < r && nums[l] == nums[l - 1]) l++;\n                    while (l < r && nums[r] == nums[r + 1]) r--;\n                }\n            }\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "三重循环枚举 (i,j,k)，判断三数之和是否为 0，再去重。它覆盖所有三元组。",
+        "bottleneck": "无序数组必须盲目枚举；重复元素会产生同值三元组；固定两个数后，第三个数其实可以通过大小关系收缩范围得到。",
+        "key_observation": "排序后，若 nums[i]+nums[l]+nums[r] 小于 0，只有右移 l 才可能变大；若大于 0，只有左移 r 才可能变小。因此双指针一次扫描可处理固定 i 的所有 j,k。",
+        "why_correct": "对每个 i，[l,r] 维护尚未排除的候选区间。和太小排除 l，和太大排除 r，相等记录并继续收缩。重复值通过排序和相邻跳过去掉。",
+        "trace": [
+          "排序后 nums = [-4,-1,-1,0,1,2]。",
+          "i 指向 -1 时，l 指向第二个 -1，r 指向 2，和为 0，记录 [-1,-1,2]。",
+          "记录后 l、r 同时收缩，并跳过重复值。",
+          "后续 l/r 根据和为 0 或不为 0 继续收缩，得到 [-1,0,1]。"
+        ],
+        "transfer": [
+          "三数之和降级为“固定一个数后找两数之和”。",
+          "四数之和同理固定两个数，再套双指针。排序和去重是这类题的基本纪律。"
+        ]
+      }
     }
   },
   {
@@ -410,7 +476,23 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public int lengthOfLongestSubstring(String s) {\n        Map<Character, Integer> last = new HashMap<>();\n        int ans = 0;\n        for (int left = 0, right = 0; right < s.length(); right++) {\n            char c = s.charAt(right);\n            if (last.containsKey(c) && last.get(c) >= left) left = last.get(c) + 1;\n            last.put(c, right);\n            ans = Math.max(ans, right - left + 1);\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有起点 i 和终点 j，检查子串是否无重复，记录最长长度。",
+        "bottleneck": "若 s[i..j] 无重复，检查 j+1 又要重新扫整段，前面的检查结果没有保留。",
+        "key_observation": "子串只需要维护“每个字符最近出现的位置”。当右端新字符在当前窗口内出现过，left 不需要一位一位走，可以直接跳到旧位置后一位。",
+        "why_correct": "窗口 [left,right] 始终无重复。left 表示当前无重复子串的最小可行起点；遇到重复时，旧位置及更左的位置都不可能再组成合法窗口，因此跳过它们不漏解。",
+        "trace": [
+          "s = abcabcbb。",
+          "扫描 abc 时窗口为 [0,2]，长度 3。",
+          "右端第二个 a 的旧位置 0 在窗口内，left 更新到 1，窗口变成 bca。",
+          "后续窗口 bca、cab、abc 长度都是 3；最后 b、b 连续出现导致窗口缩短，答案仍为 3。"
+        ],
+        "transfer": [
+          "“最长/最短连续区间满足条件”优先考虑滑动窗口。",
+          "窗口内需要统计频次时，add/remove 必须成对维护，否则状态会漂移。"
+        ]
+      }
     }
   },
   {
@@ -532,7 +614,24 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        int[] ans = new int[nums.length];\n        Arrays.fill(ans, -1);\n        Deque<Integer> st = new ArrayDeque<>();\n        for (int i = 0; i < nums.length; i++) {\n            while (!st.isEmpty() && nums[st.peek()] < nums[i]) ans[st.pop()] = nums[i];\n            st.push(i);\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "对每个元素向右扫描，直到找到第一个更大的值。",
+        "bottleneck": "许多左侧小元素会被右侧多个更大元素反复检查，早期候选没有及时淘汰。",
+        "key_observation": "如果旧候选小于新元素，那么新元素就是它的答案；此后旧候选不再影响任何后续位置，可以立即弹出。",
+        "why_correct": "栈内元素都还没找到答案，且值从栈底到栈顶递减。新元素弹出所有小于它的候选后入栈，仍然保持单调性，所以每个元素最多入栈和出栈一次。",
+        "trace": [
+          "nums = [1,2,1]。",
+          "i=0，1 入栈。",
+          "i=1，2 大于栈顶 1，弹出并给下标 0 填答案 2，然后 2 入栈。",
+          "i=2，1 小于栈顶 2，直接入栈。",
+          "结束时栈里的 2 和 1 都没有更大答案，保持 -1。"
+        ],
+        "transfer": [
+          "找下一个更大用递减栈；找下一个更小用递增栈。",
+          "需要距离或宽度时存下标；只需要值时可以存值。"
+        ]
+      }
     }
   },
   {
@@ -614,7 +713,23 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public int largestRectangleArea(int[] hs) {\n        Deque<Integer> st = new ArrayDeque<>();\n        st.push(-1);\n        int ans = 0;\n        for (int i = 0; i <= hs.length; i++) {\n            int h = i == hs.length ? 0 : hs[i];\n            while (st.peek() != -1 && hs[st.peek()] >= h) {\n                int height = hs[st.pop()];\n                ans = Math.max(ans, height * (i - st.peek() - 1));\n            }\n            st.push(i);\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "对每根柱子向左右扩展，直到遇到更矮柱子，计算宽度乘高度。",
+        "bottleneck": "每个高度都可能扩展很长一段，重复寻找左右边界。",
+        "key_observation": "遇到更矮柱子时，之前某根较高柱子的左右边界已经确定：右边界是当前更矮柱子，左边界是栈中前一个下标。",
+        "why_correct": "栈中下标对应高度递增。弹出高度 h 时，当前 i 是右侧第一个更低位置，弹出后的栈顶是左侧第一个更低位置，所以宽度 i - stack[-1] - 1 精确覆盖所有能以 h 为高的矩形。",
+        "trace": [
+          "heights = [2,1,5,6,2,3]。",
+          "遇到高度 2 之前的 5 和 6 是递增，先入栈。",
+          "遇到 2 时，6 出栈，宽度由前一个栈顶决定；5 出栈同理。",
+          "末尾加入哨兵 0，让所有剩余柱子都有机会出栈并计算面积。"
+        ],
+        "transfer": [
+          "最大矩形可拆成每根柱子作为高度时的最大宽度。",
+          "哨兵用于保证栈清空；若不想改输入，可在循环结束后单独处理。"
+        ]
+      }
     }
   },
   {
@@ -901,7 +1016,24 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution {\n    public int subarraySum(int[] nums, int k) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        seen.put(0, 1);\n        int prefix = 0, ans = 0;\n        for (int x : nums) {\n            prefix += x;\n            ans += seen.getOrDefault(prefix - k, 0);\n            seen.merge(prefix, 1, Integer::sum);\n        }\n        return ans;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有起点 i 和终点 j，逐段求和，检查是否等于 k。",
+        "bottleneck": "每次右端扩展都要重新求段和，前面的大量前缀信息被浪费；含负数时也不能像正数数组那样收缩窗口。",
+        "key_observation": "前缀和 prefix[j] - prefix[i] = k 等价于 prefix[i] = prefix[j] - k。只需要知道这个前缀值以前出现过多少次。",
+        "why_correct": "seen[p] 表示当前右侧之前的所有前缀和中，值等于 p 的起点前缀数量。扫描到 j 时，每个 seen[prefix[j]-k] 都对应一个真实终点为 j 的子数组，因此计数不重不漏。",
+        "trace": [
+          "nums = [1,1,1]，k = 2。",
+          "初始 seen[0]=1，prefix=0。",
+          "扫描第一个 1 后 prefix=1，查 prefix-k=-1，数量 0。",
+          "扫描第二个 1 后 prefix=2，查 0，seen[0]=1，得到子数组 [1,1]。",
+          "扫描第三个 1 后 prefix=3，查 1，seen[1]=1，得到子数组第二个位置到第三个位置的 [1,1]，总数 2。"
+        ],
+        "transfer": [
+          "连续子数组求和/计数先考虑前缀和。",
+          "数组含负数时不能用滑动窗口；需要计数时用 Map 而不是 Set。"
+        ]
+      }
     }
   },
   {
@@ -1184,7 +1316,23 @@
           "language": "Java",
           "source": "public class Solution {\n    public boolean hasCycle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true;\n        }\n        return false;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "给每个节点记录访问编号，若遇到已访问节点说明有环；但需要额外 O(n) 集合。",
+        "bottleneck": "普通一次扫描只关心是否回到某个节点，不需要保存所有历史节点。",
+        "key_observation": "若有环，跑得快的指针会从后方追上跑得慢的指针；若无环，快指针会先到达空指针。",
+        "why_correct": "每步快慢距离在环内缩短 1。只要进入环，距离不可能永远大于 0，因此最终相遇。空链或无环时快指针安全终止。",
+        "trace": [
+          "链表 3 -> 2 -> 0 -> -4 -> 2。",
+          "slow 和 fast 从头出发；slow 每步 1 格，fast 每步 2 格。",
+          "进入环后，fast 相对 slow 每步前进 1 格，距离逐渐缩小。",
+          "当两者指向同一节点时返回 true，无需找出入口。"
+        ],
+        "transfer": [
+          "找环入口要在相遇后让一个指针回到头，再同速前进。",
+          "链表中点也用快慢指针，但循环条件必须避免空指针访问。"
+        ]
+      }
     }
   },
   {
@@ -1304,7 +1452,23 @@
           "language": "Java",
           "source": "class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode();\n        dummy.next = head;\n        ListNode slow = dummy, fast = dummy;\n        for (int i = 0; i <= n; i++) fast = fast.next;\n        while (fast != null) { slow = slow.next; fast = fast.next; }\n        slow.next = slow.next.next;\n        return dummy.next;\n    }\n}"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "先遍历求链表长度 n，再从头走 n-n+1 步找到前驱并删除。",
+        "bottleneck": "题目要求一趟完成，且删除头节点需要特殊分支。",
+        "key_observation": "让快指针先走 n+1 步，这样快指针到空时，慢指针正好停在待删节点的前驱。dummy 使头节点也有统一前驱。",
+        "why_correct": "从 dummy 开始，快慢指针之间保持固定距离 n+1。快指针到达 null 时，慢指针距离结尾正好 n+1 个节点，因此 slow.next 是倒数第 n 个节点。",
+        "trace": [
+          "1 -> 2 -> 3 -> 4 -> 5，n=2。",
+          "dummy=0。快指针先走 3 步，指向节点 3。",
+          "快慢同步移动，直到 fast=null；slow 停在节点 3。",
+          "执行 slow.next = slow.next.next，节点 4 被移除，得到 1 -> 2 -> 3 -> 5。"
+        ],
+        "transfer": [
+          "链表删除优先使用 dummy，统一处理头节点。",
+          "“倒数第 k 个”可转换为固定距离的双指针。"
+        ]
+      }
     }
   },
   {
@@ -1908,7 +2072,23 @@
           "language": "Java",
           "source": "class Solution { public boolean isValidBST(TreeNode root) { return valid(root, Long.MIN_VALUE, Long.MAX_VALUE); } private boolean valid(TreeNode n, long lo, long hi) { return n == null || (lo < n.val && n.val < hi && valid(n.left, lo, n.val) && valid(n.right, n.val, hi)); } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "对每个节点，分别遍历左右子树求最大/最小值，再递归检查所有节点。",
+        "bottleneck": "同一个子树会被祖先反复扫描，性质检查变成大量重复计算。",
+        "key_observation": "BST 不是“左孩子小于父节点、右孩子大于父节点”，而是整个左子树都小于父节点、整个右子树都大于父节点。递归时可以把合法区间传下去。",
+        "why_correct": "每个节点继承祖先形成的开区间 (lo,hi)。进入左子树时上界变为当前值，进入右子树时下界变为当前值。任何违反祖先约束的节点都会落在区间外，因此递归检查完整且不重复。",
+        "trace": [
+          "根 2，左孩子 1，右孩子 3。",
+          "根在 (-inf,+inf) 内合法。",
+          "左子树 1 检查区间 (-inf,2)，合法。",
+          "右子树 3 检查区间 (2,+inf)，合法，所以整棵树是 BST。"
+        ],
+        "transfer": [
+          "遇到“全局大小关系”不要只比较相邻节点。",
+          "中序遍历保持递增也能验证 BST，但重复值和边界要单独处理。"
+        ]
+      }
     }
   },
   {
@@ -2675,7 +2855,23 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution { public boolean canFinish(int n, int[][] edges) { List<List<Integer>> g = new ArrayList<>(); for (int i = 0; i < n; i++) g.add(new ArrayList<>()); int[] indeg = new int[n]; for (int[] e : edges) { g.get(e[1]).add(e[0]); indeg[e[0]]++; } Queue<Integer> q = new ArrayDeque<>(); for (int i = 0; i < n; i++) if (indeg[i] == 0) q.offer(i); int seen = 0; while (!q.isEmpty()) { int u = q.poll(); seen++; for (int v : g.get(u)) if (--indeg[v] == 0) q.offer(v); } return seen == n; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有课程排列，检查是否满足依赖；排列数量是阶乘级，完全不可承受。",
+        "bottleneck": "把课程当普通顺序暴力尝试，没有利用“依赖关系有方向”这一信息。",
+        "key_observation": "每条边表示“先修 b 才能修 a”。入度为 0 的课没有任何未完成前置，可以立即学习；学完后它指向的课程入度减 1。",
+        "why_correct": "每次只移除入度为 0 的节点，保证其所有前驱都已输出。若最终输出数量小于课程数，说明剩余节点互相依赖形成环，无法拓扑排序。",
+        "trace": [
+          "依赖 [1,0]、[2,0]，表示先学 0 再学 1/2。",
+          "课程 0 入度为 0，进入队列；课程 1、2 入度都是 1。",
+          "输出 0 后，1 和 2 的入度都变成 0，依次入队。",
+          "输出 0,1,2，数量等于课程数，说明可行。"
+        ],
+        "transfer": [
+          "任何“先做什么才能做什么”的问题都可建模为 DAG 拓扑排序。",
+          "要输出字典序最小方案时，把普通队列换成小根堆。"
+        ]
+      }
     }
   },
   {
@@ -2957,7 +3153,24 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution { public int networkDelayTime(int[][] times, int n, int k) { List<int[][]> adj = new ArrayList<>(); int[] dist = new int[n + 1]; Arrays.fill(dist, Integer.MAX_VALUE); dist[k] = 0; Queue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]); pq.offer(new int[]{0,k}); while (!pq.isEmpty()) { int[] cur = pq.poll(); int u = cur[1]; if (cur[0] > dist[u]) continue; for (int[] e : adjacent(times, u)) { int v = e[0], nd = dist[u] + e[1]; if (nd < dist[v]) { dist[v] = nd; pq.offer(new int[]{nd,v}); } } } int ans = 0; for (int i = 1; i <= n; i++) ans = Math.max(ans, dist[i]); return ans == Integer.MAX_VALUE ? -1 : ans; } private List<int[]> adjacent(int[][] times, int u) { List<int[]> res = new ArrayList<>(); for (int[] e : times) if (e[0] == u) res.add(new int[]{e[1], e[2]}); return res; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举信号到达每个节点的所有路径，记录最短时间。",
+        "bottleneck": "路径数量指数级，同一节点会被更长路径反复尝试。",
+        "key_observation": "边权非负时，当前未确定节点中最短距离最小的那个，不可能再被其他路径改善，可以安全固定。",
+        "why_correct": "堆维护候选 (dist,node)。弹出时若距离已过期则跳过；否则该节点距离已最终确定，再用它松弛邻居。贪心选择依赖于所有边权非负。",
+        "trace": [
+          "边 2->1 权 1，2->3 权 1，3->4 权 1，源点是 2。",
+          "初始 dist[2]=0，其他为无穷。",
+          "弹出 2，松弛得到 dist[1]=1、dist[3]=1。",
+          "弹出 1 或 3；若先弹出 3，则松弛得到 dist[4]=2。",
+          "所有节点最终距离为 1、1、2，最大值是 2，即网络延迟。"
+        ],
+        "transfer": [
+          "非负边权最短路优先 Dijkstra；有负边要换 Bellman-Ford。",
+          "堆中会有过期候选，弹出时必须比较 dist[node]。"
+        ]
+      }
     }
   },
   {
@@ -3923,7 +4136,24 @@
           "language": "Java",
           "source": "import java.util.*;\n\nclass Solution { public int coinChange(int[] coins, int amount) { int[] dp = new int[amount + 1]; Arrays.fill(dp, Integer.MAX_VALUE); dp[0] = 0; for (int coin : coins) for (int c = coin; c <= amount; c++) if (dp[c - coin] != Integer.MAX_VALUE) dp[c] = Math.min(dp[c], dp[c - coin] + 1); return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount]; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "对每个金额尝试所有硬币，递归减去硬币面值，直到凑出 0 或失败。",
+        "bottleneck": "同一个剩余金额会从不同换法重复到达，例如 1+2 和 2+1 都留下相同状态。",
+        "key_observation": "最优解只取决于剩余金额，不取决于硬币使用顺序。设 dp[c] 为凑出金额 c 的最少硬币数，则使用一枚 coin 后问题变成 dp[c-coin]+1。",
+        "why_correct": "dp[c] 枚举最后一枚硬币的所有可能面值。若最优方案最后一枚是 coin，剩余部分一定是最优的 dp[c-coin]，因此转移覆盖全部情况且子结构最优。",
+        "trace": [
+          "coins=[1,2,5]，amount=11。",
+          "dp[0]=0；dp[1] 只能用 1，得 1。",
+          "dp[2] 可由 dp[1]+1 或 dp[0]+1，取 1。",
+          "dp[3]=dp[2]+1=2，dp[5]=dp[0]+1=1。",
+          "较大金额会优先吸收 5 的贡献，dp[11]=dp[6]+1，最终是 5+5+1，共 3 枚。"
+        ],
+        "transfer": [
+          "“最少数量”用 min 转移；“方案数量”用 += 转移。",
+          "完全背包容量正序；0/1 背包容量倒序。"
+        ]
+      }
     }
   },
   {
@@ -4004,7 +4234,24 @@
           "language": "Java",
           "source": "class Solution { public int lengthOfLIS(int[] nums) { int[] tails = new int[nums.length]; int size = 0; for (int x : nums) { int lo = 0, hi = size; while (lo < hi) { int mid = lo + (hi - lo) / 2; if (tails[mid] < x) lo = mid + 1; else hi = mid; } tails[lo] = x; if (lo == size) size++; } return size; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "dp[i] 表示以 i 结尾的 LIS 长度，对每个 i 再扫描所有 j<i，转移正确但复杂度 O(n^2)。",
+        "bottleneck": "寻找“小于 nums[i] 的最长前驱”每次都线性扫描，而前驱长度信息本身有顺序。",
+        "key_observation": "维护 tails[k] = 所有长度 k+1 的上升子序列中最小的尾值。tail 数组始终递增，因此可以用二分查找决定新数放在哪里。",
+        "why_correct": "tails[k] 是长度 k+1 可达的最小尾值。新数 x 若大于所有尾值，扩展最长长度；否则替换第一个不小于 x 的尾值，使后续同样长度更容易接上，且不会改变已能达到的最大长度。",
+        "trace": [
+          "nums = [10,9,2,5,3,7,101,18]。",
+          "10 -> tails=[10]；9 替换 10 -> [9]；2 替换 9 -> [2]。",
+          "5 大于 2 -> [2,5]；3 替换 5 -> [2,3]。",
+          "7 大于 3 -> [2,3,7]。",
+          "101 和 18 都扩展到长度 4，最终 LIS 长度为 4。"
+        ],
+        "transfer": [
+          "严格上升用 bisect_left，非严格上升用 bisect_right。",
+          "tails 不是一条真实 LIS，但长度是正确答案。"
+        ]
+      }
     }
   },
   {
@@ -4084,7 +4331,24 @@
           "language": "Java",
           "source": "class Solution { public int minDistance(String a, String b) { int[][] dp = new int[a.length() + 1][b.length() + 1]; for (int i = 0; i <= a.length(); i++) dp[i][0] = i; for (int j = 0; j <= b.length(); j++) dp[0][j] = j; for (int i = 1; i <= a.length(); i++) for (int j = 1; j <= b.length(); j++) dp[i][j] = a.charAt(i - 1) == b.charAt(j - 1) ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], Math.min(dp[i][j - 1], dp[i - 1][j - 1])); return dp[a.length()][b.length()]; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举所有插入、删除、替换操作序列，从空串/原串尝试构造目标串。",
+        "bottleneck": "不同操作序列可能到达相同前缀状态，例如先删后换和先换后删可能效果等价。",
+        "key_observation": "只需比较两个字符串的前缀。设 dp[i][j] 表示 a 前 i 个字符变成 b 前 j 个字符的最少操作数；当前字符相等或不相等决定是否产生一次替换。",
+        "why_correct": "最后一步只有三种来源：删除 a[i]、插入 b[j]、把 a[i] 替换成 b[j]。三者覆盖所有编辑路径；字符相等时保留即可，无需多花一次操作。",
+        "trace": [
+          "a=horse，b=ros。",
+          "空串到 ros 需要插入 3 次，所以第一行是 0,1,2,3。",
+          "h 与 r 不同，dp[1][1] 来自删除、插入或替换的最小值加 1，得 1。",
+          "逐步比较 ho 与 ro、hor 与 ros 等前缀，状态只依赖左、上、左上。",
+          "最终 dp[5][3]=3，对应删除 h、删除 r/e 中的一个并替换剩余不同字符的等价编辑路径。"
+        ],
+        "transfer": [
+          "两个序列对齐类问题通常定义前 i 和前 j。",
+          "只依赖上一行时可滚动数组降维。"
+        ]
+      }
     }
   },
   {
@@ -4482,7 +4746,24 @@
           "language": "Java",
           "source": "class Solution { public String longestPalindrome(String s) { int[] best = {0, 0}; for (int i = 0; i < s.length(); i++) { for (int[] range : new int[][]{expand(s, i, i), expand(s, i, i + 1)}) if (range[1] - range[0] > best[1] - best[0]) best = range; } return s.substring(best[0], best[1]); } private int[] expand(String s, int l, int r) { while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) { l--; r++; } return new int[]{l + 1, r}; } }"
         }
-      ]
+      ],
+      "understanding": {
+        "brute_force": "枚举每个子串并反转比较，记录最长回文子串。",
+        "bottleneck": "判断每个子串都要 O(n)，且许多扩展在第一个字符失配后本应立即停止。",
+        "key_observation": "回文由中心对称展开。奇数长度中心是一个字符，偶数长度中心是两个字符之间；从中心向两侧扩展，遇到不相等立即停止。",
+        "why_correct": "任何回文都有唯一奇偶中心。对每个可能中心扩展到最大范围，必然覆盖所有回文子串；记录最大区间即可得到最长回文。",
+        "trace": [
+          "s=babad。",
+          "中心 b(i=0) 最大回文是 b。",
+          "中心 a(i=1) 可向两侧扩展，得到 aba。",
+          "中心 b(i=2) 附近左侧 a 和右侧 d 不相等，最大是 b。",
+          "中心 a(i=3) 得到 ada；aba 与 ada 长度相同，返回其中之一。"
+        ],
+        "transfer": [
+          "回文子串优先考虑中心；回文子序列通常考虑区间 DP。",
+          "偶数长度不要漏掉两个字符间的中心。"
+        ]
+      }
     }
   },
   {

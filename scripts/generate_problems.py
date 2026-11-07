@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 from java_solutions import JAVA_SOLUTIONS
+from teaching_notes import TEACHING_NOTES
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "problems.json"
@@ -1313,6 +1314,8 @@ def main():
         if problem_id not in JAVA_SOLUTIONS:
             raise ValueError(f"missing Java solution: {problem_id}")
         problem["solution"]["code"].append({"language": "Java", "source": JAVA_SOLUTIONS[problem_id]})
+        if problem_id in TEACHING_NOTES:
+            problem["solution"]["understanding"] = TEACHING_NOTES[problem_id]
 
     validate(P)
     OUT.parent.mkdir(parents=True, exist_ok=True)
