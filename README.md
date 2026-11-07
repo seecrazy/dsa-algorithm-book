@@ -14,7 +14,7 @@
 ## 功能
 
 - 25 个学习单元规划：24 章正文 + 题库索引，从复杂度地图到平衡树、B+ 树、分支限界和工程化调试。
-- 124 道通用算法题：题面、约束、示例、思路、复杂度、易错点，以及成对的 Python/Java 参考实现。
+- 148 道通用算法题：题面、约束、示例、思路、复杂度、易错点，以及成对的 Python/Java 参考实现。
 - 核心题增加“五问法”讲解：笨办法、瓶颈、关键观察、正确性、示例跟踪与迁移；其余题先提供模型级状态图和推导脚手架，正在分批补齐。
 - 24 章覆盖新增排序、Trie、AVL/红黑树、B/B+ 树、分支限界和图表示；核心章节与全部题解均含静态 SVG 状态图。
 - 纯静态阅读器：目录导航、Hash 路由、题库筛选、全文搜索、暗色模式和本地进度。
@@ -51,12 +51,12 @@ http://localhost:8000
 ├── scripts/
 │   ├── generate_content.py    # 章节与章节索引生成器
 │   ├── generate_problems.py   # 题库生成与硬校验器
-│   ├── java_solutions.py     # 124 个题目的 Java 参考实现
+│   ├── java_solutions.py     # 初始 124 题的 Java 参考实现
+│   ├── new_module_problems.py # 新增模块的 24 题与 Java 实现
 │   ├── teaching_notes.py     # 核心题的五问式深度讲解
-│   ├── model_diagrams.py     # 剩余题的模型状态图元数据
+│   ├── model_diagrams.py     # 模型状态图元数据
 │   ├── generate_diagrams.py  # 生成章节图、手写题图与模型状态图
 │   └── validate_diagrams.py  # 校验 SVG 与图引用
-│   └── java_solutions.py     # 124 个题目的 Java 参考实现
 ├── docs/
 │   ├── DESIGN.md             # 产品、架构、系统与详细设计
 │   └── ROADMAP.md            # 已完成、进行中和 backlog
@@ -100,6 +100,7 @@ python3 scripts/generate_content.py
 python3 scripts/generate_diagrams.py
 python3 scripts/generate_problems.py
 python3 scripts/validate_diagrams.py
+python3 scripts/validate_java.py
 python3 -m py_compile scripts/*.py
 node --check assets/app.js
 ```

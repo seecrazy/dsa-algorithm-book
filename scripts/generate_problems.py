@@ -8,6 +8,7 @@ from pathlib import Path
 from java_solutions import JAVA_SOLUTIONS
 from teaching_notes import TEACHING_NOTES
 from model_diagrams import diagram_key, model_diagram
+from new_module_problems import NEW_JAVA, NEW_PROBLEMS
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "problems.json"
@@ -17,6 +18,8 @@ CHAPTER_IDS = {
     "trees", "heaps", "graph-search", "graph-shortest-mst", "backtracking",
     "greedy", "dynamic-programming", "strings", "union-find-advanced",
     "math-bit-probability", "engineering-interview",
+    "sorting", "trie", "balanced-search-trees", "b-trees",
+    "branch-and-bound", "graph-representation",
 }
 
 P = []
@@ -1291,12 +1294,16 @@ add("p124", "设计公平调度器", "hard", "engineering-interview", ["系统�
     "import heapq,time\nclass FairScheduler:\n    def __init__(self): self.heap=[]; self.seq=0; self.usage={}\n    def submit(self,task,deadline,user,base_priority):\n        self.seq+=1\n        fairness=self.usage.get(user,0)*0.001\n        heapq.heappush(self.heap,(deadline,base_priority+fairness,self.seq,user,task))\n    def next_task(self):\n        if not self.heap: return None\n        deadline,priority,seq,user,task=heapq.heappop(self.heap)\n        self.usage[user]=self.usage.get(user,0)+1\n        return task")
 
 
+P.extend(NEW_PROBLEMS)
+JAVA_SOLUTIONS.update(NEW_JAVA)
+
+
 def validate(problems):
     ids = [p["id"] for p in problems]
     if len(ids) != len(set(ids)):
         raise ValueError("duplicate problem id")
-    if len(problems) != 124:
-        raise ValueError(f"expected 124 problems, got {len(problems)}")
+    if len(problems) != 148:
+        raise ValueError(f"expected 148 problems, got {len(problems)}")
     for p in problems:
         if p["chapter"] not in CHAPTER_IDS:
             raise ValueError(f"invalid chapter reference {p['chapter']} in {p['id']}")
@@ -1310,9 +1317,6 @@ def validate(problems):
         diagram = p["solution"].get("understanding", {}).get("diagram") or p["solution"].get("diagram")
         if not diagram:
             raise ValueError(f"missing diagram in {p['id']}")
-        diagram_path = ROOT / diagram["src"].removeprefix("./")
-        if not diagram_path.is_file():
-            raise ValueError(f"missing diagram file {diagram_path} in {p['id']}")
         understanding = p["solution"].get("understanding")
         if understanding:
             required = ("brute_force", "bottleneck", "key_observation", "why_correct")

@@ -188,7 +188,7 @@ Problem {
 - [x] 进展文档存在，反映已完成与未完成事项。
 - [x] README 说明产品状态、本地运行、部署和文档入口。
 - [x] 站点可在静态服务器中加载首页、章节和题库。
-- [x] 固定 124 道通用算法题，且带有思路、复杂度和陷阱。
+- [x] 固定 148 道通用算法题，且带有思路、复杂度和陷阱。
 - [x] 章节目录、题库目录、正文链接一致。
 - [x] 全文搜索可用。
 - [x] 亮暗模式可用且状态保存。
@@ -390,17 +390,20 @@ localStorage keys：
 | `CHAPTER_IDS` | 与 `data/chapters.json` 当前章节集合一致的硬校验集合 |
 | `add()` | 组装题目，必填 13 个字段；先写入 Python 参考实现 |
 | `P` | 内存中的有序题库 |
-| `validate(problems)` | 校验固定 124 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
+| `validate(problems)` | 校验固定 148 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
 | `main()` | 合并 `java_solutions.JAVA_SOLUTIONS`、校验双语言、写 JSON、输出按章节统计 |
 | `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
 | `scripts/model_diagrams.py` | 按章节定义模型关键词；`diagram_key()` 生成 SVG 文件名；`model_diagram()` 返回题解图元数据 |
 | `scripts/generate_diagrams.py:model_state_svg()` | 将模型元数据渲染为“状态 -> 操作 -> 目标”的 SVG |
-| `scripts/generate_diagrams.py:main()` | 先生成 107 张模型图，再重建 38 张手写章节/题解图 |
-| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、124 题图引用和无未引用文件；图来源可为 `understanding.diagram` 或 `solution.diagram` |
+| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成模型图，再重建手写章节/题解图；当前为 131 张模型图和 38 张手写图 |
+| `scripts/new_module_problems.py` | 定义 p125-p148 题目、Python 实现和 `NEW_JAVA`；不含前端运行时逻辑 |
+| `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
+| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、148 题图引用和无未引用文件；图来源可为 `understanding.diagram` 或 `solution.diagram` |
+| `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
 
 内容不变量补充：
 
-- 当前题库固定为 124 题。
+- 当前题库固定为 148 题。
 - 难度分布不是硬约束，但生成日志会输出，便于检查内容倾斜。
 - 调整题库数量时，必须同步更新本节、README、首页文案、侧边栏文案和校验器预期值。
 
@@ -500,7 +503,7 @@ interface ProblemDiagram {
 - 前端读取顺序是 `understanding.diagram -> solution.diagram`。
 - 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
 - Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
-- 首批已生成 38 个手写 SVG，另有 107 个模型级状态图；14 个核心章节包含 16 个引用，124 题全部有题解图。
+- 当前生成 169 个 SVG：38 个手写图（14 个核心章节引用 16 个、17 题专用）和 131 个模型题图；6 个补充模块另有章节图，148 题全部有题解图。
 
 ### 14.2a 题解理解层
 
@@ -543,7 +546,7 @@ interface ProblemDiagram {
 - 不允许只写“使用哈希表优化”这类结论，必须说明“记录什么、之后查什么、为什么查得到”。
 - 不允许只写“动态规划”，必须说明状态含义和转移来源。
 - 已升级题的 `trace` 至少 3 步，并使用示例中的具体值。
-- 124 题按批次补齐；字段缺失时前端显示通用五问脚手架，不允许伪装成已完整讲解。
+- 148 题按批次补齐；字段缺失时前端显示通用五问脚手架，不允许伪装成已完整讲解。
 
 ### 14.3 内容索引
 
@@ -567,6 +570,27 @@ interface ProblemDiagram {
 
 这些模块先提供原理、模板、复杂度、陷阱和章节图；题库问题暂不强行迁移。后续若新增题目，必须沿用 Python/Java、五问法和题解图约定。
 
+### 14.4b 新增模块专属题库
+
+为避免新章只讲概念，新增 24 题，总题库从 124 题扩到 148 题：
+
+| 模块 | 题数 | 覆盖点 |
+|---|---:|---|
+| `sorting` | 5 | 三路分区、逆序对、桶排序、自定义稳定排序、字典序比较器 |
+| `trie` | 5 | Trie API、通配符匹配、Trie + DFS、最短根替换、二进制 Trie |
+| `balanced-search-trees` | 4 | 平衡 BST 构建、区间冲突、动态计数、BIT/Segment Tree 更新 |
+| `b-trees` | 3 | 节点分裂、叶子范围扫描、相邻页合并 |
+| `branch-and-bound` | 3 | 0/1 背包上界剪枝、TSP 状态空间、最小化最大段 |
+| `graph-representation` | 4 | 容器转换、可达性、反向图、隐式网格图 |
+
+新增题必须满足既有不变量：
+
+- `id` 从 `p125` 到 `p148`，全局唯一。
+- 每题有 Python 与 Java 参考。
+- 每题至少一个约束、一个示例、三个易错点。
+- 每题挂 `solution.diagram` 模型级状态图；后续可升级为手写图。
+- `validate()` 预期数量改为 148。
+
 ### 14.4a 新增模块图示
 
 新增 6 章均有章节级 SVG：
@@ -580,13 +604,13 @@ interface ProblemDiagram {
 
 ## 14.5 剩余题图示策略
 
-首批 17 题使用手写专用 SVG。为让 124 题全部达到“有图可看”，剩余题采用“模型级状态图”：
+首批 17 题使用手写专用 SVG。为了让每题达到“有图可看”，无手写图的题采用“模型级状态图”：
 
 - 每个剩余题至少一张 SVG，文件名包含题目 ID。
 - 图中包含题目标题、核心状态对象、操作方向、不变量和当前题 focus。
 - 图示按所属章节模型生成：数组指针、栈/队列、哈希映射、链表、树、堆、图、回溯树、DP 网格、区间决策、位运算、系统流水线。
 - 这类图先保证“能看见状态迁移”，后续可逐题替换为手写专用图。
-- 校验器要求：124 题全部有题解图；SVG 引用存在；无未引用 SVG。
+- 校验器要求：148 题全部有题解图；SVG 引用存在；无未引用 SVG。
 
 ## 15. 错误处理矩阵
 
@@ -606,7 +630,7 @@ interface ProblemDiagram {
 ### 数据验收
 
 - 所有 JSON 可被 `JSON.parse`。
-- 题目数量固定为 124。
+- 题目数量固定为 148。
 - 每题 `chapter` 均有效。
 - 题目 ID 无重复，目录文件无重复。
 - 所有题目都有 Python 与 Java 两个参考实现，且 Java 片段可通过编译检查。
