@@ -28,6 +28,7 @@
 - Markdown 只使用设计文档中声明支持的语法。
 - 题目必须包含思路、复杂度和易错点。
 - 改产品行为前，先更新 `docs/DESIGN.md`。
+- 不保留 `python-package.yml`；Pages 当前采用分支部署模型，不需要 Python package CI。
 
 ## 最近执行点
 

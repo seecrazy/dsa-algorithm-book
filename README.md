@@ -68,6 +68,12 @@ http://localhost:8000
 
 本项目当前遵守本地 Git 纪律：只维护本地仓库和历史，不在自动化会话中执行 push/pull/fetch 或调用远端 API。
 
+### 关于 CI workflow
+
+仓库不保留 `.github/workflows/python-package.yml`。它是 Python 包测试模板，会尝试安装 `pytest` 并运行测试；本项目是纯静态站点，没有包构建和 pytest 测试。部署选择 **Deploy from a branch** 时，GitHub Actions 不参与发布流程。
+
+如果未来需要 CI 或自动部署，应新增独立的 `static.yml` / Pages workflow，而不是把 Python package workflow 改成发布器。
+
 ## 开发约定
 
 - 修改产品行为前，先更新 `docs/DESIGN.md`。

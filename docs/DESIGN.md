@@ -161,6 +161,8 @@ Problem {
 - GitHub Pages 可通过“从分支部署”直接发布根目录。
 - 推荐部署分支为 `main`，推荐发布目录为 `/ (root)`。
 - 不依赖 GitHub Actions。
+- 不使用 `.github/workflows/python-package.yml`；那是 Python 包测试模板，与纯静态站点无关。
+- 如果未来改用 GitHub Actions 部署，应新增独立的 Pages workflow，而不是修改 Python package workflow。
 - 站点内部链接使用相对路径，避免 project page 子路径问题。
 
 ## 10. 验收清单
