@@ -100,3 +100,7 @@ del self.map[tail.key]
 - 只返回节点不返回长度时，不要假设调用方知道长度。
 
 > dummy 不是偷懒，是把“没有前驱”和“有前驱”统一成一种处理。
+
+## 一图看懂
+
+![快慢指针在环内追上](./assets/diagrams/chapter-linked-list-cycle.svg)

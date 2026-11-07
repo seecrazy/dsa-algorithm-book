@@ -45,6 +45,11 @@
   function inline(value = '') {
     let out = escapeHtml(value);
     out = out.replace(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`);
+    out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (_, alt, src) => {
+      const safeSrc = escapeHtml(src);
+      const external = /^https?:/i.test(src);
+      return `<img src="${safeSrc}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"${external ? ' referrerpolicy="no-referrer"' : ''}>`;
+    });
     out = out.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     out = out.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
@@ -329,6 +334,11 @@
     const understanding = p.solution && p.solution.understanding;
     const deepExplanation = understanding ? `
       <h2>从“看答案”到“知其所以然”</h2>
+      ${understanding.diagram ? `
+        <figure class="diagram">
+          <img src="${escapeHtml(understanding.diagram.src)}" alt="${escapeHtml(understanding.diagram.alt)}" loading="lazy" decoding="async">
+          <figcaption>${escapeHtml(understanding.diagram.caption)}</figcaption>
+        </figure>` : ''}
       <div class="problem">
         <h3>第 1 问：笨办法是什么？</h3>
         <p>${escapeHtml(understanding.brute_force)}</p>

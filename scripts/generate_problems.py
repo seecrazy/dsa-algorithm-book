@@ -1306,6 +1306,18 @@ def validate(problems):
         languages = [item["language"] for item in p["solution"]["code"]]
         if set(languages) != {"Python", "Java"}:
             raise ValueError(f"expected Python and Java in {p['id']}, got {languages}")
+        understanding = p["solution"].get("understanding")
+        if understanding:
+            required = ("brute_force", "bottleneck", "key_observation", "why_correct")
+            if any(not understanding.get(field) for field in required):
+                raise ValueError(f"incomplete five-question explanation in {p['id']}")
+            if len(understanding.get("trace", [])) < 3:
+                raise ValueError(f"trace must contain at least 3 steps in {p['id']}")
+            diagram = understanding.get("diagram")
+            if diagram:
+                diagram_path = ROOT / diagram["src"].removeprefix("./")
+                if not diagram_path.is_file():
+                    raise ValueError(f"missing diagram {diagram_path} in {p['id']}")
 
 
 def main():

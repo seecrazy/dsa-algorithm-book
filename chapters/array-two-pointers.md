@@ -76,3 +76,9 @@ for right, x in enumerate(a):
 3. 循环结束时，`left`、`right`、`slow` 的语义是什么？
 
 > 双指针不是技巧，是“用两个下标维护一段被证明安全的区域”。
+
+## 一图看懂
+
+![对撞双指针淘汰较弱一侧](./assets/diagrams/chapter-array-two-pointers.svg)
+
+![滑动窗口用 left 修复非法区间](./assets/diagrams/chapter-sliding-window.svg)

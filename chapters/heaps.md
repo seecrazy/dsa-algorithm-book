@@ -97,3 +97,7 @@ while heap and invalid(heap[0]):
 - 删除堆顶后才检查新堆顶可能过期，要循环清理。
 
 > 堆教会我们一件事：很多问题不需要全部顺序，只需要随时知道最该处理谁。
+
+## 一图看懂
+
+![堆父子顺序与 Top K 维护](./assets/diagrams/chapter-heap-shape.svg)

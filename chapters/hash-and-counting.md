@@ -84,3 +84,7 @@ def subarray_sum(nums, k):
 - 字符串哈希在多语言环境中可能受 Unicode 规范化影响。
 
 > 哈希是一种观点：我关心的不是完整对象，而是它的等价签名。
+
+## 一图看懂
+
+![前缀和与哈希表查询关系](./assets/diagrams/chapter-hash-prefix-sum.svg)

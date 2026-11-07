@@ -53,7 +53,12 @@
         "transfer": [
           "题目要找“两数满足某种关系”时，先问能否一边扫描一边记住历史对象。",
           "返回下标时必须存下标；只判断存在性时可以用集合。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p001-two-sum.svg",
+          "alt": "两数之和的哈希表查询过程",
+          "caption": "扫描到 7 时，同伴 2 已经在历史表里，不需要回头扫一遍。"
+        }
       }
     }
   },
@@ -113,7 +118,12 @@
         "transfer": [
           "“必须连续”优先考虑以当前位置结尾的状态。",
           "如果要求同时返回左右边界，要在 ans 更新时记录起点。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p002-max-subarray.svg",
+          "alt": "最大子数组和的负前缀丢弃过程",
+          "caption": "cur 表示“以当前元素结尾”的最大和；负前缀只会拖累后面的数。"
+        }
       }
     }
   },
@@ -170,7 +180,12 @@
         "transfer": [
           "对撞双指针适用于“两侧候选比较后，弱的一侧可整体淘汰”的问题。",
           "关键不是移动指针本身，而是证明被跳过的区间不可能更优。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p003-container.svg",
+          "alt": "盛水容器的左右指针与面积",
+          "caption": "短边限制水面高度；移动长边不可能让面积变大。"
+        }
       }
     }
   },
@@ -393,7 +408,12 @@
         "transfer": [
           "三数之和降级为“固定一个数后找两数之和”。",
           "四数之和同理固定两个数，再套双指针。排序和去重是这类题的基本纪律。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p008-three-sum.svg",
+          "alt": "三数之和的固定一个数加对撞双指针",
+          "caption": "排序后，固定 i，剩下的两个数用方向明确的 l/r 收缩。"
+        }
       }
     }
   },
@@ -491,7 +511,12 @@
         "transfer": [
           "“最长/最短连续区间满足条件”优先考虑滑动窗口。",
           "窗口内需要统计频次时，add/remove 必须成对维护，否则状态会漂移。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p010-sliding-window.svg",
+          "alt": "无重复字符最长子串的滑动窗口",
+          "caption": "right 扩张，left 跳过冲突；窗口内始终无重复字符。"
+        }
       }
     }
   },
@@ -630,7 +655,12 @@
         "transfer": [
           "找下一个更大用递减栈；找下一个更小用递增栈。",
           "需要距离或宽度时存下标；只需要值时可以存值。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p013-next-greater.svg",
+          "alt": "下一个更大元素的单调栈",
+          "caption": "新值淘汰旧候选；被弹出的元素立刻得到答案。"
+        }
       }
     }
   },
@@ -728,7 +758,12 @@
         "transfer": [
           "最大矩形可拆成每根柱子作为高度时的最大宽度。",
           "哨兵用于保证栈清空；若不想改输入，可在循环结束后单独处理。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p015-histogram.svg",
+          "alt": "柱状图最大矩形的边界",
+          "caption": "更矮柱子成为右边界；栈顶给出左边界，宽度因此确定。"
+        }
       }
     }
   },
@@ -1032,7 +1067,12 @@
         "transfer": [
           "连续子数组求和/计数先考虑前缀和。",
           "数组含负数时不能用滑动窗口；需要计数时用 Map 而不是 Set。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p022-prefix-sum.svg",
+          "alt": "前缀和差值与哈希表查询",
+          "caption": "区间和等于两个前缀差；查询历史前缀即可得到答案数量。"
+        }
       }
     }
   },
@@ -1331,7 +1371,12 @@
         "transfer": [
           "找环入口要在相遇后让一个指针回到头，再同速前进。",
           "链表中点也用快慢指针，但循环条件必须避免空指针访问。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p029-cycle.svg",
+          "alt": "快慢指针在环中追上",
+          "caption": "fast 每步相对 slow 前进 1 格；进入环后距离必然缩小。"
+        }
       }
     }
   },
@@ -1467,7 +1512,12 @@
         "transfer": [
           "链表删除优先使用 dummy，统一处理头节点。",
           "“倒数第 k 个”可转换为固定距离的双指针。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p032-remove-nth.svg",
+          "alt": "删除倒数第 n 个节点的双指针距离",
+          "caption": "fast 提前走出固定距离；slow 最后停在待删节点前驱。"
+        }
       }
     }
   },
@@ -2087,7 +2137,12 @@
         "transfer": [
           "遇到“全局大小关系”不要只比较相邻节点。",
           "中序遍历保持递增也能验证 BST，但重复值和边界要单独处理。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p047-bst-range.svg",
+          "alt": "验证 BST 的祖先区间传播",
+          "caption": "进入左子树收紧上界，进入右子树收紧下界。"
+        }
       }
     }
   },
@@ -2870,7 +2925,12 @@
         "transfer": [
           "任何“先做什么才能做什么”的问题都可建模为 DAG 拓扑排序。",
           "要输出字典序最小方案时，把普通队列换成小根堆。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p066-topological.svg",
+          "alt": "课程表的拓扑排序与入度",
+          "caption": "入度为 0 才能学；完成后把后续课程入度减 1。"
+        }
       }
     }
   },
@@ -3169,7 +3229,12 @@
         "transfer": [
           "非负边权最短路优先 Dijkstra；有负边要换 Bellman-Ford。",
           "堆中会有过期候选，弹出时必须比较 dist[node]。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p073-dijkstra.svg",
+          "alt": "Dijkstra 固定当前最近节点",
+          "caption": "非负边权下，当前最近的未确定节点可以安全固定。"
+        }
       }
     }
   },
@@ -4152,7 +4217,12 @@
         "transfer": [
           "“最少数量”用 min 转移；“方案数量”用 += 转移。",
           "完全背包容量正序；0/1 背包容量倒序。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p097-coin-change.svg",
+          "alt": "零钱兑换的动态规划转移",
+          "caption": "只看最后一枚硬币；剩余金额的子问题必须已经最优。"
+        }
       }
     }
   },
@@ -4250,7 +4320,12 @@
         "transfer": [
           "严格上升用 bisect_left，非严格上升用 bisect_right。",
           "tails 不是一条真实 LIS，但长度是正确答案。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p099-lis-tails.svg",
+          "alt": "最长上升子序列的 tails 数组",
+          "caption": "tails[k] 是长度 k+1 的最小尾值；新数决定扩展还是替换。"
+        }
       }
     }
   },
@@ -4347,7 +4422,12 @@
         "transfer": [
           "两个序列对齐类问题通常定义前 i 和前 j。",
           "只依赖上一行时可滚动数组降维。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p101-edit-distance.svg",
+          "alt": "编辑距离的二维 DP 前缀状态",
+          "caption": "每个格子代表前 i 个字符变成前 j 个字符的最少操作。"
+        }
       }
     }
   },
@@ -4762,7 +4842,12 @@
         "transfer": [
           "回文子串优先考虑中心；回文子序列通常考虑区间 DP。",
           "偶数长度不要漏掉两个字符间的中心。"
-        ]
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p111-palindrome.svg",
+          "alt": "回文子串的奇偶中心扩展",
+          "caption": "奇数中心是一个字符；偶数中心是两个字符之间。"
+        }
       }
     }
   },

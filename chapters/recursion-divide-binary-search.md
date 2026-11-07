@@ -91,3 +91,7 @@ def quickselect(a, k):
 - 递归基线只写了空输入，漏掉单元素。
 
 > 二分的力量来自单调性；没有单调性，硬写二分只是在掷骰子。
+
+## 一图看懂
+
+![二分搜索维持已确定边界](./assets/diagrams/chapter-binary-search-boundary.svg)

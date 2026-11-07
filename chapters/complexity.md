@@ -78,3 +78,7 @@ T(n) = 2T(n-1) + O(1)      -> O(2^n)
 - 最坏输入是否由用户控制？
 
 > 复杂度是第一张地图，不是终点。写完代码后，真实数据和性能画像才是最终裁决。
+
+## 一图看懂
+
+![复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)](./assets/diagrams/chapter-complexity-growth.svg)

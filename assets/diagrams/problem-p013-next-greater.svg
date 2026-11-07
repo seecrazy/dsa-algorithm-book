@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="380" rx="18"/>
+<text class="title" x="32" y="50">下一个更大元素：新值淘汰无法获胜的旧候选</text><rect class="box blue" x="80" y="95" width="74" height="56" rx="12"/><text class="t" x="117.0" y="129.0">1</text><rect class="box green" x="190" y="95" width="74" height="56" rx="12"/><text class="t" x="227.0" y="129.0">2</text><rect class="box orange" x="300" y="95" width="74" height="56" rx="12"/><text class="t" x="337.0" y="129.0">1</text><path class="arrow" d="M154,154 L123,123 L186,186 L123,123"/><text class="s" x="120" y="78">新到 2</text><text class="s" x="227" y="78">1 出栈</text><rect class="box purple" x="420" y="95" width="180" height="116" rx="12"/><text class="s" x="510" y="125">栈保存下标</text><text class="s" x="510" y="155">值保持递减</text><rect class="box green" x="58" y="245" width="604" height="82" rx="12"/><text class="s" x="360" y="272">2 大于栈内 1，因此下标 0 的答案确定为 2</text><text class="s" x="360" y="301">被弹出的元素已解决；仍留在栈中的元素继续等待更大的数</text><text class="s" x="360" y="365">答案 [2,-1,-1]</text>
+</svg>

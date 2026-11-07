@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="400" rx="18"/>
+<text class="title" x="32" y="50">环检测：追上即证明绕圈</text><rect class="box plain" x="80" y="115" width="80" height="52" rx="12"/><text class="t" x="120.0" y="147.0">A</text><rect class="box blue" x="250" y="100" width="80" height="52" rx="12"/><text class="t" x="290.0" y="132.0">B</text><rect class="box orange" x="410" y="125" width="80" height="52" rx="12"/><text class="t" x="450.0" y="157.0">C</text><rect class="box plain" x="470" y="230" width="80" height="52" rx="12"/><text class="t" x="510.0" y="262.0">D</text><rect class="box plain" x="250" y="250" width="80" height="52" rx="12"/><text class="t" x="290.0" y="282.0">E</text><path class="arrow" d="M160,160 L141,141 L246,246 L120,120"/><path class="arrow" d="M330,330 L120,120 L406,406 L140,140"/><path class="arrow" d="M450,450 L177,177 L495,495 L226,226"/><path class="arrow" d="M470,470 L282,282 L334,334 L267,267"/><path class="arrow" d="M250,250 L250,250 L120,120 L190,190"/><text class="s" x="160" y="80">slow · +1</text><text class="s" x="360" y="80">fast · +2</text><rect class="box green" x="58" y="330" width="604" height="66" rx="12"/><text class="s" x="360" y="355">进入环后 fast 每步比 slow 多走 1 格</text><text class="s" x="360" y="383">相对距离不断缩小，最终 slow == fast</text>
+</svg>

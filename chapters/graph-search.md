@@ -105,3 +105,9 @@ def topo_order(n, edges):
 - DAG 顺序题不一定要求字典序，若要求需用小根堆。
 
 > 图题的难点常在建图：把对象、状态、依赖或冲突正确地变成点和边。
+
+## 一图看懂
+
+![BFS 按层扩散与访问标记](./assets/diagrams/chapter-graph-bfs-layers.svg)
+
+![DAG 拓扑排序按入度展开](./assets/diagrams/chapter-topological-order.svg)

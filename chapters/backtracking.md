@@ -105,3 +105,7 @@ def search(r, c, idx):
 - 网格恢复字符时写成了恢复标记。
 
 > 回溯的本质是“诚实地枚举”，剪枝只是省去注定失败的分支。
+
+## 一图看懂
+
+![回溯的选择、探索与撤销](./assets/diagrams/chapter-backtracking-tree.svg)

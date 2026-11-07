@@ -1900,6 +1900,24 @@ CONTENT["engineering-interview"] = """## 1. 面试不是考试，是协作调试
 > 专业不是没有 Bug，而是有办法快速把错误变成可解释、可修复、可预防的事实。
 """
 
+CHAPTER_DIAGRAMS = {
+    "complexity": ("chapter-complexity-growth.svg", "复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)"),
+    "array-two-pointers": [("chapter-array-two-pointers.svg", "对撞双指针淘汰较弱一侧"), ("chapter-sliding-window.svg", "滑动窗口用 left 修复非法区间")],
+    "stack-queue-monotonic": ("chapter-monotonic-stack.svg", "单调栈维护未解决候选"),
+    "hash-and-counting": ("chapter-hash-prefix-sum.svg", "前缀和与哈希表查询关系"),
+    "linked-list": ("chapter-linked-list-cycle.svg", "快慢指针在环内追上"),
+    "recursion-divide-binary-search": ("chapter-binary-search-boundary.svg", "二分搜索维持已确定边界"),
+    "trees": ("chapter-tree-recursion.svg", "树的后序遍历先取子问题答案再合并"),
+    "heaps": ("chapter-heap-shape.svg", "堆父子顺序与 Top K 维护"),
+    "graph-search": [("chapter-graph-bfs-layers.svg", "BFS 按层扩散与访问标记"), ("chapter-topological-order.svg", "DAG 拓扑排序按入度展开")],
+    "graph-shortest-mst": ("problem-p073-dijkstra.svg", "非负边权下的 Dijkstra 最近节点固定过程"),
+    "backtracking": ("chapter-backtracking-tree.svg", "回溯的选择、探索与撤销"),
+    "greedy": ("chapter-interval-scheduling.svg", "按结束时间选择互不重叠区间"),
+    "dynamic-programming": ("chapter-dp-state-grid.svg", "DP 状态来源与边界顺序"),
+    "union-find-advanced": ("chapter-union-find.svg", "并查集按根判断连通"),
+}
+
+
 def build_chapter_metadata():
     return CHAPTERS
 
@@ -1909,7 +1927,14 @@ def write_chapters():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     for item in CHAPTERS:
         target = CHAPTERS_DIR / item["file"]
-        target.write_text(CONTENT[item["id"]].strip() + "\n", encoding="utf-8")
+        markdown = CONTENT[item["id"]].strip()
+        diagrams = CHAPTER_DIAGRAMS.get(item["id"], [])
+        if diagrams:
+            if isinstance(diagrams, tuple):
+                diagrams = [diagrams]
+            figures = "\n\n".join(f"![{caption}](./assets/diagrams/{filename})" for filename, caption in diagrams)
+            markdown += f"\n\n## 一图看懂\n\n{figures}\n"
+        target.write_text(markdown.rstrip() + "\n", encoding="utf-8")
     (DATA_DIR / "chapters.json").write_text(
         json.dumps(CHAPTERS, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

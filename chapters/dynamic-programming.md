@@ -130,3 +130,7 @@ dp[1 << i][i] = cost[start][i]
 - 求方案数忘了取模。
 
 > DP 的美感是把混乱的未来拆成已知的过去。
+
+## 一图看懂
+
+![DP 状态来源与边界顺序](./assets/diagrams/chapter-dp-state-grid.svg)

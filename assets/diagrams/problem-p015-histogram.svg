@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="410" rx="18"/>
+<text class="title" x="32" y="50">柱状图最大矩形：低柱变成左右边界的分界</text><rect class="box plain" x="82" y="190" width="50" height="80" rx="12"/><text class="s" x="107" y="295">2</text><rect class="box blue" x="142" y="70" width="50" height="200" rx="12"/><text class="s" x="167" y="295">5</text><rect class="box blue" x="202" y="30" width="50" height="240" rx="12"/><text class="s" x="227" y="295">6</text><rect class="box plain" x="262" y="190" width="50" height="80" rx="12"/><text class="s" x="287" y="295">2</text><path class="line" d="M142,110 L262,110" stroke-dasharray="7 7"/><rect class="box blue" x="136" y="103" width="132" height="14" rx="3"/><text class="s" x="202" y="85">高度 5 的最大矩形</text><rect class="box purple" x="58" y="330" width="604" height="70" rx="12"/><text class="s" x="360" y="356">弹出 6 时：右边界是更低柱 2，左边界来自新栈顶</text><text class="s" x="360" y="385">宽度 = i - stack[-1] - 1</text>
+</svg>

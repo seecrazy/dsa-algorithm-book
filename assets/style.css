@@ -160,6 +160,44 @@ body {
   border-radius: 0 10px 10px 0;
   color: var(--text);
 }
+.content figure.diagram,
+.content .figure {
+  margin: 2em 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(15,23,42,.06);
+}
+.content figure.diagram img,
+.content .figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+  border-radius: 10px;
+}
+.content figure.diagram figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.55;
+  text-align: center;
+}
+.content p > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1rem auto 0;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.content p > img + figcaption { display: none; }
+.content figure.diagram img:hover {
+  box-shadow: inset 0 0 0 1px rgba(37,99,235,.35);
+}
 .content code {
   font-family: var(--mono); font-size: .88em;
   background: var(--code-bg); color: var(--code-text);

@@ -16,6 +16,7 @@
 - 19 个学习单元规划：从复杂度地图到工程化调试。
 - 124 道通用算法题：题面、约束、示例、思路、复杂度、易错点，以及成对的 Python/Java 参考实现。
 - 核心题增加“五问法”讲解：笨办法、瓶颈、关键观察、正确性、示例跟踪与迁移；其余题先提供推导脚手架，正在分批补齐。
+- 核心章节与高频题解新增静态 SVG 状态图：指针移动、单调栈、递归树、DP 网格、拓扑排序、Dijkstra、区间调度等。
 - 纯静态阅读器：目录导航、Hash 路由、题库筛选、全文搜索、暗色模式和本地进度。
 - 无运行时框架、无包安装、无构建步骤。
 - 响应式桌面/移动端排版，支持打印样式。
@@ -40,6 +41,7 @@ http://localhost:8000
 .
 ├── index.html                # 应用外壳
 ├── assets/
+│   ├── diagrams/             # 由脚本生成的静态 SVG 图示
 │   ├── app.js                # 路由、Markdown 渲染、搜索、状态
 │   └── style.css             # 设计 tokens、版式、组件和响应式
 ├── chapters/                 # 章节 Markdown 正文
@@ -50,7 +52,9 @@ http://localhost:8000
 │   ├── generate_content.py    # 章节与章节索引生成器
 │   ├── generate_problems.py   # 题库生成与硬校验器
 │   ├── java_solutions.py     # 124 个题目的 Java 参考实现
-│   └── teaching_notes.py     # 核心题的五问式深度讲解
+│   ├── teaching_notes.py     # 核心题的五问式深度讲解
+│   ├── generate_diagrams.py  # 生成章节与题解 SVG 状态图
+│   └── validate_diagrams.py  # 校验 SVG 与图引用
 │   └── java_solutions.py     # 124 个题目的 Java 参考实现
 ├── docs/
 │   ├── DESIGN.md             # 产品、架构、系统与详细设计
@@ -92,7 +96,9 @@ http://localhost:8000
 
 ```bash
 python3 scripts/generate_content.py
+python3 scripts/generate_diagrams.py
 python3 scripts/generate_problems.py
+python3 scripts/validate_diagrams.py
 python3 -m py_compile scripts/*.py
 node --check assets/app.js
 ```

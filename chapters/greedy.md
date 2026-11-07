@@ -105,3 +105,7 @@ ans = [max(l, r) for l, r in zip(left, right)]
 - 需要字典序时，忘记检查剩余资源是否足够。
 
 > 贪心的浪漫在于决断，贪心的严谨在于证明。
+
+## 一图看懂
+
+![按结束时间选择互不重叠区间](./assets/diagrams/chapter-interval-scheduling.svg)

@@ -88,3 +88,7 @@ def max_sliding_window(nums, k):
 - 非空栈访问 `stack[-1]` 前，必须处理空栈。
 
 > 单调结构的优雅在于：新证据到来时，立刻淘汰不可能的旧候选。
+
+## 一图看懂
+
+![单调栈维护未解决候选](./assets/diagrams/chapter-monotonic-stack.svg)

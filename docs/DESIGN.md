@@ -441,6 +441,43 @@ interface Problem {
 - 每题必须同时提供 Python 和 Java 两个参考实现。
 - `summary` 若缺失，前端回退显示 `prompt`。
 
+### 14.1a 视觉学习层
+
+“一图胜千言”不是加装饰图，而是把抽象过程画成可追踪的状态图。项目采用静态 SVG 图示，由 `scripts/generate_diagrams.py` 生成。
+
+目标：
+
+- 让读者先看到状态如何移动，再看代码如何实现。
+- 把复杂度、指针、栈、哈希映射、递归树、DP 网格等抽象过程变成可见对象。
+- 保持无构建部署：SVG 是最终产物，GitHub Pages 直接托管。
+
+视觉语言约定：
+
+- 蓝色：当前重点/主指针。
+- 绿色：已确定或安全的区域。
+- 橙色：待处理状态。
+- 红色：冲突、淘汰或非法路径。
+- 灰色：背景/已处理过但不再重要的状态。
+- 图内文字使用中文短句，图下使用说明字幕。
+- 图必须表达“变化前后”或“查询/转移关系”，不接受只有标题的示意图。
+
+实现约定：
+
+- 章节图通过 Markdown 图片语法插入：`![说明](./assets/diagrams/xxx.svg)`。
+- 题解图存放在 `Problem.solution.understanding.diagram`：
+
+```ts
+interface ProblemDiagram {
+  src: string;
+  alt: string;
+  caption: string;
+}
+```
+
+- 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
+- Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
+- 首批已生成 32 个 SVG：14 个核心章节包含 16 个引用，17 个高频题包含题解图；剩余章节与题目继续按批次补图。
+
 ### 14.2a 题解理解层
 
 题解不能只回答“用什么算法”。为了让一般读者达到“知其所以然”，题库逐步增加 `understanding` 字段：
