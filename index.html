@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据结构与算法：从直觉到武器库</title>
+  <meta name="description" content="一本面向工程师的数据结构与算法在线书：直觉、证明、模板、陷阱和 120 道实战题。">
+  <link rel="stylesheet" href="./assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "数据结构与算法：从直觉到武器库",
+    "inLanguage": "zh-CN",
+    "author": { "@type": "Organization", "name": "DSA Book Contributors" }
+  }
+  </script>
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar" class="sidebar" aria-label="书籍导航">
+      <div class="sidebar-head">
+        <a class="brand" href="#/">DSA<span>武器库</span></a>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="切换主题">◐</button>
+      </div>
+      <div class="search-wrap">
+        <input id="search" type="search" autocomplete="off" placeholder="搜索概念、模板或题目…" aria-label="搜索">
+      </div>
+      <nav id="nav" class="nav" aria-label="章节目录"></nav>
+      <div class="sidebar-foot">
+        <a href="#/problems">题库索引</a>
+        <a href="./docs/DESIGN.md" target="_blank" rel="noopener">设计文档</a>
+      </div>
+    </aside>
+    <button id="sidebar-overlay" class="sidebar-overlay" type="button" aria-hidden="true" tabindex="-1"></button>
+    <main class="main">
+      <header class="mobile-topbar">
+        <button id="menu-button" class="icon-btn" type="button" aria-label="打开目录">☰</button>
+        <span>DSA 武器库</span>
+      </header>
+      <article id="content" class="content" aria-live="polite"></article>
+      <footer class="site-footer">
+        <p>© 2026 DSA Book · 一本写给工程师的算法书。</p>
+      </footer>
+    </main>
+  </div>
+  <script src="./assets/app.js" defer></script>
+</body>
+</html>
