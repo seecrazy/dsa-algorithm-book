@@ -486,3 +486,12 @@ interface Problem {
 - `python3 -m http.server 8000` 下所有资源 200。
 - GitHub Pages project page 子路径下相对资源不 404。
 - 仓库根目录可直接作为 Pages 发布目录。
+
+## 17. Pages 部署排障
+
+- 根目录必须有 `index.html`。
+- 根目录添加 `.nojekyll`，显式禁用 Jekyll 处理。
+- 项目 Pages 地址必须包含仓库名：`https://<owner>.github.io/<repo>/`。
+- 分支部署依赖 GitHub 自动运行的 `pages-build-deployment`；若 Actions 被禁用，需要启用 Actions。
+- 若仓库为 private 且账户/组织套餐不支持 Pages，Pages 不能公开发布。
+- 检查顺序：仓库根文件 → Settings → Pages URL → Actions 构建日志 → Environments 部署状态 → 浏览器无缓存访问。

@@ -92,3 +92,11 @@ python3 scripts/generate_problems.py
 python3 -m py_compile scripts/*.py
 node --check assets/app.js
 ```
+
+## 部署排查
+
+- 正确的项目 Pages 地址是：`https://<username>.github.io/<repo-name>/`。
+- 本仓库应访问：`https://seecrazy.github.io/dsa-algorithm-book/`，不要只访问 `https://seecrazy.github.io/`。
+- Pages 构建通常需要等待几十秒到几分钟；可在仓库 **Actions** 中查看自动触发的 `pages-build-deployment`。
+- 仓库根目录包含 `.nojekyll`，用于跳过 Jekyll 处理，避免静态资源被误处理。
+- 若 Actions 已禁用，分支部署可能不会触发；到 **Settings → Actions → General** 允许 Actions，或在 **Environments → github-pages** 查看部署状态。
