@@ -346,6 +346,40 @@ localStorage keys：
 5. `bindPageEvents()` 只绑定本次渲染生成的节点，避免全局委托重复绑定。
 6. 掌握状态变化后重新渲染当前路由，并同步 localStorage。
 
+### 13.4 `/scripts/generate_content.py`
+
+职责：章节 Markdown 与 `data/chapters.json` 的可重放生成器。生成产物必须入库，不能要求部署环境执行 Python。
+
+| 常量 / 方法 | 契约 |
+|---|---|
+| `ROOT` | 解析为仓库根目录，不依赖当前 shell 工作目录 |
+| `CHAPTERS` | 有序章节元数据，顺序即学习顺序 |
+| `CONTENT` | 章节正文源文本，key 必须是 `Chapter.id` |
+| `build_chapter_metadata()` | 返回章节元数据副本/引用的有序数组 |
+| `write_chapters()` | 创建目录、写入 18 个 Markdown、重写 `chapters.json` |
+| `validate()` | 检查 ID 唯一、section 合法、正文齐全，孤儿文件仅警告 |
+| `main()` | 写入、校验并输出生成数量 |
+
+运行方式：`python3 scripts/generate_content.py`。生成后必须检查 `git diff`；不要把自动重排或无关换行混入提交。
+
+### 13.5 `/scripts/generate_problems.py`
+
+职责：生成并校验 `data/problems.json`。同样地，生成产物入库，脚本只用于本地维护。
+
+| 常量 / 方法 | 契约 |
+|---|---|
+| `CHAPTER_IDS` | 与 `data/chapters.json` 当前章节集合一致的硬校验集合 |
+| `add()` | 组装题目，必填 13 个字段；参考实现默认 Python |
+| `P` | 内存中的有序题库 |
+| `validate(problems)` | 校验固定 124 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
+| `main()` | 校验、写 JSON、输出按章节统计 |
+
+内容不变量补充：
+
+- 当前题库固定为 124 题。
+- 难度分布不是硬约束，但生成日志会输出，便于检查内容倾斜。
+- 调整题库数量时，必须同步更新本节、README、首页文案、侧边栏文案和校验器预期值。
+
 ## 14. 数据模型与校验
 
 ### 14.1 `Chapter`
@@ -429,9 +463,11 @@ interface Problem {
 ### 数据验收
 
 - 所有 JSON 可被 `JSON.parse`。
-- 题目数量不少于 100。
+- 题目数量固定为 124。
 - 每题 `chapter` 均有效。
 - 题目 ID 无重复，目录文件无重复。
+- `python3 -m py_compile scripts/*.py` 通过。
+- `node --check assets/app.js` 通过。
 
 ### UI 冒烟
 

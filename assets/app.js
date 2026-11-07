@@ -220,7 +220,7 @@
       <div class="nav-group">进阶与实战</div>
       ${state.chapters.filter(c => c.section === 'advanced').map(chapterLink).join('')}
       <div class="nav-group">练习</div>
-      <a href="#/problems" data-route="#/problems"><span>120 道题库索引</span><span class="mini">${state.solved.size} 已掌握</span></a>
+      <a href="#/problems" data-route="#/problems"><span>124 道题库索引</span><span class="mini">${state.solved.size} 已掌握</span></a>
     `;
 
     [...nav.querySelectorAll('a[data-route]')].forEach(a => a.classList.toggle('active', a.dataset.route === activeRoute));
@@ -250,7 +250,7 @@
       <p>这本书不准备让你背题，也不假装算法只是面试魔法。它想把每个结构还原成<strong>一个承诺</strong>：数组承诺随机访问，哈希承诺快速映射，堆承诺永远先给你最紧急的事，图承诺暴露世界里的依赖关系。</p>
       <div class="meta-grid">
         <div class="meta-card"><b>19 个学习单元</b><span>从复杂度到工程调试，覆盖面试与工程主线。</span></div>
-        <div class="meta-card"><b>120 道实战题</b><span>题面、约束、思路、复杂度、易错点完整呈现。</span></div>
+        <div class="meta-card"><b>124 道实战题</b><span>题面、约束、思路、复杂度、易错点完整呈现。</span></div>
         <div class="meta-card"><b>0 构建依赖</b><span>纯静态站点，适合 GitHub Pages 直接部署。</span></div>
       </div>
       <h2>怎么读这本书</h2>
@@ -302,7 +302,7 @@
     });
     return `
       <h1 class="page-title">题库索引</h1>
-      <p class="page-subtitle">120 道通用算法题 · 每题都有思路、复杂度和陷阱</p>
+      <p class="page-subtitle">124 道通用算法题 · 每题都有思路、复杂度和陷阱</p>
       <div class="filters">
         <input id="problem-search" type="search" placeholder="搜索题名或标签" value="${escapeHtml(state.query)}">
         <select id="difficulty-filter">

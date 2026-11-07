@@ -32,9 +32,11 @@
 ## 最近执行点
 
 1. 已完成本地静态站点外壳：`index.html`、`assets/style.css`、`assets/app.js`。
-2. 已把架构、文件、方法、数据模型、路由、Markdown 子集和错误契约写入 `docs/DESIGN.md`。
-3. 待继续：生成 `data/chapters.json`、`data/problems.json` 和 `chapters/*.md`。
-4. 生成内容后必须执行 JSON/题目引用/UI 冒烟检查，再更新 ROADMAP、README 并本地提交。
+2. 已生成 18 个章节 Markdown 与 `data/chapters.json`。
+3. 已生成 `data/problems.json`，固定 124 题；每题包含约束、示例、思路、复杂度、至少三个易错点和参考实现。
+4. 已通过 `py_compile`、`node --check`、JSON 数量、ID 唯一性和章节引用校验。
+5. 设计文档已覆盖运行时文件、生成器、核心方法、路由和错误契约。
+6. 下一件事是浏览器端人工冒烟：首页、章节、题库、题目、搜索、主题、移动端与掌握状态；完成后更新 ROADMAP 并提交。
 
 ## Git 纪律
 

@@ -1,0 +1,237 @@
+[
+  {
+    "id": "how-to-use",
+    "title": "如何使用这本书",
+    "subtitle": "把学习变成一条可复用的拆题流水线",
+    "section": "start",
+    "file": "how-to-use.md",
+    "minutes": 10,
+    "tags": [
+      "学习方法",
+      "总览"
+    ]
+  },
+  {
+    "id": "complexity",
+    "title": "复杂度：性能的地图",
+    "subtitle": "不要背复杂度，学会看见代价",
+    "section": "start",
+    "file": "complexity.md",
+    "minutes": 16,
+    "tags": [
+      "复杂度",
+      "分析",
+      "总览"
+    ]
+  },
+  {
+    "id": "array-two-pointers",
+    "title": "数组与双指针",
+    "subtitle": "连续内存、区间收缩和不变量",
+    "section": "structures",
+    "file": "array-two-pointers.md",
+    "minutes": 18,
+    "tags": [
+      "数组",
+      "双指针",
+      "滑动窗口"
+    ]
+  },
+  {
+    "id": "stack-queue-monotonic",
+    "title": "栈、队列与单调结构",
+    "subtitle": "处理最近依赖和过期元素",
+    "section": "structures",
+    "file": "stack-queue-monotonic.md",
+    "minutes": 18,
+    "tags": [
+      "栈",
+      "队列",
+      "单调栈"
+    ]
+  },
+  {
+    "id": "hash-and-counting",
+    "title": "哈希表与计数",
+    "subtitle": "用空间买时间，用键定义等价",
+    "section": "structures",
+    "file": "hash-and-counting.md",
+    "minutes": 16,
+    "tags": [
+      "哈希表",
+      "计数",
+      "映射"
+    ]
+  },
+  {
+    "id": "linked-list",
+    "title": "链表与边界控制",
+    "subtitle": "指针是纪律，dummy 是温柔",
+    "section": "structures",
+    "file": "linked-list.md",
+    "minutes": 18,
+    "tags": [
+      "链表",
+      "指针",
+      "缓存"
+    ]
+  },
+  {
+    "id": "recursion-divide-binary-search",
+    "title": "递归、分治与二分",
+    "subtitle": "问题缩小、答案合并、边界可靠",
+    "section": "techniques",
+    "file": "recursion-divide-binary-search.md",
+    "minutes": 22,
+    "tags": [
+      "递归",
+      "分治",
+      "二分"
+    ]
+  },
+  {
+    "id": "trees",
+    "title": "树与递归思维",
+    "subtitle": "每个节点都是一个子问题",
+    "section": "structures",
+    "file": "trees.md",
+    "minutes": 24,
+    "tags": [
+      "树",
+      "递归",
+      "遍历"
+    ]
+  },
+  {
+    "id": "heaps",
+    "title": "堆与优先队列",
+    "subtitle": "只维护最重要的顺序",
+    "section": "structures",
+    "file": "heaps.md",
+    "minutes": 18,
+    "tags": [
+      "堆",
+      "优先队列",
+      "Top K"
+    ]
+  },
+  {
+    "id": "graph-search",
+    "title": "图论：搜索、拓扑与连通性",
+    "subtitle": "关系建模是图题的一半",
+    "section": "techniques",
+    "file": "graph-search.md",
+    "minutes": 26,
+    "tags": [
+      "图",
+      "DFS",
+      "BFS",
+      "拓扑排序"
+    ]
+  },
+  {
+    "id": "graph-shortest-mst",
+    "title": "最短路、最小生成树与图建模",
+    "subtitle": "把世界抽象成点和边权",
+    "section": "advanced",
+    "file": "graph-shortest-mst.md",
+    "minutes": 26,
+    "tags": [
+      "最短路",
+      "最小生成树",
+      "图"
+    ]
+  },
+  {
+    "id": "backtracking",
+    "title": "回溯：排列、组合与搜索剪枝",
+    "subtitle": "选择、探索、撤销",
+    "section": "techniques",
+    "file": "backtracking.md",
+    "minutes": 24,
+    "tags": [
+      "回溯",
+      "排列",
+      "组合",
+      "剪枝"
+    ]
+  },
+  {
+    "id": "greedy",
+    "title": "贪心：局部决策与全局证明",
+    "subtitle": "勇气必须带证明",
+    "section": "techniques",
+    "file": "greedy.md",
+    "minutes": 20,
+    "tags": [
+      "贪心",
+      "区间",
+      "排序"
+    ]
+  },
+  {
+    "id": "dynamic-programming",
+    "title": "动态规划：状态、转移与记忆",
+    "subtitle": "不要背转移，先定义状态",
+    "section": "techniques",
+    "file": "dynamic-programming.md",
+    "minutes": 34,
+    "tags": [
+      "动态规划",
+      "背包",
+      "子序列"
+    ]
+  },
+  {
+    "id": "strings",
+    "title": "字符串算法",
+    "subtitle": "文本也是结构，前缀也是地图",
+    "section": "advanced",
+    "file": "strings.md",
+    "minutes": 24,
+    "tags": [
+      "字符串",
+      "回文",
+      "匹配"
+    ]
+  },
+  {
+    "id": "union-find-advanced",
+    "title": "并查集与高级结构",
+    "subtitle": "动态连通性的小型魔法",
+    "section": "advanced",
+    "file": "union-find-advanced.md",
+    "minutes": 20,
+    "tags": [
+      "并查集",
+      "连通性",
+      "数据结构"
+    ]
+  },
+  {
+    "id": "math-bit-probability",
+    "title": "数学、位运算与概率思维",
+    "subtitle": "从约束里挖出隐藏不变量",
+    "section": "advanced",
+    "file": "math-bit-probability.md",
+    "minutes": 22,
+    "tags": [
+      "数学",
+      "位运算",
+      "概率"
+    ]
+  },
+  {
+    "id": "engineering-interview",
+    "title": "工程化调试与面试作战手册",
+    "subtitle": "把正确性、可维护性和表达一起交付",
+    "section": "advanced",
+    "file": "engineering-interview.md",
+    "minutes": 20,
+    "tags": [
+      "调试",
+      "面试",
+      "工程实践"
+    ]
+  }
+]
