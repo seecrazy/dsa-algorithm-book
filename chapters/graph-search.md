@@ -28,7 +28,7 @@ def bfs(start):
     return dist
 ```
 
-BFS 的正确性来自按层扩展。
+BFS 的正确性来自按层扩展；树的层序遍历就是它的特例，完整模板见树章“遍历顺序的用途”。
 
 ### DFS：深入结构
 
@@ -93,8 +93,28 @@ def topo_order(n, edges):
 
 - 连通块：遍历未访问节点，计数。
 - 无向图环：DFS 遇到 visited 且不是 parent。
-- 二分图：BFS/DFS 染色，相邻节点颜色必须不同。
-- 桥和割点：Tarjan 算法维护 `dfn` 与 `low`。
+- 桥和割点：进阶主题，这里给可查的直觉但不展开模板。DFS 时给每个节点编号 `dfn[u]`（访问顺序），并用 `low[u]` 记录 u 不经过父边能回到的最早编号；边 `(u, v)` 是桥当且仅当 `low[v] > dfn[u]`——子树 v 整体够不到 u 的上方，删掉这条边图就断开。
+
+### 二分图染色
+
+BFS/DFS 交替染两色，相邻节点必须异色：
+
+```python
+def is_bipartite(graph, s, color):
+    color[s] = 1
+    q = deque([s])
+    while q:
+        u = q.popleft()
+        for v in graph[u]:
+            if color[v] == color[u]:
+                return False        # 邻居同色：存在奇环
+            if not color[v]:
+                color[v] = -color[u]
+                q.append(v)
+    return True
+```
+
+O(V+E)，图不连通时对每个未染色起点调用一次。二分图等价于“图中没有奇环”，染色冲突恰好只在奇环上出现——这既是直觉也是证明。
 
 ## 6. 陷阱清单
 

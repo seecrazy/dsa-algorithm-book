@@ -38,6 +38,25 @@ def dfs(node):
 | 后序 | 自底向上统计、删除或释放子树 |
 | 层序 | 按深度处理、最短层数、右视图 |
 
+层序是唯一不靠递归的主流遍历，用队列 + 按层计数：
+
+```python
+from collections import deque
+def level_order(root):
+    if not root:
+        return []
+    out, q = [], deque([root])
+    while q:
+        out.append([node.val for node in q])   # 本层全部值
+        for _ in range(len(q)):
+            node = q.popleft()
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+    return out
+```
+
+O(n)。不变量：每轮 while 开始时，队列里恰好是同一层的全部节点，`len(q)` 就是本层宽度——“按层处理”和“右视图取每层末元素”都建立在这个不变量上。
+
 ## 3. BST 的核心性质
 
 对任意节点：
@@ -89,7 +108,20 @@ def lca(root, p, q):
     return left or right
 ```
 
-BST 版本可利用大小关系不用全搜索。
+BST 版本利用大小关系不用全搜索，两边同侧才下探，走到分叉点即答案，O(h)：
+
+```python
+def lca_bst(root, p, q):
+    while root:
+        if p.val < root.val > q.val:
+            root = root.left            # 都在左边
+        elif p.val > root.val < q.val:
+            root = root.right           # 都在右边
+        else:
+            return root                 # 分叉点或命中之一
+```
+
+每次至少排除一棵子树，复杂度 O(h)。
 
 ## 5. 陷阱清单
 

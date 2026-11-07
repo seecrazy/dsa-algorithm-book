@@ -74,7 +74,24 @@ parent[x] = root_x
 | 稀疏表 | 静态区间最值 |
 | 平衡树 | 动态有序集合 |
 
-面试高频度上，并查集 > Trie > 线段树/BIT。
+面试高频度上，并查集 > Trie > 线段树/BIT。BIT 至少要会手写，核心是 `lowbit(i) = i & (-i)`：它把下标按二进制末位 1 分层，让每个下标只负责一段固定区间的和：
+
+```python
+class BIT:
+    def __init__(self, n): self.tree = [0] * (n + 1)   # 1-indexed
+    def update(self, i, delta):            # 位置 i 增加 delta
+        while i < len(self.tree):
+            self.tree[i] += delta
+            i += i & (-i)                  # 跳向包含 i 的上层
+    def query(self, i):                    # 前缀和 [1..i]
+        s = 0
+        while i > 0:
+            s += self.tree[i]
+            i -= i & (-i)                  # 剥掉末位 1
+        return s
+```
+
+更新和查询都是 O(log n)。经典应用是逆序对：把数组离散化成 1..n 的排名，从左往右扫描，每个元素先查“已入库的数里比它大的个数”再入库——这是排序章逆序对题在归并计数之外的另一条路线。
 
 ## 6. 陷阱清单
 

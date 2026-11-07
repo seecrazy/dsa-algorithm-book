@@ -737,7 +737,7 @@ def problem_histogram():
     top = base - 5 * 32
     d.box(176, top, 128, 5 * 32, "ghost", radius=3)
     bars(d, 110, base, hs, ["plain", "blue", "blue", "plain"], unit=32, bw=52, gap=14)
-    d.text(240, top - 14, "高度 5 的最大矩形", size=13, color=SUB, anchor="mm")
+    d.text(240, top - 40, "高度 5 的最大矩形", size=13, color=SUB, anchor="mm")
     note(d, H, lines, style="purple")
     return d
 

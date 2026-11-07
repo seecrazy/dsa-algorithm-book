@@ -52,20 +52,38 @@ O(log(n!)) = O(n log n)
 
 ### 快速排序
 
-随机选 pivot，把数组分成 `< pivot` 和 `>= pivot` 两段，再递归两侧。
+随机选 pivot，把数组分成 `< pivot` 和 `>= pivot` 两段，再递归两侧。列表拼接版好懂，但每层都要复制数组，不是原地排序；实战要掌握原地分区版：
 
 ```python
-def quick_sort(a):
-    if len(a) <= 1:
-        return a
-    pivot = random.choice(a)
-    less = [x for x in a if x < pivot]
-    equal = [x for x in a if x == pivot]
-    greater = [x for x in a if x > pivot]
-    return quick_sort(less) + equal + quick_sort(greater)
+def quick_sort(a, lo=0, hi=None):
+    if hi is None: hi = len(a) - 1
+    if lo >= hi: return
+    p = random.randint(lo, hi); a[p], a[hi] = a[hi], a[p]
+    pivot, i = a[hi], lo
+    for j in range(lo, hi):        # 不变量：[lo,i) < pivot，[i,j) >= pivot
+        if a[j] < pivot:
+            a[i], a[j] = a[j], a[i]
+            i += 1
+    a[i], a[hi] = a[hi], a[i]      # pivot 落进最终位置 i
+    quick_sort(a, lo, i - 1); quick_sort(a, i + 1, hi)
 ```
 
-期望 O(n log n)，最坏 O(n^2)；原地版本空间 O(log n)，但重复元素、已排序输入和递归深度都要处理。
+期望 O(n log n)、原地，辅助空间 O(log n) 是递归栈；最坏 O(n^2)。期望成立靠随机 pivot：它把“输入已排序”从必然退化变成概率事件。重复元素多时，上面的二路分区会把相等的元素全甩到一侧，分区失衡——这时换三路分区：
+
+```python
+def partition3(a, lo, hi, pivot):
+    lt, i, gt = lo, lo, hi
+    while i <= gt:                 # [lo,lt)<p，[lt,i]=p，(gt,hi]>p
+        if a[i] < pivot:
+            a[lt], a[i] = a[i], a[lt]; lt += 1; i += 1
+        elif a[i] > pivot:
+            a[i], a[gt] = a[gt], a[i]; gt -= 1
+        else:
+            i += 1
+    return lt, gt                  # a[lt..gt] 全是 pivot，不再递归
+```
+
+一趟结束后与 pivot 相等的元素整体归位、不再参与递归，重复元素海量时也能保持期望 O(n log n)。
 
 ### 归并排序
 
@@ -79,18 +97,23 @@ def quick_sort(a):
 
 ### 计数排序
 
-值域较小时，统计每个值出现次数，再顺序还原。
+值域较小时，统计每个值出现次数，再做前缀和得到“每个值的输出边界”，最后反向回填。反向是稳定性的全部来源：相等的元素，数组里靠后的会被放进更靠后的位置，原序得以保留。
 
 ```python
 def counting_sort(a, max_value):
     count = [0] * (max_value + 1)
     for x in a:
         count[x] += 1
-    out = []
-    for value, times in enumerate(count):
-        out.extend([value] * times)
+    for i in range(1, max_value + 1):
+        count[i] += count[i - 1]           # 前缀和 = 输出边界
+    out = [0] * len(a)
+    for x in reversed(a):                  # 反向回填保证稳定
+        count[x] -= 1
+        out[count[x]] = x
     return out
 ```
+
+时间 O(n + r)、空间 O(r)，r 是值域大小。按值直接铺平输出的写法更短，但相等的元素原序全丢——选型表里“稳定 可实现”四个字，指的就是上面这个版本；基数排序借计数排序当“每位排序器”时，必须用它。
 
 ### 基数排序
 
@@ -98,7 +121,7 @@ def counting_sort(a, max_value):
 
 ### 桶排序
 
-把近似均匀分布的数据放入桶，桶内再排序。期望接近 O(n)，数据倾斜时退化。
+把近似均匀分布的数据放入桶，桶内再排序。桶数取 n、桶宽取 `(max - min) / n` 是常见起点：均匀假设下每桶期望只落 O(1) 个元素，桶内排序期望 O(1)，总计期望接近 O(n)。数据倾斜时少数桶塞进大多数元素，桶内排序退化主导整体，最坏回到 O(n^2)——桶排序成立的前提是“均匀”这个假设，不是代码本身。
 
 ## 4. 选型表
 
@@ -174,16 +197,36 @@ class Trie:
 
 ```text
 insert(word): 沿途 pass_count++；末尾 end_count++
-delete(word): 沿途 pass_count--；末尾 end_count--；必要时回收节点
 count_prefix(p): find(p).pass_count
 count_word(w): find(w).end_count
 ```
+
+删除 = 沿途 pass_count--，末尾 end_count--，再把 pass_count 归零的节点从父节点摘掉：
+
+```python
+def delete(self, word):
+    stack = [self.root]
+    for ch in word:                      # 沿途记录路径
+        if ch not in stack[-1].children: return False
+        stack.append(stack[-1].children[ch])
+    if not stack[-1].end_count: return False   # 词不存在
+    stack[-1].end_count -= 1
+    for i in range(len(word), -1, -1):   # 自底向上回收
+        stack[i].pass_count -= 1
+        if i and stack[i].pass_count == 0:
+            stack[i - 1].children.pop(word[i - 1])
+    return True
+```
+
+O(L)，配合使用时给 TrieNode 加上 `pass_count = end_count = 0` 两个字段即可。回收的唯一依据是 `pass_count == 0`：只要还有别的词共享这段前缀，它就大于 0，节点必须保留——这就是“删除不能破坏共享前缀”的具体含义。另外 `count_prefix(p)` 前记得判 `find(p) is not None`，前缀不存在时没有 pass_count 可读。
 
 ## 4. Trie + DFS
 
 二维网格搜多个单词时，不要对每个单词都做一次 DFS。先把单词表建 Trie；DFS 每走到一个字符，就在 Trie 上同步走一步。剪枝更早，重复共享前缀只探索一次。
 
 ## 5. 变体
+
+压缩 Trie 值得单独说：把只有一个孩子的节点并进边里，边存字符串片段（边标签），节点数从 O(总字符数) 降到 O(关键码数)；代价是查询要逐段比对边标签，词库大且共享前缀多时（路由表、URL 树）才划算，几十个短词直接用哈希表更省事。Radix Tree 就是它的工程形态。
 
 | 结构 | 作用 |
 |---|---|
@@ -241,7 +284,9 @@ balance = height(left) - height(right)
 A   B            B   C
 ```
 
-旋转不是把树重排，而是改变根，同时保持 BST 中序顺序不变。
+旋转不是把树重排，而是改变根，同时保持 BST 中序顺序不变——对照上图，旋转前后中序都是 `A, x, B, y, C`，BST 性质毫发无损，这就是旋转合法的全部原因。左旋是完全对称的镜像：根 `x` 的右孩子 `y` 上提，`y` 原来的左子树挂给 `x` 当右子树。
+
+LR 和 RL 的“双旋”没有引入第三种旋转：先对失衡节点的孩子做一次反向单旋，把“拐弯”掰直成 LL 或 RR，再做第二次单旋。以 LR 为例，先左旋左孩子后，新插入的节点就落到了左孩子的外侧，三层结构变成标准 LL，再对根右旋即可。
 
 ## 3. 红黑树
 
@@ -253,12 +298,14 @@ A   B            B   C
 4. 红节点的孩子都是黑。
 5. 任一节点到后代 NIL 的黑高相同。
 
-插入新节点通常先染红。如果父节点也是红：
+性质 4 和 5 合起来直接给出两倍界：所有路径黑高相同（性质 5），红不能连续（性质 4），所以每条路径的黑节点数一样多，路径总节点数至多是黑节点数的两倍，树高 ≤ 2 × 黑高；而 n 个节点的树黑高至多 log(n+1)，于是树高 ≤ 2log(n+1) = O(log n)。“近似平衡”不是口号，是两条性质算出来的结论。
 
-- 叔叔是红：变色上推。
-- 叔叔是黑：旋转 + 变色。
+插入新节点通常先染红——红色不改变黑高，是最便宜的选择。如果父节点也是红，违反性质 4，按叔叔颜色分两种情况：
 
-红黑树旋转次数少于 AVL，写操作成本更低；AVL 更严格平衡，读密集场景更有优势。
+- 叔叔是红：父、叔改黑，祖父改红，冲突上推两层由祖父继续处理。便宜，但可能一路推到根。
+- 叔叔是黑：先旋转把“三角形”摆成“直线”（化归方式同 AVL 的 LR/RL），再父黑祖红换色，一次终结。
+
+红黑树旋转次数少于 AVL，正是因为多数插入走“变色上推”这条便宜路径；写操作成本更低，读密集场景则 AVL 的更严格平衡更有优势。
 
 ## 4. 工程取舍
 
@@ -270,7 +317,7 @@ A   B            B   C
 
 ## 5. 陷阱
 
-- 旋转前先更新高度，再更新父节点。
+- 旋转后要自下而上更新高度：先更新被旋下去的原根，再更新新根；顺序反了，新根会拿旧高度做失衡判断。
 - LR 和 RL 必须先处理孩子，再旋转祖孙三层。
 - 红黑树的 NIL 也要视为黑。
 - 删除比插入复杂很多，不能只用插入直觉套用。
@@ -286,13 +333,13 @@ B 树 / B+ 树把一个节点做成一页：一次 I/O 读入多个键。
 
 ## 2. B 树
 
-一棵最小度数为 `t` 的 B 树：
+一棵最小度数为 `t` 的 B 树（等价说法是 `2t` 阶：内部节点最多 `2t` 棵子树）：
 
 - 每个节点最多 `2t - 1` 个键；
-- 内部节点最多 `2t` 个孩子；
+- 内部节点最多 `2t` 个孩子，除根外至少 `t` 个；
 - 除根外至少 `t - 1` 个键；
 - 所有叶子在同一层；
-- 键把子树范围切开。
+- 键把子树范围切开：`k` 个键正好对应 `k + 1` 个子指针，键是路标，查询落在哪两个键之间就走对应区间那个孩子。
 
 插入时若节点已满，先分裂：
 
@@ -302,7 +349,7 @@ B 树 / B+ 树把一个节点做成一页：一次 I/O 读入多个键。
            [x]   [z]
 ```
 
-分裂把中间键上移，保持所有叶子深度相同。
+分裂把中间键上移，保持所有叶子深度相同——新节点来自分裂而不是下探，叶子只会在根分裂时同时长高。工程实现常自顶向下预分裂：下探途中遇到满节点先裂再走，用少量不必要的分裂换来回溯自由的插入。
 
 ## 3. B+ 树
 
@@ -310,6 +357,7 @@ B+ 树与 B 树最大的差异：
 
 - 内部节点通常只存索引键；
 - 真实数据都在叶子；
+- 内部键只是路标副本，同一个键会在叶子里再出现一次；
 - 叶子通常用链表连接；
 - 范围扫描顺着叶子链走，不需要回溯。
 
@@ -332,7 +380,7 @@ B+ 树与 B 树最大的差异：
 | 删除 | O(log n) | 可能借键、合并 |
 | 范围扫描 | O(log n + m) | m 是返回数量 |
 
-节点越大，树高越低，但节点内查找、写放大和缓存开销也要平衡。
+节点越大，树高越低，但节点内查找、写放大和缓存开销也要平衡。量化一下：t = 100 时，高度 3 的 B 树至少能容纳 `2t^3 - 1` 个键，约 200 万，百万级索引只需 3 次 I/O 就能定位——这是 B/B+ 树在磁盘上的全部卖点。
 
 ## 5. 陷阱
 
@@ -346,7 +394,7 @@ B+ 树与 B 树最大的差异：
 
 NEW_CONTENT["branch-and-bound"] = """## 1. 回溯与分支限界
 
-回溯系统性枚举所有可能，用合法性剪枝去掉非法分支。分支限界更进一步：为部分解计算一个界，证明它不可能优于当前最优解，然后整棵子树剪掉。
+把搜索过程画成一棵状态空间树：每个节点是一个部分解（已做出的一部分选择），叶子是完整解，边是“多做一个决定”。回溯系统性枚举这棵树，用合法性剪枝去掉非法分支；分支限界更进一步：为部分解计算一个界，证明它不可能优于当前最优解，然后整棵子树剪掉。两章的分水岭一句话：要“所有解”用回溯，要“最优解”先给界——回溯章的模板是这里的起点。
 
 ## 2. 四个组件
 
@@ -365,6 +413,19 @@ NEW_CONTENT["branch-and-bound"] = """## 1. 回溯与分支限界
 |---|---|---|---|
 | 回溯 | DFS | 合法性、可行性、简单最优性 | 排列、组合、构造 |
 | 分支限界 | BFS/最佳优先 | 可证明的上下界 | 最优组合问题 |
+
+最佳优先分支限界的主循环只有一个形状：
+
+```text
+heap 装 (界, 状态)，best 先给平凡解或 +∞
+while heap:
+    界, 状态 = 弹出界最小的状态      # 最小堆：先探索最有希望的分支
+    if 界 >= best: continue          # 已不可能更优，丢弃
+    if 状态是完整解: best = min(best, 该解代价); continue
+    for child in 扩展(状态): 堆入 (child 的界, child)
+```
+
+最小化问题用下界配最小堆，最大化问题用上界配最大堆，方向不能混。
 
 ## 4. 0/1 背包示例
 
@@ -393,7 +454,7 @@ def upper_bound(items, i, value, capacity_left):
 
 ## 5. TSP 示例
 
-状态是“已访问集合 + 当前城市 + 已走路程”。下界可以用剩余城市的最小出边之和估计。优先队列每次扩展当前下界最小的部分路径，尽快找到强上界，从而剪掉更多分支。
+状态是“已访问集合 + 当前城市 + 已走路程”。下界可以用剩余城市的最小出边之和估计：任何完整回路都要从每个剩余城市恰好离开一次，所以真实代价不可能低于各城最小出边之和——这就是它作为下界合法的原因。优先队列每次扩展当前下界最小的部分路径，尽快找到强上界，从而剪掉更多分支。
 
 ## 6. 陷阱
 
@@ -482,10 +543,10 @@ dirs = [(1,0), (-1,0), (0,1), (0,-1)]
 """
 
 NEW_CHAPTER_DIAGRAMS = {
-    "sorting": ("chapter-sorting-models.svg", "比较排序、计数、基数和桶排序的选型路径"),
-    "trie": ("chapter-trie-prefix.svg", "Trie 共享前缀与查询路径"),
-    "balanced-search-trees": ("chapter-avl-rotation.svg", "AVL 旋转保持中序顺序"),
-    "b-trees": ("chapter-btree-split.svg", "B+ 树节点分裂与叶子链表"),
-    "branch-and-bound": ("chapter-branch-bound.svg", "分支限界按界剪枝"),
-    "graph-representation": ("chapter-graph-representation.svg", "邻接表、矩阵、边数组和隐式图对比"),
+    "sorting": ("chapter-sorting-models.png", "比较排序、计数、基数和桶排序的选型路径"),
+    "trie": ("chapter-trie-prefix.png", "Trie 共享前缀与查询路径"),
+    "balanced-search-trees": ("chapter-avl-rotation.png", "AVL 旋转保持中序顺序"),
+    "b-trees": ("chapter-btree-split.png", "B+ 树节点分裂与叶子链表"),
+    "branch-and-bound": ("chapter-branch-bound.png", "分支限界按界剪枝"),
+    "graph-representation": ("chapter-graph-representation.png", "邻接表、矩阵、边数组和隐式图对比"),
 }

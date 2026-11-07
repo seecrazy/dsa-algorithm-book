@@ -50,16 +50,36 @@ class Trie:
 
 ```text
 insert(word): 沿途 pass_count++；末尾 end_count++
-delete(word): 沿途 pass_count--；末尾 end_count--；必要时回收节点
 count_prefix(p): find(p).pass_count
 count_word(w): find(w).end_count
 ```
+
+删除 = 沿途 pass_count--，末尾 end_count--，再把 pass_count 归零的节点从父节点摘掉：
+
+```python
+def delete(self, word):
+    stack = [self.root]
+    for ch in word:                      # 沿途记录路径
+        if ch not in stack[-1].children: return False
+        stack.append(stack[-1].children[ch])
+    if not stack[-1].end_count: return False   # 词不存在
+    stack[-1].end_count -= 1
+    for i in range(len(word), -1, -1):   # 自底向上回收
+        stack[i].pass_count -= 1
+        if i and stack[i].pass_count == 0:
+            stack[i - 1].children.pop(word[i - 1])
+    return True
+```
+
+O(L)，配合使用时给 TrieNode 加上 `pass_count = end_count = 0` 两个字段即可。回收的唯一依据是 `pass_count == 0`：只要还有别的词共享这段前缀，它就大于 0，节点必须保留——这就是“删除不能破坏共享前缀”的具体含义。另外 `count_prefix(p)` 前记得判 `find(p) is not None`，前缀不存在时没有 pass_count 可读。
 
 ## 4. Trie + DFS
 
 二维网格搜多个单词时，不要对每个单词都做一次 DFS。先把单词表建 Trie；DFS 每走到一个字符，就在 Trie 上同步走一步。剪枝更早，重复共享前缀只探索一次。
 
 ## 5. 变体
+
+压缩 Trie 值得单独说：把只有一个孩子的节点并进边里，边存字符串片段（边标签），节点数从 O(总字符数) 降到 O(关键码数)；代价是查询要逐段比对边标签，词库大且共享前缀多时（路由表、URL 树）才划算，几十个短词直接用哈希表更省事。Radix Tree 就是它的工程形态。
 
 | 结构 | 作用 |
 |---|---|

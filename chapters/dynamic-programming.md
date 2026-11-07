@@ -53,6 +53,8 @@ def lis(nums):
     return len(tails)
 ```
 
+为什么 `tails` 单调、能二分？`tails[k]` 是“长度 k+1 的上升子序列中最小的尾值”，同长度保留更小尾值永远不亏，且 `tails[k] < tails[k+1]` 必然成立（否则把长序列截短就能得到更小尾值，矛盾）。替换 `tails[i] = x` 不改变任何长度，只是把某个长度的结尾压得更低，给后续元素留更多接续机会，最优性不被破坏。
+
 ### 编辑距离
 
 状态：`dp[i][j]` 表示 `word1[:i]` 变成 `word2[:j]` 的最少操作。
@@ -76,6 +78,8 @@ for weight, value in items:
         dp[c] = max(dp[c], dp[c - weight] + value)
 ```
 
+时间 O(n × 容量)，空间可压成一维。为什么必须倒序？倒序保证算 `dp[c]` 时读到的 `dp[c - weight]` 还是“没考虑当前物品”的上一行旧值，每个物品最多被选一次；正序时 `dp[c - weight]` 可能已经计入当前物品，等于悄悄把它多选了一遍。
+
 ### 完全背包
 
 物品无限，容量正序：
@@ -85,6 +89,8 @@ for weight, value in items:
     for c in range(weight, capacity + 1):
         dp[c] = max(dp[c], dp[c - weight] + value)
 ```
+
+正序正好相反：故意让 `dp[c - weight]` 读到可能已包含当前物品的新值，等价于允许重复选取。一正一反，就是“每件一次”和“无限件”的全部区别。
 
 ### 组合数与排列数
 

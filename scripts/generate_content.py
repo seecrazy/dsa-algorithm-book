@@ -170,7 +170,7 @@ CONTENT["how-to-use"] = """## 1. 这本书解决什么问题
 - 黄：有思路但边界写错。
 - 红：完全没方向。
 
-三天后只看黄题，一周后重看红题。
+三天后只看黄题，一周后重看红题。进入章节页时，底部会自动列出本章实战题——先做题面层，再展开解法层。
 
 ## 4. 代码约定
 
@@ -185,10 +185,10 @@ CONTENT["how-to-use"] = """## 1. 这本书解决什么问题
 
 | 目标 | 路线 |
 |---|---|
-| 零基础系统学习 | 第 1-9 章，按顺序 |
-| 面试前 4 周 | 复杂度、数组、哈希、树、图、DP、题库 |
-| 面试前 2 周 | 每章“陷阱清单” + 题库按主题刷 |
-| 工程复习 | 并查集、堆、缓存、调试与面试手册 |
+| 零基础系统学习 | 按目录顺序走完 24 章：复杂度 → 数组与双指针 → 栈、队列与单调结构 → 哈希 → Trie → 链表 → 递归、分治与二分 → 排序 → 树 → AVL/红黑树 → B 树与 B+ 树 → 堆 → 图论三章（搜索、表示、最短路）→ 回溯 → 分支限界 → 贪心 → DP → 字符串 → 并查集 → 数学与位运算 → 面试手册 |
+| 面试前 4 周 | 复杂度、数组与双指针、哈希、树、堆、图论三章、DP，每章配实战题 |
+| 面试前 2 周 | 每章“陷阱清单” + 题库按主题刷；优先排序选型、背包、最短路 |
+| 工程复习 | 并查集与高级结构、堆、Trie、B 树与 B+ 树、LRU 与限流器、调试与面试手册 |
 
 > 学习算法不是为了崇拜聪明解法，而是为了在压力下仍有一条可靠的思考路径。
 """
@@ -208,6 +208,8 @@ O(n!)       排列型爆炸
 ```
 
 在大约 `10^8` 以内，很多评测环境可以接受；超过后就要考虑换结构、剪枝或状态设计。
+
+三个记号各管一头：O 是上界（“最多这么糟”），Ω 是下界（“至少这么糟”），Θ 是上下界同时成立（“正好这个量级”）。快排最坏是 O(n^2)、平均是 Θ(n log n)——同一个算法对不同输入套不同记号，所以报复杂度时必须带上场景。比较排序的 Ω(n log n) 下界正是排序章决策树论证的对象。
 
 ## 2. 三个常见误解
 
@@ -241,6 +243,8 @@ T(n) = T(n/2) + O(1)       -> O(log n)
 T(n) = 2T(n-1) + O(1)      -> O(2^n)
 ```
 
+这些结果不用背，画递归树推一遍就有。以第一行为例：第 i 层有 2^i 个节点、每个做 O(n/2^i) 的工作，每层合计恰好 O(n)；树高 log n，总工作量 n × log n。第二行每层只有一条链所以是 log n，第三行每层节点翻倍且层数是 n 所以是指数。记口诀“每层节点数 × 每节点工作量，再乘层数”。
+
 ### 空间型
 
 空间包括：
@@ -261,7 +265,7 @@ T(n) = 2T(n-1) + O(1)      -> O(2^n)
 
 ## 5. 摊还分析
 
-一个操作偶尔昂贵，不代表平均昂贵。动态数组扩容就是例子：虽然某次 append 可能搬移所有元素，但 n 次 append 总搬移量是 O(n)，摊还每次 O(1)。
+一个操作偶尔昂贵，不代表平均昂贵。动态数组扩容就是例子：虽然某次 append 可能搬移所有元素，但 n 次 append 总搬移量是 O(n)，摊还每次 O(1)。哈希表扩容同理：倍增式 rehash 虽然某次插入可能重建整张表，但从空表插入 n 个元素的总搬移仍是 O(n)，摊还每次 O(1)——这正是前面“误解三”里哈希平均 O(1)、偶尔退化的真实成本结构。
 
 ## 6. 工程视角
 
@@ -364,6 +368,23 @@ CONTENT["stack-queue-monotonic"] = """## 1. 栈：最近的优先
 - 递归转迭代；
 - 撤销最近一次选择；
 - 维护“最近未解决的元素”。
+
+加一根辅助栈就能 O(1) 取最小值：
+
+```python
+class MinStack:
+    def __init__(self):
+        self.stack, self.min = [], []
+    def push(self, x):
+        self.stack.append(x)
+        self.min.append(min(x, self.min[-1] if self.min else x))
+    def pop(self):
+        self.stack.pop(); self.min.pop()
+    def get_min(self):
+        return self.min[-1]
+```
+
+三个操作都是 O(1)：辅助栈与主栈同步生长，`min[-1]` 永远是“到当前位置为止”的最小值；弹栈时一起弹出，历史最小值自动回退到上一个状态。
 
 ## 2. 单调栈：遇到更强的人，旧候选退场
 
@@ -774,6 +795,25 @@ def dfs(node):
 | 后序 | 自底向上统计、删除或释放子树 |
 | 层序 | 按深度处理、最短层数、右视图 |
 
+层序是唯一不靠递归的主流遍历，用队列 + 按层计数：
+
+```python
+from collections import deque
+def level_order(root):
+    if not root:
+        return []
+    out, q = [], deque([root])
+    while q:
+        out.append([node.val for node in q])   # 本层全部值
+        for _ in range(len(q)):
+            node = q.popleft()
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+    return out
+```
+
+O(n)。不变量：每轮 while 开始时，队列里恰好是同一层的全部节点，`len(q)` 就是本层宽度——“按层处理”和“右视图取每层末元素”都建立在这个不变量上。
+
 ## 3. BST 的核心性质
 
 对任意节点：
@@ -825,7 +865,20 @@ def lca(root, p, q):
     return left or right
 ```
 
-BST 版本可利用大小关系不用全搜索。
+BST 版本利用大小关系不用全搜索，两边同侧才下探，走到分叉点即答案，O(h)：
+
+```python
+def lca_bst(root, p, q):
+    while root:
+        if p.val < root.val > q.val:
+            root = root.left            # 都在左边
+        elif p.val > root.val < q.val:
+            root = root.right           # 都在右边
+        else:
+            return root                 # 分叉点或命中之一
+```
+
+每次至少排除一棵子树，复杂度 O(h)。
 
 ## 5. 陷阱清单
 
@@ -846,6 +899,8 @@ CONTENT["heaps"] = """## 1. 堆的承诺
 - 最大堆通常对值取负；
 - 插入和弹出都是 O(log n)；
 - 查看堆顶是 O(1)。
+
+建堆不必逐个插入：对数组从最后一个非叶子节点倒序逐个下沉（heapify），是 O(n)。原因是一半节点是叶子无需下沉，其余节点按高度求和 Σ(n/2^h)·h 收敛到 O(n)，比逐个插入的 O(n log n) 便宜。`heapq.heapify` 做的就是这件事。
 
 ## 2. Top K 的选择
 
@@ -969,7 +1024,7 @@ def bfs(start):
     return dist
 ```
 
-BFS 的正确性来自按层扩展。
+BFS 的正确性来自按层扩展；树的层序遍历就是它的特例，完整模板见树章“遍历顺序的用途”。
 
 ### DFS：深入结构
 
@@ -1034,8 +1089,28 @@ def topo_order(n, edges):
 
 - 连通块：遍历未访问节点，计数。
 - 无向图环：DFS 遇到 visited 且不是 parent。
-- 二分图：BFS/DFS 染色，相邻节点颜色必须不同。
-- 桥和割点：Tarjan 算法维护 `dfn` 与 `low`。
+- 桥和割点：进阶主题，这里给可查的直觉但不展开模板。DFS 时给每个节点编号 `dfn[u]`（访问顺序），并用 `low[u]` 记录 u 不经过父边能回到的最早编号；边 `(u, v)` 是桥当且仅当 `low[v] > dfn[u]`——子树 v 整体够不到 u 的上方，删掉这条边图就断开。
+
+### 二分图染色
+
+BFS/DFS 交替染两色，相邻节点必须异色：
+
+```python
+def is_bipartite(graph, s, color):
+    color[s] = 1
+    q = deque([s])
+    while q:
+        u = q.popleft()
+        for v in graph[u]:
+            if color[v] == color[u]:
+                return False        # 邻居同色：存在奇环
+            if not color[v]:
+                color[v] = -color[u]
+                q.append(v)
+    return True
+```
+
+O(V+E)，图不连通时对每个未染色起点调用一次。二分图等价于“图中没有奇环”，染色冲突恰好只在奇环上出现——这既是直觉也是证明。
 
 ## 6. 陷阱清单
 
@@ -1199,6 +1274,8 @@ def dfs(start, path):
         path.pop()
 ```
 
+子集型和组合的区别：子集在树的每个节点都收集答案，组合只在叶子收集。切割型（如回文分割）把 `start` 当切分点，每层枚举“下一段切到哪里”，字符串切空时收集。还要记住分水岭：要“所有解”用回溯；要“最优解”给部分解算界、用优先队列改变搜索顺序，升级成分支限界（见分支限界章）。
+
 ## 3. 剪枝的三类条件
 
 1. **合法性剪枝**：列冲突、越界、超预算；
@@ -1259,6 +1336,8 @@ CONTENT["greedy"] = """## 1. 贪心的合法性
 1. **选择性质**：存在一个最优解包含当前贪心选择；
 2. **子问题独立性**：选择后，剩余子问题仍可独立求解；
 3. **交换论证**：任何最优解都可以交换成贪心解而不变差。
+
+也要熟悉反例：面值 1、3、4 的硬币凑 6 元，“每次拿最大面值”得到 4+1+1 三枚，最优是 3+3 两枚。它失败在局部最大不能保证全局最少。所以“最少/最多”类问题的正确顺序是：先主动找反例，找不到反例再上证明，这个顺序不能反。
 
 ## 2. 区间调度：最多不重叠区间
 
@@ -1416,6 +1495,8 @@ def lis(nums):
     return len(tails)
 ```
 
+为什么 `tails` 单调、能二分？`tails[k]` 是“长度 k+1 的上升子序列中最小的尾值”，同长度保留更小尾值永远不亏，且 `tails[k] < tails[k+1]` 必然成立（否则把长序列截短就能得到更小尾值，矛盾）。替换 `tails[i] = x` 不改变任何长度，只是把某个长度的结尾压得更低，给后续元素留更多接续机会，最优性不被破坏。
+
 ### 编辑距离
 
 状态：`dp[i][j]` 表示 `word1[:i]` 变成 `word2[:j]` 的最少操作。
@@ -1439,6 +1520,8 @@ for weight, value in items:
         dp[c] = max(dp[c], dp[c - weight] + value)
 ```
 
+时间 O(n × 容量)，空间可压成一维。为什么必须倒序？倒序保证算 `dp[c]` 时读到的 `dp[c - weight]` 还是“没考虑当前物品”的上一行旧值，每个物品最多被选一次；正序时 `dp[c - weight]` 可能已经计入当前物品，等于悄悄把它多选了一遍。
+
 ### 完全背包
 
 物品无限，容量正序：
@@ -1448,6 +1531,8 @@ for weight, value in items:
     for c in range(weight, capacity + 1):
         dp[c] = max(dp[c], dp[c - weight] + value)
 ```
+
+正序正好相反：故意让 `dp[c - weight]` 读到可能已包含当前物品的新值，等价于允许重复选取。一正一反，就是“每件一次”和“无限件”的全部区别。
 
 ### 组合数与排列数
 
@@ -1567,7 +1652,24 @@ def build_next(p):
     return nxt
 ```
 
-匹配失败时，模式串不用回到起点，而是跳到下一个可能的前缀状态。
+用 `p = "ababc"` 走一遍：`nxt = [0, 0, 1, 2, 0]`。看 i=3：`"abab"` 的最长相等真前后缀是 `ab`，所以 `nxt[3] = 2`；i=4 时 `c` 接不上，回退 `k = nxt[2] = 1` 再比仍不等，回退到 0。回退跳到的是“次长的、还能当前缀的状态”，而不是从头重来。
+
+匹配主循环同样抓住“文本指针不回退”：
+
+```python
+def kmp_search(p, s, nxt):
+    j = 0
+    for i in range(len(s)):          # i 永不回退
+        while j and s[i] != p[j]:
+            j = nxt[j - 1]           # 模式串退到次长前缀状态
+        if s[i] == p[j]:
+            j += 1
+        if j == len(p):
+            return i - j + 1         # 命中，返回起点
+    return -1
+```
+
+总复杂度 O(n + m)。为什么是线性？j 每轮最多加 1，`while` 里每次回退都让 j 严格变小，回退总次数不超过 j 增加的总次数，均摊下来每个文本字符只摊 O(1)。
 
 ## 5. 字典序贪心
 
@@ -1683,7 +1785,24 @@ parent[x] = root_x
 | 稀疏表 | 静态区间最值 |
 | 平衡树 | 动态有序集合 |
 
-面试高频度上，并查集 > Trie > 线段树/BIT。
+面试高频度上，并查集 > Trie > 线段树/BIT。BIT 至少要会手写，核心是 `lowbit(i) = i & (-i)`：它把下标按二进制末位 1 分层，让每个下标只负责一段固定区间的和：
+
+```python
+class BIT:
+    def __init__(self, n): self.tree = [0] * (n + 1)   # 1-indexed
+    def update(self, i, delta):            # 位置 i 增加 delta
+        while i < len(self.tree):
+            self.tree[i] += delta
+            i += i & (-i)                  # 跳向包含 i 的上层
+    def query(self, i):                    # 前缀和 [1..i]
+        s = 0
+        while i > 0:
+            s += self.tree[i]
+            i -= i & (-i)                  # 剥掉末位 1
+        return s
+```
+
+更新和查询都是 O(log n)。经典应用是逆序对：把数组离散化成 1..n 的排名，从左往右扫描，每个元素先查“已入库的数里比它大的个数”再入库——这是排序章逆序对题在归并计数之外的另一条路线。
 
 ## 6. 陷阱清单
 
@@ -1752,6 +1871,20 @@ n 一般不超过 20。状态转移可以从已选集合推未选项。
 - 最小公倍数：`a*b/gcd(a,b)`；
 - 质数筛：埃氏筛；
 - 快速幂：指数二分。
+
+```python
+def qpow(a, b, mod):
+    result = 1
+    a %= mod
+    while b:
+        if b & 1:
+            result = result * a % mod
+        a = a * a % mod
+        b >>= 1
+    return result
+```
+
+O(log b)。为什么对？b 的二进制位决定“这一位对应的 a 要不要乘进结果”，`a` 每轮自乘翻倍，把 O(b) 次乘法压成 O(log b) 次。
 
 ### 计数与抽屉
 
@@ -1880,6 +2013,8 @@ CONTENT["engineering-interview"] = """## 1. 面试不是考试，是协作调试
 - LFU：频次桶 + 每个频次内 LRU；
 - 工程中还要考虑容量、TTL、并发读写和缓存穿透。
 
+LFU 的频次桶结构值得多说一句：外层按频次递增维护一串桶，每个桶内是该频次的双向链表；命中时把节点从频次 f 的桶摘下、头插进 f+1 的桶，容量满时从最小频次桶的尾部淘汰。get/put 都能 O(1)，代价是新增频次要建桶、空桶要回收；工程里也常用堆或近似计数（如 Top K 一节的 Count-Min Sketch）替代精确 LFU。
+
 ### Top K 流式统计
 
 - Count-Min Sketch 估计频次；
@@ -1921,20 +2056,20 @@ CONTENT["engineering-interview"] = """## 1. 面试不是考试，是协作调试
 CONTENT.update(NEW_CONTENT)
 
 CHAPTER_DIAGRAMS = {
-    "complexity": ("chapter-complexity-growth.svg", "复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)"),
-    "array-two-pointers": [("chapter-array-two-pointers.svg", "对撞双指针淘汰较弱一侧"), ("chapter-sliding-window.svg", "滑动窗口用 left 修复非法区间")],
-    "stack-queue-monotonic": ("chapter-monotonic-stack.svg", "单调栈维护未解决候选"),
-    "hash-and-counting": ("chapter-hash-prefix-sum.svg", "前缀和与哈希表查询关系"),
-    "linked-list": ("chapter-linked-list-cycle.svg", "快慢指针在环内追上"),
-    "recursion-divide-binary-search": ("chapter-binary-search-boundary.svg", "二分搜索维持已确定边界"),
-    "trees": ("chapter-tree-recursion.svg", "树的后序遍历先取子问题答案再合并"),
-    "heaps": ("chapter-heap-shape.svg", "堆父子顺序与 Top K 维护"),
-    "graph-search": [("chapter-graph-bfs-layers.svg", "BFS 按层扩散与访问标记"), ("chapter-topological-order.svg", "DAG 拓扑排序按入度展开")],
-    "graph-shortest-mst": ("problem-p073-dijkstra.svg", "非负边权下的 Dijkstra 最近节点固定过程"),
-    "backtracking": ("chapter-backtracking-tree.svg", "回溯的选择、探索与撤销"),
-    "greedy": ("chapter-interval-scheduling.svg", "按结束时间选择互不重叠区间"),
-    "dynamic-programming": ("chapter-dp-state-grid.svg", "DP 状态来源与边界顺序"),
-    "union-find-advanced": ("chapter-union-find.svg", "并查集按根判断连通"),
+    "complexity": ("chapter-complexity-growth.png", "复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)"),
+    "array-two-pointers": [("chapter-array-two-pointers.png", "对撞双指针淘汰较弱一侧"), ("chapter-sliding-window.png", "滑动窗口用 left 修复非法区间")],
+    "stack-queue-monotonic": ("chapter-monotonic-stack.png", "单调栈维护未解决候选"),
+    "hash-and-counting": ("chapter-hash-prefix-sum.png", "前缀和与哈希表查询关系"),
+    "linked-list": ("chapter-linked-list-cycle.png", "快慢指针在环内追上"),
+    "recursion-divide-binary-search": ("chapter-binary-search-boundary.png", "二分搜索维持已确定边界"),
+    "trees": ("chapter-tree-recursion.png", "树的后序遍历先取子问题答案再合并"),
+    "heaps": ("chapter-heap-shape.png", "堆父子顺序与 Top K 维护"),
+    "graph-search": [("chapter-graph-bfs-layers.png", "BFS 按层扩散与访问标记"), ("chapter-topological-order.png", "DAG 拓扑排序按入度展开")],
+    "graph-shortest-mst": ("problem-p073-dijkstra.png", "非负边权下的 Dijkstra 最近节点固定过程"),
+    "backtracking": ("chapter-backtracking-tree.png", "回溯的选择、探索与撤销"),
+    "greedy": ("chapter-interval-scheduling.png", "按结束时间选择互不重叠区间"),
+    "dynamic-programming": ("chapter-dp-state-grid.png", "DP 状态来源与边界顺序"),
+    "union-find-advanced": ("chapter-union-find.png", "并查集按根判断连通"),
 }
 CHAPTER_DIAGRAMS.update(NEW_CHAPTER_DIAGRAMS)
 

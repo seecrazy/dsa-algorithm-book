@@ -55,6 +55,20 @@ n 一般不超过 20。状态转移可以从已选集合推未选项。
 - 质数筛：埃氏筛；
 - 快速幂：指数二分。
 
+```python
+def qpow(a, b, mod):
+    result = 1
+    a %= mod
+    while b:
+        if b & 1:
+            result = result * a % mod
+        a = a * a % mod
+        b >>= 1
+    return result
+```
+
+O(log b)。为什么对？b 的二进制位决定“这一位对应的 a 要不要乘进结果”，`a` 每轮自乘翻倍，把 O(b) 次乘法压成 O(log b) 次。
+
 ### 计数与抽屉
 
 当结果空间巨大时，考虑：

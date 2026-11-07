@@ -8,6 +8,23 @@
 - 撤销最近一次选择；
 - 维护“最近未解决的元素”。
 
+加一根辅助栈就能 O(1) 取最小值：
+
+```python
+class MinStack:
+    def __init__(self):
+        self.stack, self.min = [], []
+    def push(self, x):
+        self.stack.append(x)
+        self.min.append(min(x, self.min[-1] if self.min else x))
+    def pop(self):
+        self.stack.pop(); self.min.pop()
+    def get_min(self):
+        return self.min[-1]
+```
+
+三个操作都是 O(1)：辅助栈与主栈同步生长，`min[-1]` 永远是“到当前位置为止”的最小值；弹栈时一起弹出，历史最小值自动回退到上一个状态。
+
 ## 2. 单调栈：遇到更强的人，旧候选退场
 
 单调栈维护栈内值单调。新元素到来时，把不可能成为答案的旧元素弹出。

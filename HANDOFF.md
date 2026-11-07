@@ -39,13 +39,13 @@
 3. 已生成 `data/problems.json`，固定 148 题；每题包含约束、示例、思路、复杂度、至少三个易错点。每题已同时包含 Python 和 Java 两个参考实现；148 个 Java 片段已通过 javac 编译检查。
 4. 已通过 `py_compile`、`node --check`、JSON 数量、ID 唯一性和章节引用校验。
 5. 设计文档已覆盖运行时文件、生成器、核心方法、路由和错误契约。
-6. 视觉学习层已迁移到 Pillow 渲染管线：169 张图 = 21 张章节 PNG + 25 张手写题解 PNG + 123 张 trace 题解动画 GIF（15MB）；所有定位基于实测字宽，148 题全部有题解专用图；引用可通过 `scripts/validate_diagrams.py` 校验。
-7. 已完成核心模块覆盖审计，并补齐排序、Trie、AVL/红黑树、B/B+ 树、分支限界和图表示章。
+6. 视觉学习层已迁移到 Pillow 渲染管线：169 张图 = 21 张章节 PNG + 25 张手写题解 PNG + 123 张 trace 题解动画 GIF（约 15MB）；所有定位基于实测字宽，148 题全部有题解专用图；引用可通过 `scripts/validate_diagrams.py` 校验。
+7. 24 章正文完成全量体检与深化（2026-11-08）：动态规划补背包倒序不变量与 LIS tails 论证；排序换原地分区快排 + 三路分区 + 稳定计数排序；字符串补 KMP 匹配主循环与 next 示例；平衡树补左旋与红黑两倍界推导；B 树补键-指针关系与 I/O 实例；Trie 补删除代码与压缩 Trie；图搜索补 Tarjan 直觉与二分图染色；并查集补 BIT 模板；分支限界补主循环伪码与下界合法性；复杂度补 Θ/Ω 与递归树展开；how-to-use 按 24 章口径重写快速路线；另补贪心反例、最小栈、BST LCA、O(n) 建堆、子集型辨析、快速幂、LFU 结构。改动全部落在 `scripts/generate_content.py` 与 `scripts/new_modules.py`。
 8. 新增 p125-p148 共 24 题，总题库 148；新增 `scripts/validate_java.py`，148 个 Java 片段编译通过。
-9. 已抽查 p125-p148 的 Python 实现示例，修复了 B+ 树页合并、Trie 回溯示例和分支限界溢出问题。
-10. M7 已完成：`scripts/remaining_teaching_notes.py` 补齐剩余 107 题五问法；`scripts/trace_diagrams.py` 用五问法 trace 生成 123 张题解动画 GIF；全部旧 SVG（含 `problem-*-model.svg` 占位图）已删除，校验器拒绝回潮；app.js 移除模型图回退分支。
-11. 生成器重跑哈希一致（幂等）；`py_compile`、`node --check`、`validate_diagrams.py`、`validate_java.py` 全部通过。
-12. 下一件事是浏览器端人工冒烟：首页、章节、题库、题目、搜索、主题、双语言代码块、移动端与掌握状态。
+9. M7 已完成：`scripts/remaining_teaching_notes.py` 补齐剩余 107 题五问法；`scripts/trace_diagrams.py` 用五问法 trace 生成 123 张题解动画 GIF；全部旧 SVG（含 `problem-*-model.svg` 占位图）已删除，校验器拒绝回潮。
+10. 本地渲染依赖：`python3 -m pip install --user pillow fonttools`（仅生成器需要）。
+11. 生成器重跑哈希一致（幂等）；`py_compile`、`node --check`、`validate_diagrams.py`、`validate_java.py` 全部通过；169 个被引用资源 HTTP 200。
+12. 下一件事是浏览器端人工冒烟：首页、章节、题库、题目、搜索、主题、双语言代码块、GIF 动画播放、移动端与掌握状态。
 
 ## Git 纪律
 
