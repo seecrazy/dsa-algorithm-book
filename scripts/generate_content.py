@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from new_modules import NEW_CHAPTERS, NEW_CHAPTER_DIAGRAMS, NEW_CONTENT
+
 ROOT = Path(__file__).resolve().parents[1]
 CHAPTERS_DIR = ROOT / "chapters"
 DATA_DIR = ROOT / "data"
@@ -101,6 +103,22 @@ CHAPTERS = [
         "tags": ["调试", "面试", "工程实践"],
     },
 ]
+
+CHAPTERS.extend(NEW_CHAPTERS)
+
+NEW_BY_ID = {chapter["id"]: chapter for chapter in NEW_CHAPTERS}
+for after_id, new_id in [
+    ("recursion-divide-binary-search", "sorting"),
+    ("hash-and-counting", "trie"),
+    ("trees", "balanced-search-trees"),
+    ("balanced-search-trees", "b-trees"),
+    ("graph-search", "graph-representation"),
+    ("backtracking", "branch-and-bound"),
+]:
+    chapter = NEW_BY_ID[new_id]
+    CHAPTERS.remove(chapter)
+    after_index = next(i for i, item in enumerate(CHAPTERS) if item["id"] == after_id)
+    CHAPTERS.insert(after_index + 1, chapter)
 
 CONTENT = {}
 
@@ -1900,6 +1918,8 @@ CONTENT["engineering-interview"] = """## 1. 面试不是考试，是协作调试
 > 专业不是没有 Bug，而是有办法快速把错误变成可解释、可修复、可预防的事实。
 """
 
+CONTENT.update(NEW_CONTENT)
+
 CHAPTER_DIAGRAMS = {
     "complexity": ("chapter-complexity-growth.svg", "复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)"),
     "array-two-pointers": [("chapter-array-two-pointers.svg", "对撞双指针淘汰较弱一侧"), ("chapter-sliding-window.svg", "滑动窗口用 left 修复非法区间")],
@@ -1916,6 +1936,7 @@ CHAPTER_DIAGRAMS = {
     "dynamic-programming": ("chapter-dp-state-grid.svg", "DP 状态来源与边界顺序"),
     "union-find-advanced": ("chapter-union-find.svg", "并查集按根判断连通"),
 }
+CHAPTER_DIAGRAMS.update(NEW_CHAPTER_DIAGRAMS)
 
 
 def build_chapter_metadata():

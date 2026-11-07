@@ -57,7 +57,24 @@
 16. 并查集与高级结构
 17. 数学、位运算与概率思维
 18. 工程化调试与面试作战手册
-19. 题库索引
+8. 排序：从比较到分桶
+9. 树与递归思维
+10. AVL 与红黑树
+11. 堆与优先队列
+12. B 树与 B+ 树
+13. 图论：搜索、拓扑与连通性
+14. 图的表示与建模选型
+15. 最短路、最小生成树与图建模
+16. 回溯：排列、组合与搜索剪枝
+17. 分支限界
+18. 贪心：局部决策与全局证明
+19. 动态规划：状态、转移与记忆
+20. Trie：前缀就是路径
+21. 字符串算法
+22. 并查集与高级结构
+23. 数学、位运算与概率思维
+24. 工程化调试与面试作战手册
+25. 题库索引
 
 ### 章节正文约定
 
@@ -358,7 +375,7 @@ localStorage keys：
 | `CHAPTERS` | 有序章节元数据，顺序即学习顺序 |
 | `CONTENT` | 章节正文源文本，key 必须是 `Chapter.id` |
 | `build_chapter_metadata()` | 返回章节元数据副本/引用的有序数组 |
-| `write_chapters()` | 创建目录、写入 18 个 Markdown、重写 `chapters.json` |
+| `write_chapters()` | 合并 `NEW_CHAPTERS`、追加“一图看懂”、写入 24 个 Markdown、重写 `chapters.json` |
 | `validate()` | 检查 ID 唯一、section 合法、正文齐全，孤儿文件仅警告 |
 | `main()` | 写入、校验并输出生成数量 |
 
@@ -376,6 +393,10 @@ localStorage keys：
 | `validate(problems)` | 校验固定 124 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
 | `main()` | 合并 `java_solutions.JAVA_SOLUTIONS`、校验双语言、写 JSON、输出按章节统计 |
 | `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
+| `scripts/model_diagrams.py` | 按章节定义模型关键词；`diagram_key()` 生成 SVG 文件名；`model_diagram()` 返回题解图元数据 |
+| `scripts/generate_diagrams.py:model_state_svg()` | 将模型元数据渲染为“状态 -> 操作 -> 目标”的 SVG |
+| `scripts/generate_diagrams.py:main()` | 先生成 107 张模型图，再重建 38 张手写章节/题解图 |
+| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、124 题图引用和无未引用文件；图来源可为 `understanding.diagram` 或 `solution.diagram` |
 
 内容不变量补充：
 
@@ -417,6 +438,7 @@ interface ProblemSolution {
   complexity: string;
   pitfalls: string[];
   code: { language: string; source: string }[];
+  diagram?: ProblemDiagram; // 模型级图；若 understanding.diagram 存在则优先使用它
 }
 
 interface Problem {
@@ -474,9 +496,11 @@ interface ProblemDiagram {
 }
 ```
 
+- 尚无五问法讲解的题可先挂 `Problem.solution.diagram`；结构相同。
+- 前端读取顺序是 `understanding.diagram -> solution.diagram`。
 - 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
 - Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
-- 首批已生成 32 个 SVG：14 个核心章节包含 16 个引用，17 个高频题包含题解图；剩余章节与题目继续按批次补图。
+- 首批已生成 38 个手写 SVG，另有 107 个模型级状态图；14 个核心章节包含 16 个引用，124 题全部有题解图。
 
 ### 14.2a 题解理解层
 
@@ -493,7 +517,18 @@ interface ProblemUnderstanding {
 }
 
 Problem.solution.understanding?: ProblemUnderstanding;
+
+对于尚无五问法讲解的题，可先挂 `Problem.solution.diagram`；它的结构同样是：
+
+```ts
+interface ProblemDiagram {
+  src: string;
+  alt: string;
+  caption: string;
+}
 ```
+
+前端读取顺序是 `understanding.diagram -> solution.diagram`。
 
 题解渲染顺序固定为“五问法”：
 
@@ -516,6 +551,42 @@ Problem.solution.understanding?: ProblemUnderstanding;
 - `data/problems.json` 是有序数组；数组顺序是题库默认展示顺序。
 - 章节页自动按 `Problem.chapter` 注入“本章实战题”。
 - 不需要额外双向索引文件；运行时从题库数组派生，避免索引漂移。
+
+## 14.4 补充模块设计
+
+为补齐教科书式覆盖，新增 6 个学习模块：
+
+| id | 模块 | 必须覆盖 |
+|---|---|---|
+| `sorting` | 排序与选型 | 快排、归并、堆排、计数、基数、桶、稳定性、原地性、比较下界、工程选型 |
+| `trie` | Trie 与前缀结构 | 节点模型、插入/查找/前缀统计、删除、Trie + DFS、压缩 Trie |
+| `balanced-search-trees` | 自平衡搜索树 | BST 退化、AVL 四种旋转、红黑树五性质、插入重染色直觉、工程取舍 |
+| `b-trees` | B 树 / B+ 树 | 阶/度、节点分裂、键与子指针、叶子链表、磁盘页与范围扫描 |
+| `branch-and-bound` | 分支限界 | 状态空间、上界/下界、优先队列扩展、最优性剪枝、与回溯差异 |
+| `graph-representation` | 图表示与建模 | 邻接表、矩阵、边数组、隐式图、空间/查询/遍历代价、反向图与网格图 |
+
+这些模块先提供原理、模板、复杂度、陷阱和章节图；题库问题暂不强行迁移。后续若新增题目，必须沿用 Python/Java、五问法和题解图约定。
+
+### 14.4a 新增模块图示
+
+新增 6 章均有章节级 SVG：
+
+- `sorting`：比较排序与非比较排序选型。
+- `trie`：共享前缀路径。
+- `balanced-search-trees`：AVL 旋转与中序不变量。
+- `b-trees`：节点分裂与 B+ 树叶子链表。
+- `branch-and-bound`：界剪枝。
+- `graph-representation`：四种图容器对比。
+
+## 14.5 剩余题图示策略
+
+首批 17 题使用手写专用 SVG。为让 124 题全部达到“有图可看”，剩余题采用“模型级状态图”：
+
+- 每个剩余题至少一张 SVG，文件名包含题目 ID。
+- 图中包含题目标题、核心状态对象、操作方向、不变量和当前题 focus。
+- 图示按所属章节模型生成：数组指针、栈/队列、哈希映射、链表、树、堆、图、回溯树、DP 网格、区间决策、位运算、系统流水线。
+- 这类图先保证“能看见状态迁移”，后续可逐题替换为手写专用图。
+- 校验器要求：124 题全部有题解图；SVG 引用存在；无未引用 SVG。
 
 ## 15. 错误处理矩阵
 

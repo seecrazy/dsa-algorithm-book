@@ -7,6 +7,7 @@ from pathlib import Path
 
 from java_solutions import JAVA_SOLUTIONS
 from teaching_notes import TEACHING_NOTES
+from model_diagrams import diagram_key, model_diagram
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "problems.json"
@@ -1306,6 +1307,12 @@ def validate(problems):
         languages = [item["language"] for item in p["solution"]["code"]]
         if set(languages) != {"Python", "Java"}:
             raise ValueError(f"expected Python and Java in {p['id']}, got {languages}")
+        diagram = p["solution"].get("understanding", {}).get("diagram") or p["solution"].get("diagram")
+        if not diagram:
+            raise ValueError(f"missing diagram in {p['id']}")
+        diagram_path = ROOT / diagram["src"].removeprefix("./")
+        if not diagram_path.is_file():
+            raise ValueError(f"missing diagram file {diagram_path} in {p['id']}")
         understanding = p["solution"].get("understanding")
         if understanding:
             required = ("brute_force", "bottleneck", "key_observation", "why_correct")
@@ -1328,6 +1335,12 @@ def main():
         problem["solution"]["code"].append({"language": "Java", "source": JAVA_SOLUTIONS[problem_id]})
         if problem_id in TEACHING_NOTES:
             problem["solution"]["understanding"] = TEACHING_NOTES[problem_id]
+        elif not problem["solution"].get("understanding", {}).get("diagram"):
+            chapter_lookup = {chapter["id"]: chapter for chapter in json.loads((ROOT / "data/chapters.json").read_text(encoding="utf-8"))}
+            model = model_diagram(problem, chapter_lookup)
+            problem["solution"]["diagram"] = {
+                key: model[key] for key in ("src", "alt", "caption")
+            }
 
     validate(P)
     OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="490" rx="18"/>
+<text class="title" x="32" y="50">分支限界：用界剪掉注定更差的子树</text><rect class="box blue" x="300" y="80" width="120" height="54" rx="12"/><text class="t" x="360.0" y="113.0">部分解</text><rect class="box orange" x="130" y="185" width="120" height="54" rx="12"/><text class="t" x="190.0" y="218.0">分支 A</text><rect class="box orange" x="450" y="185" width="120" height="54" rx="12"/><text class="t" x="510.0" y="218.0">分支 B</text><path class="arrow" d="M295,295 L134,134 L195,195 L181,181"/><path class="arrow" d="M365,365 L134,134 L495,495 L181,181"/><rect class="box green" x="80" y="300" width="150" height="54" rx="12"/><text class="t" x="155.0" y="333.0">界 12</text><rect class="box red" x="300" y="300" width="150" height="54" rx="12"/><text class="t" x="375.0" y="333.0">界 17</text><rect class="box plain" x="500" y="300" width="150" height="54" rx="12"/><text class="t" x="575.0" y="333.0">界 19</text><path class="arrow" d="M160,160 L239,239 L120,120 L296,296"/><path class="arrow" d="M230,230 L239,239 L340,340 L296,296"/><path class="arrow" d="M490,490 L239,239 L545,545 L296,296"/><text class="s" x="155" y="390">已知最优 ≥17</text><text class="s" x="375" y="390">12 不可能更优，剪掉</text><text class="s" x="575" y="390">继续扩展</text><rect class="box purple" x="58" y="420" width="604" height="64" rx="12"/><text class="s" x="360" y="445">最小化问题用下界；最大化问题用上界</text><text class="s" x="360" y="472">bound 不可能优于 best 时，整棵子树都可剪掉</text>
+</svg>

@@ -3,6 +3,9 @@
 """Generate static SVG visual explanations for chapters and core problems."""
 from html import escape
 from pathlib import Path
+import json
+
+from model_diagrams import diagram_key, model_diagram
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "diagrams"
@@ -431,6 +434,78 @@ def problem_palindrome():
              text(360,378,'遇到不相等立即停止，记录最大长度')]
     return svg(720,420,''.join(body))
 
+def chapter_sorting_models():
+    body=[text(32,50,'排序选型：先看值域和顺序要求','title')]
+    body += [node(70,95,150,58,'比较排序','blue'), node(300,95,180,58,'值域/位数受限？','orange'), node(545,95,120,58,'非比较','green')]
+    body += [path([220,124,296,124]), path([480,124,541,124])]
+    body += [rect(58,190,286,128,'blue'), rect(376,190,286,128,'purple')]
+    body += [text(201,217,'快排 / 归并 / 堆排'), text(201,245,'平均 O(n log n)'), text(201,281,'按稳定性与原地性选择')]
+    body += [text(519,217,'计数 / 基数 / 桶'), text(519,245,'利用值域或位数'), text(519,281,'可突破比较下界')]
+    body += [rect(58,350,604,66,'green')]
+    body += [text(360,375,'稳定排序能保持相等元素原序；基数排序的每一位必须稳定'),
+             text(360,403,'通用数组常选快排；链表/外部排序常用归并；小整数用计数')]
+    return svg(720,440,''.join(body))
+
+def chapter_trie_prefix():
+    body=[text(32,50,'Trie：共享前缀只走一次','title')]
+    body += [node(300,80,95,50,'root','blue'), node(145,180,85,50,'a','green'), node(305,180,85,50,'b','plain'), node(145,280,85,50,'p','green'), node(145,375,95,50,'p · end','blue')]
+    body += [path([300,130,190,176]), path([330,130,345,176]), path([187,230,187,276]), path([187,330,192,371])]
+    body += [text(355,210,'b 分支与其他词共享根'), text(345,340,'apple 的唯一路径')]
+    body += [rect(58,445,604,70,'purple')]
+    body += [text(360,470,'插入/查找/前缀判断都是 O(L)'),
+             text(360,500,'is_end 标记“到此是一个完整词”；子节点保存下一字符')]
+    return svg(720,540,''.join(body))
+
+def chapter_avl_rotation():
+    body=[text(32,50,'AVL 旋转：恢复高度，不破坏中序','title')]
+    body += [text(180,78,'失衡：左左'), text(520,78,'右旋后')]
+    body += [node(190,95,100,54,'y','red'), node(115,205,95,54,'x','blue'), node(280,205,95,54,'C','plain'), node(70,315,90,52,'A','green'), node(165,315,90,52,'B','orange')]
+    body += [path([205,149,165,201]), path([285,149,315,201]), path([130,259,112,311]), path([182,259,197,311])]
+    body += [node(480,160,100,54,'x','blue'), node(390,270,95,54,'A','green'), node(575,270,95,54,'y','orange'), node(535,375,90,52,'B','green'), node(630,375,90,52,'C','plain')]
+    body += [path([510,214,430,266]), path([560,214,592,266]), path([425,324,525,371]), path([598,324,646,371])]
+    body += [text(360,450,'中序仍是 A < x < B < y < C；只有父子关系被旋转')]
+    body += [rect(58,475,604,60,'purple')]
+    body += [text(360,500,'更新高度顺序：先孩子，再父节点')]
+    return svg(720,560,''.join(body))
+
+def chapter_btree_split():
+    body=[text(32,50,'B+ 树：满节点分裂，中间键上移','title')]
+    body += [node(80,95,170,58,'[10,20,30,40]','red'), path([250,124,330,124]), node(335,95,170,58,'分裂','orange')]
+    body += [node(160,215,105,54,'[10,20]','green'), node(330,215,105,54,'[30,40]','green'), node(240,95,0,0,'', 'plain')]
+    body += [node(245,330,110,54,'20 上移','blue')]
+    body += [path([185,215,285,158]), path([385,215,300,158])]
+    body += ['<path class="line" d="M265,269 L265,326" stroke-dasharray="7 7"/>']
+    body += [rect(58,420,604,90,'purple')]
+    body += [text(360,446,'内部节点只放索引键；真实数据在叶子'),
+             text(360,475,'叶子链表支持范围扫描：定位起点后顺序读'),
+             text(360,498,'一次节点读取对应一次磁盘页，而不是一个二叉节点')]
+    return svg(720,535,''.join(body))
+
+def chapter_branch_bound():
+    body=[text(32,50,'分支限界：用界剪掉注定更差的子树','title')]
+    body += [node(300,80,120,54,'部分解','blue'), node(130,185,120,54,'分支 A','orange'), node(450,185,120,54,'分支 B','orange')]
+    body += [path([295,134,195,181]), path([365,134,495,181])]
+    body += [node(80,300,150,54,'界 12','green'), node(300,300,150,54,'界 17','red'), node(500,300,150,54,'界 19','plain')]
+    body += [path([160,239,120,296]), path([230,239,340,296]), path([490,239,545,296])]
+    body += [text(155,390,'已知最优 ≥17'), text(375,390,'12 不可能更优，剪掉'), text(575,390,'继续扩展')]
+    body += [rect(58,420,604,64,'purple')]
+    body += [text(360,445,'最小化问题用下界；最大化问题用上界'),
+             text(360,472,'bound 不可能优于 best 时，整棵子树都可剪掉')]
+    return svg(720,510,''.join(body))
+
+def chapter_graph_representation():
+    body=[text(32,50,'图表示法：空间、查边和遍历都不同','title')]
+    body += [rect(58,90,300,130,'blue'), rect(362,90,300,130,'orange')]
+    body += [text(208,118,'邻接表 O(V+E)'), text(208,150,'遍历稀疏边最省'), text(208,184,'查边要看度数')]
+    body += [text(512,118,'矩阵 O(V²)'), text(512,150,'O(1) 判断 u-v'), text(512,184,'密集图/Floyd')]
+    body += [rect(58,245,300,130,'purple'), rect(362,245,300,130,'green')]
+    body += [text(208,273,'边数组 O(E)'), text(208,305,'Kruskal/Bellman'), text(208,338,'不适合查邻居')]
+    body += [text(512,273,'隐式图'), text(512,305,'按状态生成邻居'), text(512,338,'控制状态爆炸')]
+    body += [rect(58,405,604,64,'plain')]
+    body += [text(360,430,'建模四问：点是什么？边是什么？权是什么？方向如何？'),
+             text(360,456,'选错容器，算法仍正确，但时间或空间可能不可承受')]
+    return svg(720,495,''.join(body))
+
 DIAGRAMS = {
     "chapter-complexity-growth": chapter_complexity,
     "chapter-array-two-pointers": chapter_two_pointers,
@@ -446,6 +521,12 @@ DIAGRAMS = {
     "chapter-dp-state-grid": chapter_dp_grid,
     "chapter-backtracking-tree": chapter_backtracking,
     "chapter-union-find": chapter_union_find,
+    "chapter-sorting-models": chapter_sorting_models,
+    "chapter-trie-prefix": chapter_trie_prefix,
+    "chapter-avl-rotation": chapter_avl_rotation,
+    "chapter-btree-split": chapter_btree_split,
+    "chapter-branch-bound": chapter_branch_bound,
+    "chapter-graph-representation": chapter_graph_representation,
     "problem-p001-two-sum": problem_two_sum,
     "problem-p002-max-subarray": problem_max_subarray,
     "problem-p003-container": problem_container,
@@ -465,12 +546,50 @@ DIAGRAMS = {
     "problem-p111-palindrome": problem_palindrome,
 }
 
+def model_state_svg(problem, chapter_lookup):
+    model = model_diagram(problem, chapter_lookup)
+    body = [
+        text(32, 52, model["title"], "title"),
+        text(34, 80, model["subtitle"], "small"),
+        node(58, 112, 190, 82, model["kind"], "blue", "当前状态"),
+        node(270, 112, 190, 82, model["action"], "orange", "操作"),
+        node(482, 112, 190, 82, model["result"], "green", "目标"),
+        path([248, 153], "arrow"),
+        path([460, 153], "arrow"),
+    ]
+    body += [rect(58, 225, 614, 76, "purple")]
+    body += [text(360, 252, "本题 focus"), text(360, 281, model["focus"])]
+    body += [rect(58, 325, 614, 76, "green")]
+    body += [text(360, 352, "不变量"), text(360, 381, model["invariant"])]
+    body += [rect(58, 425, 614, 56, "plain")]
+    body += [text(360, 450, "模型图先展示状态迁移骨架；五问法内容仍按批次深化")]
+    return svg(720, 505, "".join(body))
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    chapter_lookup = {
+        chapter["id"]: chapter
+        for chapter in json.loads((ROOT / "data" / "chapters.json").read_text(encoding="utf-8"))
+    }
+    problems = json.loads((ROOT / "data" / "problems.json").read_text(encoding="utf-8"))
+    custom_problem_ids = {
+        name.split("-")[1]
+        for name in DIAGRAMS
+        if name.startswith("problem-")
+    }
+    model_count = 0
+    for problem in problems:
+        if problem["id"] in custom_problem_ids:
+            continue
+        target = OUT / diagram_key(problem["id"])
+        target.write_text(model_state_svg(problem, chapter_lookup), encoding="utf-8")
+        model_count += 1
+
     for name, builder in DIAGRAMS.items():
         target = OUT / f"{name}.svg"
         target.write_text(builder(), encoding="utf-8")
-    print(f"generated {len(DIAGRAMS)} diagrams")
+    print(f"generated {len(DIAGRAMS)} hand-made diagrams and {model_count} model diagrams")
 
 
 def chapter_interval_schedule():

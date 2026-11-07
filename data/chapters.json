@@ -64,6 +64,19 @@
     ]
   },
   {
+    "id": "trie",
+    "title": "Trie：前缀就是路径",
+    "subtitle": "把共享前缀变成树边",
+    "section": "structures",
+    "file": "trie.md",
+    "minutes": 20,
+    "tags": [
+      "Trie",
+      "字典树",
+      "前缀"
+    ]
+  },
+  {
     "id": "linked-list",
     "title": "链表与边界控制",
     "subtitle": "指针是纪律，dummy 是温柔",
@@ -90,6 +103,20 @@
     ]
   },
   {
+    "id": "sorting",
+    "title": "排序：从比较到分桶",
+    "subtitle": "稳定、原地、期望与最坏，不只是 sort()",
+    "section": "techniques",
+    "file": "sorting.md",
+    "minutes": 28,
+    "tags": [
+      "排序",
+      "分治",
+      "计数排序",
+      "工程选型"
+    ]
+  },
+  {
     "id": "trees",
     "title": "树与递归思维",
     "subtitle": "每个节点都是一个子问题",
@@ -100,6 +127,34 @@
       "树",
       "递归",
       "遍历"
+    ]
+  },
+  {
+    "id": "balanced-search-trees",
+    "title": "AVL 与红黑树",
+    "subtitle": "让 BST 不退化为链",
+    "section": "structures",
+    "file": "balanced-search-trees.md",
+    "minutes": 30,
+    "tags": [
+      "AVL",
+      "红黑树",
+      "平衡树",
+      "BST"
+    ]
+  },
+  {
+    "id": "b-trees",
+    "title": "B 树与 B+ 树",
+    "subtitle": "为磁盘页和范围扫描设计",
+    "section": "advanced",
+    "file": "b-trees.md",
+    "minutes": 26,
+    "tags": [
+      "B树",
+      "B+树",
+      "索引",
+      "磁盘"
     ]
   },
   {
@@ -130,6 +185,20 @@
     ]
   },
   {
+    "id": "graph-representation",
+    "title": "图的表示与建模选型",
+    "subtitle": "先选容器，再选算法",
+    "section": "advanced",
+    "file": "graph-representation.md",
+    "minutes": 20,
+    "tags": [
+      "图",
+      "邻接表",
+      "邻接矩阵",
+      "建模"
+    ]
+  },
+  {
     "id": "graph-shortest-mst",
     "title": "最短路、最小生成树与图建模",
     "subtitle": "把世界抽象成点和边权",
@@ -154,6 +223,20 @@
       "排列",
       "组合",
       "剪枝"
+    ]
+  },
+  {
+    "id": "branch-and-bound",
+    "title": "分支限界",
+    "subtitle": "用界剪掉注定更差的子树",
+    "section": "techniques",
+    "file": "branch-and-bound.md",
+    "minutes": 26,
+    "tags": [
+      "分支限界",
+      "剪枝",
+      "优先队列",
+      "组合优化"
     ]
   },
   {

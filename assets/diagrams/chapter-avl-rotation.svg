@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="540" rx="18"/>
+<text class="title" x="32" y="50">AVL 旋转：恢复高度，不破坏中序</text><text class="s" x="180" y="78">失衡：左左</text><text class="s" x="520" y="78">右旋后</text><rect class="box red" x="190" y="95" width="100" height="54" rx="12"/><text class="t" x="240.0" y="128.0">y</text><rect class="box blue" x="115" y="205" width="95" height="54" rx="12"/><text class="t" x="162.5" y="238.0">x</text><rect class="box plain" x="280" y="205" width="95" height="54" rx="12"/><text class="t" x="327.5" y="238.0">C</text><rect class="box green" x="70" y="315" width="90" height="52" rx="12"/><text class="t" x="115.0" y="347.0">A</text><rect class="box orange" x="165" y="315" width="90" height="52" rx="12"/><text class="t" x="210.0" y="347.0">B</text><path class="arrow" d="M205,205 L149,149 L165,165 L201,201"/><path class="arrow" d="M285,285 L149,149 L315,315 L201,201"/><path class="arrow" d="M130,130 L259,259 L112,112 L311,311"/><path class="arrow" d="M182,182 L259,259 L197,197 L311,311"/><rect class="box blue" x="480" y="160" width="100" height="54" rx="12"/><text class="t" x="530.0" y="193.0">x</text><rect class="box green" x="390" y="270" width="95" height="54" rx="12"/><text class="t" x="437.5" y="303.0">A</text><rect class="box orange" x="575" y="270" width="95" height="54" rx="12"/><text class="t" x="622.5" y="303.0">y</text><rect class="box green" x="535" y="375" width="90" height="52" rx="12"/><text class="t" x="580.0" y="407.0">B</text><rect class="box plain" x="630" y="375" width="90" height="52" rx="12"/><text class="t" x="675.0" y="407.0">C</text><path class="arrow" d="M510,510 L214,214 L430,430 L266,266"/><path class="arrow" d="M560,560 L214,214 L592,592 L266,266"/><path class="arrow" d="M425,425 L324,324 L525,525 L371,371"/><path class="arrow" d="M598,598 L324,324 L646,646 L371,371"/><text class="s" x="360" y="450">中序仍是 A &lt; x &lt; B &lt; y &lt; C；只有父子关系被旋转</text><rect class="box purple" x="58" y="475" width="604" height="60" rx="12"/><text class="s" x="360" y="500">更新高度顺序：先孩子，再父节点</text>
+</svg>

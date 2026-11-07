@@ -33,7 +33,8 @@ for path in CHAPTERS.glob("*.md"):
 problems = json.loads(PROBLEMS.read_text(encoding="utf-8"))
 diagrammed = 0
 for problem in problems:
-    diagram = problem.get("solution", {}).get("understanding", {}).get("diagram")
+    solution = problem.get("solution", {})
+    diagram = solution.get("understanding", {}).get("diagram") or solution.get("diagram")
     if not diagram:
         continue
     diagrammed += 1

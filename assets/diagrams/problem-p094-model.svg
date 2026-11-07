@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 505" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="485" rx="18"/>
+<text class="title" x="32" y="52">分发糖果 · 候选顺序</text><text class="small" x="34" y="80">模型：贪心：局部决策与全局证明</text><rect class="box blue" x="58" y="112" width="190" height="82" rx="12"/><text class="t" x="153.0" y="151.0">候选顺序</text><text class="small" x="153.0" y="172.0">当前状态</text><rect class="box orange" x="270" y="112" width="190" height="82" rx="12"/><text class="t" x="365.0" y="151.0">按排序键逐个选择</text><text class="small" x="365.0" y="172.0">操作</text><rect class="box green" x="482" y="112" width="190" height="82" rx="12"/><text class="t" x="577.0" y="151.0">局部安全选择合并为全局解</text><text class="small" x="577.0" y="172.0">目标</text><path class="arrow" d="M248,248 L153,153"/><path class="arrow" d="M460,460 L153,153"/><rect class="box purple" x="58" y="225" width="614" height="76" rx="12"/><text class="s" x="360" y="252">本题 focus</text><text class="s" x="360" y="281">相邻评分更高者糖果更多，求最少总数。</text><rect class="box green" x="58" y="325" width="614" height="76" rx="12"/><text class="s" x="360" y="352">不变量</text><text class="s" x="360" y="381">选择后剩余子问题仍独立。</text><rect class="box plain" x="58" y="425" width="614" height="56" rx="12"/><text class="s" x="360" y="450">模型图先展示状态迁移骨架；五问法内容仍按批次深化</text>
+</svg>

@@ -254,7 +254,7 @@
       <p class="page-subtitle">从直觉到武器库 · 一本写给工程师的在线书</p>
       <p>这本书不准备让你背题，也不假装算法只是面试魔法。它想把每个结构还原成<strong>一个承诺</strong>：数组承诺随机访问，哈希承诺快速映射，堆承诺永远先给你最紧急的事，图承诺暴露世界里的依赖关系。</p>
       <div class="meta-grid">
-        <div class="meta-card"><b>19 个学习单元</b><span>从复杂度到工程调试，覆盖面试与工程主线。</span></div>
+        <div class="meta-card"><b>${state.chapters.length + 1} 个学习单元</b><span>从复杂度、平衡树、B+ 树到分支限界、图表示和工程调试。</span></div>
         <div class="meta-card"><b>124 道实战题</b><span>题面、约束、思路、复杂度、易错点完整呈现。</span></div>
         <div class="meta-card"><b>0 构建依赖</b><span>纯静态站点，适合 GitHub Pages 直接部署。</span></div>
       </div>
@@ -332,6 +332,7 @@
     const solved = state.solved.has(id);
     const chapter = state.chapters.find(c => c.id === p.chapter);
     const understanding = p.solution && p.solution.understanding;
+    const modelDiagram = p.solution && p.solution.diagram;
     const deepExplanation = understanding ? `
       <h2>从“看答案”到“知其所以然”</h2>
       ${understanding.diagram ? `
@@ -354,6 +355,11 @@
         <ul>${(understanding.transfer || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
       </div>` : `
       <h2>从“看答案”到“知其所以然”</h2>
+      ${modelDiagram ? `
+        <figure class="diagram">
+          <img src="${escapeHtml(modelDiagram.src)}" alt="${escapeHtml(modelDiagram.alt)}" loading="lazy" decoding="async">
+          <figcaption>${escapeHtml(modelDiagram.caption)}</figcaption>
+        </figure>` : ''}
       <div class="problem">
         <p>这题的完整五问讲解还在分批撰写中。先按下面的脚手架自己推导，比直接抄模板更有效：</p>
         <ol>
