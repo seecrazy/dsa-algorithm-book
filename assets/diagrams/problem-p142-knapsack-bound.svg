@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 505" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" role="img" aria-labelledby="t d">
 <title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
 <defs>
 <marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
@@ -27,6 +27,6 @@
 .axis{stroke:#94a3b8;stroke-width:2}
 .title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
 </style>
-<rect class="panel" x="10" y="10" width="700" height="485" rx="18"/>
-<text class="title" x="32" y="52">右侧小于当前元素的个数 · 平衡状态</text><text class="small" x="34" y="80">模型：AVL 与红黑树</text><rect class="box blue" x="58" y="112" width="190" height="82" rx="12"/><text class="t" x="153.0" y="151.0">平衡状态</text><text class="small" x="153.0" y="172.0">当前状态</text><rect class="box orange" x="270" y="112" width="190" height="82" rx="12"/><text class="t" x="365.0" y="151.0">旋转或重染色</text><text class="small" x="365.0" y="172.0">操作</text><rect class="box green" x="482" y="112" width="190" height="82" rx="12"/><text class="t" x="577.0" y="151.0">恢复高度/黑高约束</text><text class="small" x="577.0" y="172.0">目标</text><path class="arrow" d="M248,248 L153,153"/><path class="arrow" d="M460,460 L153,153"/><rect class="box purple" x="58" y="225" width="614" height="76" rx="12"/><text class="s" x="360" y="252">本题 focus</text><text class="s" x="360" y="281">统计每个元素右侧严格小于它的元素数量。</text><rect class="box green" x="58" y="325" width="614" height="76" rx="12"/><text class="s" x="360" y="352">不变量</text><text class="s" x="360" y="381">中序顺序不因旋转改变。</text><rect class="box plain" x="58" y="425" width="614" height="56" rx="12"/><text class="s" x="360" y="450">模型图先展示状态迁移骨架；五问法内容仍按批次深化</text>
+<rect class="panel" x="10" y="10" width="700" height="420" rx="18"/>
+<text class="title" x="32" y="50">0/1 背包分支限界：用松弛上界剪枝</text><rect class="box blue" x="75" y="100" width="170" height="64" rx="12"/><text class="t" x="160.0" y="138.0">部分解 i</text><rect class="box orange" x="300" y="100" width="170" height="64" rx="12"/><text class="t" x="385.0" y="138.0">分数背包</text><rect class="box green" x="520" y="100" width="150" height="64" rx="12"/><text class="t" x="595.0" y="138.0">上界 bound</text><path class="arrow" d="M245,245 L132,132 L296,296 L132,132"/><path class="arrow" d="M470,470 L132,132 L516,516 L132,132"/><rect class="box purple" x="58" y="195" width="614" height="86" rx="12"/><text class="s" x="360" y="221">剩余物品能装则整装；装不下按比例计入</text><text class="s" x="360" y="250">这是 0/1 背包的松弛解，不会低估真实可达价值</text><rect class="box red" x="58" y="305" width="614" height="80" rx="12"/><text class="s" x="360" y="331">若 bound &lt;= best，整棵子树不可能改善答案</text><text class="s" x="360" y="360">立即剪枝，不再枚举剩余选择</text><text class="s" x="360" y="415">方向必须正确：最大化问题用上界</text>
 </svg>

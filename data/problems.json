@@ -5951,10 +5951,27 @@
           "source": "class Solution {\n    public void sortColors(int[] nums) {\n        int left = 0, i = 0, right = nums.length - 1;\n        while (i <= right) {\n            if (nums[i] == 0) { int t = nums[i]; nums[i++] = nums[left]; nums[left++] = t; }\n            else if (nums[i] == 2) { int t = nums[i]; nums[i] = nums[right]; nums[right--] = t; }\n            else i++;\n        }\n    }\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p125-model.svg",
-        "alt": "颜色分类 的模型级状态图",
-        "caption": "稳定性和数据分布决定算法。 不变量：已完成部分与未处理部分边界清晰。"
+      "understanding": {
+        "brute_force": "枚举 0/1/2 的所有排列方式并检查每种方式是否可由原数组交换得到，或者先计数再重建数组。",
+        "bottleneck": "计数重建需要两次遍历；很多交换写法会反复比较多个边界，状态不清晰。",
+        "key_observation": "用三个边界把数组切成四段：[0,zero) 全是 0，[zero,i) 全是 1，(i,two] 未处理，(two,n) 全是 2。",
+        "why_correct": "交换 2 到右侧后 i 不前进，因为换回来的元素未处理；交换 0 到左侧后 i 前进，因为换来的只能是 1 或未处理边界已经确定。红色区域始终单调扩大。",
+        "trace": [
+          "nums=[2,0,2,1,1,0]，left=i=0，right=5。",
+          "i=0 是 2，与 right 交换：[0,0,2,1,1,2]，right=4。",
+          "i=0 是 0，与 left 交换后 left=1，i=1。",
+          "i=1 是 0，交换自身，left=2，i=2；此时 [0,0] 已完成。",
+          "i=2 是 2，与 nums[4]=1 交换：[0,0,1,1,2,2]，right=3；随后两个 1 稳定通过。"
+        ],
+        "transfer": [
+          "多于两类但可枚举的元素，优先考虑三路分区或计数。",
+          "交换型原地排序必须说明换回元素是否会再次处理。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p125-sort-colors.svg",
+          "alt": "颜色分类的三路分区边界",
+          "caption": "三个边界把数组切成 0 区、1 区、未处理区和 2 区。"
+        }
       }
     }
   },
@@ -5999,10 +6016,27 @@
           "source": "class Solution {\n    private int[] temp;\n    public int countInversions(int[] nums) {\n        temp = new int[nums.length];\n        return (int) (merge(nums, 0, nums.length - 1) % 1_000_000_007L);\n    }\n    private long merge(int[] a, int l, int r) {\n        if (l >= r) return 0;\n        int m = (l + r) / 2, i = l, j = m + 1, k = l;\n        long ans = merge(a, l, m) + merge(a, m + 1, r);\n        while (i <= m && j <= r) {\n            if (a[i] <= a[j]) temp[k++] = a[i++];\n            else { ans += m - i + 1; temp[k++] = a[j++]; }\n        }\n        while (i <= m) temp[k++] = a[i++];\n        while (j <= r) temp[k++] = a[j++];\n        System.arraycopy(temp, l, a, l, r - l + 1);\n        return ans;\n    }\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p126-model.svg",
-        "alt": "数组中的逆序对 的模型级状态图",
-        "caption": "稳定性和数据分布决定算法。 不变量：已完成部分与未处理部分边界清晰。"
+      "understanding": {
+        "brute_force": "双重循环枚举所有 i<j，检查 nums[i]>nums[j]。",
+        "bottleneck": "n 个元素的 pair 数是 O(n^2)，而归并排序本身已经在比较左右元素，逆序信息被丢弃。",
+        "key_observation": "合并左半和右半时，若右半元素 a[j] 被取出，说明左半剩余的每个元素都大于 a[j]，一次性产生 m-i+1 个逆序对。",
+        "why_correct": "左半内部和右半内部逆序对在递归中统计；跨越左右的逆序对在合并时完整统计。左右各自有序后，m-i+1 精确表示剩余左元素都大于当前右元素。",
+        "trace": [
+          "nums=[7,5,6,4] 分成 [7,5] 和 [6,4]。",
+          "左半：7>5，计 1，得 [5,7]；右半：6>4，计 1，得 [4,6]。",
+          "合并 [5,7] 和 [4,6]：取 4 时左半剩 5,7，计 2。",
+          "取 5 时右半剩 6，无新增；取 6 时左半剩 7，计 1。",
+          "总数 1+1+2+1=5。"
+        ],
+        "transfer": [
+          "统计跨半关系的量时，优先在分治合并处计算。",
+          "相等元素不是逆序，比较必须用 <= 保持稳定并避免多算。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p126-inversions.svg",
+          "alt": "归并排序统计逆序对",
+          "caption": "取出右半元素时，左半剩余元素全部构成跨半逆序。"
+        }
       }
     }
   },
@@ -6050,6 +6084,22 @@
           "source": "class Solution {\n    public int maximumGap(int[] nums) {\n        if (nums.length < 2) return 0;\n        int lo = Integer.MAX_VALUE, hi = Integer.MIN_VALUE;\n        for (int x : nums) { lo = Math.min(lo, x); hi = Math.max(hi, x); }\n        if (lo == hi) return 0;\n        int n = nums.length, size = Math.max(1, (hi - lo) / (n - 1)), count = (hi - lo) / size + 1;\n        int[][] buckets = new int[count][2];\n        for (int[] b : buckets) { b[0] = Integer.MAX_VALUE; b[1] = Integer.MIN_VALUE; }\n        for (int x : nums) {\n            int i = (x - lo) / size;\n            buckets[i][0] = Math.min(buckets[i][0], x);\n            buckets[i][1] = Math.max(buckets[i][1], x);\n        }\n        int ans = 0, prev = lo;\n        for (int[] b : buckets) {\n            if (b[0] == Integer.MAX_VALUE) continue;\n            ans = Math.max(ans, b[0] - prev); prev = b[1];\n        }\n        return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "先排序，再扫描相邻差值，时间 O(n log n)。",
+        "bottleneck": "题目要求线性时间，完整比较排序不符合期望；但其实也不需要桶内顺序。",
+        "key_observation": "n 个数有 n-1 个间隙。按桶宽 (max-min)/(n-1) 分桶后，最大间距不可能出现在同桶内部，只会出现在下一个非空桶最小值与前一个非空桶最大值之间。",
+        "why_correct": "若最大间距在同一桶内，其值小于等于桶宽；由鸽巢原理必然存在某个桶间隙不小于桶宽，因此全局最大间距可由桶间差得到。",
+        "trace": [
+          "nums=[3,6,9,1]，min=1，max=9，n=4，桶宽 2。",
+          "3 进入桶 1，6 和 9 进入桶 2 或更高，1 进入桶 0。",
+          "扫描非空桶：1 -> 3 差 2，3 -> 6 差 3，6 -> 9 差 3。",
+          "最大间距 3。"
+        ],
+        "transfer": [
+          "线性时间求排序相邻统计量时，先考虑值域分桶。",
+          "答案只在桶间时，无需维护桶内完整顺序。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p127-model.svg",
         "alt": "无序数组的最大间距 的模型级状态图",
@@ -6098,6 +6148,22 @@
           "source": "class Solution {\n    public int[] relativeSortArray(int[] arr1, int[] arr2) {\n        int[] count = new int[1001];\n        for (int x : arr1) count[x]++;\n        int[] ans = new int[arr1.length]; int k = 0;\n        for (int x : arr2) while (count[x]-- > 0) ans[k++] = x;\n        for (int x = 0; x <= 1000; x++) while (count[x]-- > 0) ans[k++] = x;\n        return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "自定义比较器对 arr1 排序：arr2 中靠前的较小，不在 arr2 的按值排。",
+        "bottleneck": "比较排序每次比较都要查 arr2 的位置，且复杂度 O(n log n)；arr2 顺序其实就是固定优先级。",
+        "key_observation": "统计 arr1 频次后，按 arr2 顺序输出；再按值域升序输出剩余元素。",
+        "why_correct": "Counter 保留每个值次数。先输出所有 arr2 中值，保持 arr2 的完整顺序；删除计数后，剩余值不会重复或遗漏。",
+        "trace": [
+          "arr1=[2,3,1,3,2,4,6,7,5,5]，arr2=[2,1,4,3,9,6]。",
+          "先输出两个 2，再输出一个 1，一个 4，两个 3。",
+          "arr2 中没有 9，所以不输出 9。",
+          "剩余 5,5,6,7 按升序补尾。"
+        ],
+        "transfer": [
+          "固定优先级排序优先计数，而非自定义比较器。",
+          "不在主顺序中的元素可复用计数结构并按值域排序。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p128-model.svg",
         "alt": "相对排序 的模型级状态图",
@@ -6149,6 +6215,23 @@
           "source": "import java.util.*;\nclass Solution {\n    public String largestNumber(int[] nums) {\n        String[] a = Arrays.stream(nums).mapToObj(String::valueOf).toArray(String[]::new);\n        Arrays.sort(a, (x,y) -> (y+x).compareTo(x+y));\n        if (a[0].equals(\"0\")) return \"0\";\n        return String.join(\"\", a);\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "枚举数组所有排列并拼接，取最大字符串。",
+        "bottleneck": "排列数量是 n!；且整数大小比较无法处理前缀关系，例如 3 与 30。",
+        "key_observation": "两个字符串 a,b 的先后只需比较 a+b 与 b+b 的字典序。这种比较满足传递性，因此排序后拼接最优。",
+        "why_correct": "若 a+b >= b+a，把 a 放在任何 b 之后都不会改善结果。交换任意相邻逆序对不会减少拼接值，因此字典序最大的排序达到全局最大。",
+        "trace": [
+          "nums=[3,30,34,5,9]。",
+          "比较 3 和 30：330 > 303，所以 3 在 30 前。",
+          "比较 30 和 34：3430 > 3034，所以 34 在 30 前。",
+          "排序得到 9,5,34,3,30。",
+          "拼接为 9534330。"
+        ],
+        "transfer": [
+          "拼接最优常用相邻交换比较器。",
+          "结果可能全是 0，必须压缩为单个 0。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p129-model.svg",
         "alt": "最大拼接数 的模型级状态图",
@@ -6196,10 +6279,26 @@
           "source": "class Trie {\n    private Trie[] children = new Trie[26]; private boolean end;\n    public void insert(String word) {\n        Trie node=this; for(char c:word.toCharArray()){int i=c-'a'; if(node.children[i]==null) node.children[i]=new Trie(); node=node.children[i];} node.end=true;\n    }\n    private Trie find(String s){Trie node=this;for(char c:s.toCharArray()){node=node.children[c-'a'];if(node==null)return null;}return node;}\n    public boolean search(String word){Trie n=find(word);return n!=null&&n.end;}\n    public boolean startsWith(String prefix){return find(prefix)!=null;}\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p130-model.svg",
-        "alt": "实现 Trie 的模型级状态图",
-        "caption": "共享前缀只存一次。 不变量：从根到节点是一条真实前缀。"
+      "understanding": {
+        "brute_force": "把所有单词放入集合；前缀查询遍历所有单词并逐个判断。",
+        "bottleneck": "大量单词共享前缀时，前缀查询重复扫描整个集合，无法利用共享结构。",
+        "key_observation": "从根到节点是一条字符串路径。插入和查询都沿字符边移动；完整词还需要 is_end 标记。",
+        "why_correct": "Trie 的每条边确定一个字符，查找失败说明没有任何单词具有该前缀；is_end 区分“只是前缀”和“完整单词”。",
+        "trace": [
+          "插入 apple：root -> a -> p -> p -> l -> e，并把 e 节点标记为词尾。",
+          "search(apple) 沿五条边到达 e，且 is_end 为真。",
+          "search(app) 能到达 p，但该节点不是词尾。",
+          "startsWith(app) 只要求路径存在，所以为真。"
+        ],
+        "transfer": [
+          "前缀、字典序、公共前缀问题优先考虑 Trie。",
+          "哈希表适合完整词，Trie 适合共享路径。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p130-trie-path.svg",
+          "alt": "Trie 前缀路径与 end 标记",
+          "caption": "app 是路径；apple 才是完整单词。"
+        }
       }
     }
   },
@@ -6243,6 +6342,22 @@
           "source": "class WordDictionary {\n    private WordDictionary[] children=new WordDictionary[26]; private boolean end;\n    public void addWord(String word){WordDictionary node=this;for(char c:word.toCharArray()){int i=c-'a';if(node.children[i]==null)node.children[i]=new WordDictionary();node=node.children[i];}node.end=true;}\n    public boolean search(String word){return dfs(word,0,this);}\n    private boolean dfs(String word,int i,WordDictionary node){\n        if(i==word.length())return node.end;\n        char c=word.charAt(i);\n        if(c!='.') return node.children[c-'a']!=null&&dfs(word,i+1,node.children[c-'a']);\n        for(WordDictionary child:node.children) if(child!=null&&dfs(word,i+1,child)) return true;\n        return false;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "保存所有单词，搜索时对每个词逐字符比较，并把 '.' 当任意字符。",
+        "bottleneck": "通配符会让暴力匹配回到 O(NL)；同一前缀的大量候选没有被共享。",
+        "key_observation": "Trie 中非通配符沿单边走；遇到 '.' 时分支所有子节点。搜索状态是 Trie 节点和文本下标。",
+        "why_correct": "DFS 穷举所有通配符展开方式；非通配符只保留唯一可行边。到达词尾时检查 is_end，保证完整匹配。",
+        "trace": [
+          "插入 bad。",
+          "search(b..) 先走 b；在第二个字符遇到 '.'，分支 a。",
+          "继续 '.'，分支 d；到达节点后检查 is_end 为真。",
+          "因此 b.. 匹配 bad。"
+        ],
+        "transfer": [
+          "模式串中的单字符通配符适合 Trie + DFS。",
+          "多字符通配符或正则需要更复杂的自动机状态。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p131-model.svg",
         "alt": "添加与搜索单词 的模型级状态图",
@@ -6291,10 +6406,27 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<String> findWords(char[][] board, String[] words) {\n        TrieNode root=new TrieNode(); for(String w:words){TrieNode node=root;for(char c:w.toCharArray()){int i=c-'a';if(node.children[i]==null)node.children[i]=new TrieNode();node=node.children[i];}node.word=w;}\n        Set<String> ans=new HashSet<>(); int m=board.length,n=board[0].length;\n        for(int i=0;i<m;i++)for(int j=0;j<n;j++) dfs(board,i,j,root,ans);\n        return new ArrayList<>(ans);\n    }\n    private void dfs(char[][] b,int i,int j,TrieNode node,Set<String> ans){\n        char c=b[i][j]; TrieNode next=node.children[c-'a']; if(next==null)return;\n        if(next.word!=null){ans.add(next.word);next.word=null;}\n        b[i][j]='#'; int[][] d={{1,0},{-1,0},{0,1},{0,-1}};\n        for(int[] p:d){int a=i+p[0],k=j+p[1];if(a>=0&&a<b.length&&k>=0&&k<b[0].length&&b[a][k]!='#')dfs(b,a,k,next,ans);}\n        b[i][j]=c;\n    }\n    class TrieNode{String word;TrieNode[] children=new TrieNode[26];}\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p132-model.svg",
-        "alt": "单词搜索 II 的模型级状态图",
-        "caption": "共享前缀只存一次。 不变量：从根到节点是一条真实前缀。"
+      "understanding": {
+        "brute_force": "对每个单词分别从每个格子做 DFS，复杂度随单词数量成倍增长。",
+        "bottleneck": "多个单词共享前缀时，网格路径被重复探索；已探索前缀的未来可能性没有共享。",
+        "key_observation": "把 words 建成 Trie，让网格 DFS 和 Trie 指针同步移动。若当前 Trie 节点没有当前格子的边，整条子树立即剪掉。",
+        "why_correct": "网格路径与 Trie 路径一一对应。Trie 共享所有词前缀，DFS 到某节点表示当前格子路径是该节点的公共前缀；子节点搜索覆盖所有以它为前缀的单词。",
+        "trace": [
+          "board=[[o,x],[a,t],[x,h]]，words=[oa,oath]。",
+          "从 o 出发，Trie 中有边 o；右邻 a 也有边，先匹配 oa。",
+          "继续从 a 向下到 t，匹配 oat 前缀。",
+          "t 向下到 h，匹配完整 oath。",
+          "恢复格子后继续搜索，最终输出 oa 和 oath。"
+        ],
+        "transfer": [
+          "多模式串与网格路径结合时，先建 Trie。",
+          "匹配成功后清除词尾标记可避免重复答案。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p132-trie-dfs.svg",
+          "alt": "网格 DFS 与 Trie 同步匹配",
+          "caption": "Trie 无边时剪掉整段网格路径；共享前缀只搜一次。"
+        }
       }
     }
   },
@@ -6339,6 +6471,22 @@
           "source": "class Solution {\n    private Trie root=new Trie();\n    class Trie{Trie[] children=new Trie[26];boolean end;}\n    public String replaceWords(java.util.List<String> dictionary,String sentence){\n        for(String w:dictionary){Trie node=root;for(char c:w.toCharArray()){int i=c-'a';if(node.children[i]==null)node.children[i]=new Trie();node=node.children[i];}node.end=true;}\n        StringBuilder sb=new StringBuilder();\n        for(String w:sentence.split(\" \")){if(sb.length()>0)sb.append(' ');sb.append(replace(w));}\n        return sb.toString();\n    }\n    private String replace(String w){Trie node=root;\n        for(int i=0;i<w.length();i++){int c=w.charAt(i)-'a';if(node.children[c]==null)return w;node=node.children[c];if(node.end)return w.substring(0,i+1);}return w;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "对句子中每个单词，遍历 dictionary 中所有词根并检查是否为前缀。",
+        "bottleneck": "每个词要检查所有词根，且短词根多次匹配时不知道何时停止。",
+        "key_observation": "把词根建 Trie。沿单词字符走，第一次遇到 is_end 的 Trie 节点就是最短词根；可立即替换。",
+        "why_correct": "Trie 路径长度等于已匹配前缀长度。第一次到达词尾时，该词根长度小于后续任何可行词根；路径断裂则无词根匹配。",
+        "trace": [
+          "dictionary=[cat,bat,rat]。",
+          "cattle 从 c-a-t 走到词尾，替换为 cat。",
+          "rattled 从 r-a-t 走到词尾，替换为 rat。",
+          "battery 的 bat 是最短词根，替换为 bat。"
+        ],
+        "transfer": [
+          "最短前缀替换优先沿 Trie 找第一个词尾。",
+          "词根必须完整存在于 Trie，不能只匹配部分字符。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p133-model.svg",
         "alt": "单词替换 的模型级状态图",
@@ -6387,6 +6535,22 @@
           "source": "class Solution {\n    class Node{Node[] children=new Node[2];}\n    public int findMaximumXOR(int[] nums){Node root=new Node();int ans=0;\n        for(int x:nums){if(root.children[0]!=null||root.children[1]!=null)ans=Math.max(ans,query(root,x));insert(root,x);}return ans;}\n    private void insert(Node root,int x){Node node=root;for(int i=31;i>=0;i--){int b=(x>>i)&1;if(node.children[b]==null)node.children[b]=new Node();node=node.children[b];}}\n    private int query(Node root,int x){Node node=root;int ans=0;for(int i=31;i>=0;i--){int b=(x>>i)&1;int want=1-b;if(node.children[want]!=null){ans|=1<<i;node=node.children[want];}else node=node.children[b];}return ans;}\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "双重循环枚举所有 pair，计算 x xor y 的最大值。",
+        "bottleneck": "O(n^2) 次异或重复比较大量高位相同的数；高位结论没有被利用。",
+        "key_observation": "异或值从最高位到最低位贪心。对当前数 x 的每一位 b，若历史数中存在相反位 1-b，则当前位可得到 1。",
+        "why_correct": "高位为 1 一定优于低位全为 1。二进制 Trie 保存历史数；查询时优先走相反位，否则退而走同位，保证每一位做出当前可行最优选择。",
+        "trace": [
+          "nums=[3,10,5,25,2,8]。",
+          "先插入 3；查询 10 时，高位路径产生有限异或值。",
+          "插入 5 后查询 25：5 和 25 在高位大量相反，得到 28。",
+          "后续数无法超过 28，最终答案 28。"
+        ],
+        "transfer": [
+          "最大异或问题常用从高到低的二进制 Trie。",
+          "要求两个不同下标时，先查询已有数再插入当前数。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p134-model.svg",
         "alt": "数组中两个数的最大异或值 的模型级状态图",
@@ -6434,6 +6598,23 @@
           "source": "class Solution {\n    public TreeNode sortedArrayToBST(int[] nums){return build(nums,0,nums.length-1);}\n    private TreeNode build(int[] a,int l,int r){if(l>r)return null;int m=(l+r)/2;TreeNode root=new TreeNode(a[m]);root.left=build(a,l,m-1);root.right=build(a,m+1,r);return root;}\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "按顺序把每个数插入普通 BST，再检查或旋转平衡。",
+        "bottleneck": "有序插入会退化为右链，后续需要额外旋转；输入本身就是有序的，可直接选择根。",
+        "key_observation": "取区间中点作根，左半递归建左子树，右半递归建右子树。两侧长度最多差 1，因此整体高度平衡。",
+        "why_correct": "中点满足 BST 顺序：左侧全部小于根，右侧全部大于根。递归构造保证左右子树分别平衡，左右子树高度差不超过 1。",
+        "trace": [
+          "nums=[-10,-3,0,5,9]。",
+          "取中点 0 作根。",
+          "左区间 [-10,-3] 取 -3 作左子树根，其左孩子是 -10。",
+          "右区间 [5,9] 取 9 作右子树根，其左孩子是 5。",
+          "整棵树高度平衡。"
+        ],
+        "transfer": [
+          "有序数组建平衡结构时，分治中点是最直接方案。",
+          "有序链表建平衡 BST 则应先找中点并断链。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p135-model.svg",
         "alt": "有序数组转平衡 BST 的模型级状态图",
@@ -6481,10 +6662,26 @@
           "source": "import java.util.*;\nclass MyCalendar {\n    private TreeMap<Integer,Integer> events=new TreeMap<>();\n    public boolean book(int start,int end){\n        Map.Entry<Integer,Integer> prev=events.floorEntry(start), next=events.ceilingEntry(start);\n        if(prev!=null&&prev.getValue()>start)return false;\n        if(next!=null&&next.getKey()<end)return false;\n        events.put(start,end);return true;\n    }\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p136-model.svg",
-        "alt": "我的日程安排 I 的模型级状态图",
-        "caption": "平衡是局部旋转换来的全局高度。 不变量：中序顺序不因旋转改变。"
+      "understanding": {
+        "brute_force": "保存所有已预订区间；每次新区间扫描全部旧区间判断重叠。",
+        "bottleneck": "每次都要检查所有事件，但按 start 排序后，只有前驱和后继可能相邻。",
+        "key_observation": "维护按 start 有序的结构。新区间 [start,end) 只需检查：前驱的 end 是否超过 start，后继的 start 是否小于 end。",
+        "why_correct": "前驱 start<=start，若其 end<=start 则与前驱不重叠；后继 start>=start，若其 start>=end 则与新区间不重叠。更远区间由有序性隔开。",
+        "trace": [
+          "book(10,20)：空日历，插入成功。",
+          "book(15,25)：前驱 [10,20] 的 end=20>15，冲突。",
+          "book(20,30)：前驱 end=20 不超过 20，后继不存在，插入成功。",
+          "区间端点相接视为不重叠。"
+        ],
+        "transfer": [
+          "动态插入区间并判断冲突用有序映射或平衡树。",
+          "只查相邻候选即可时，不要线性扫描全量。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p136-calendar.svg",
+          "alt": "日程安排的前驱与后继检查",
+          "caption": "有序结构只需检查相邻区间是否重叠。"
+        }
       }
     }
   },
@@ -6528,10 +6725,27 @@
           "source": "class Solution {\n    private int[] tree;\n    public java.util.List<Integer> countSmaller(int[] nums){\n        int[] sorted=nums.clone();java.util.Arrays.sort(sorted);java.util.Map<Integer,Integer> rank=new java.util.HashMap<>();int m=0;\n        for(int x:sorted)if(!rank.containsKey(x))rank.put(x,++m);\n        tree=new int[m+1];java.util.List<Integer> ans=new java.util.ArrayList<>();\n        for(int i=nums.length-1;i>=0;i--){int r=rank.get(nums[i]);ans.add(query(r-1));update(r);}\n        java.util.Collections.reverse(ans);return ans;\n    }\n    private void update(int i){for(;i<tree.length;i+=i&-i)tree[i]++;}\n    private int query(int i){int s=0;for(;i>0;i-=i&-i)s+=tree[i];return s;}\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p137-model.svg",
-        "alt": "右侧小于当前元素的个数 的模型级状态图",
-        "caption": "平衡是局部旋转换来的全局高度。 不变量：中序顺序不因旋转改变。"
+      "understanding": {
+        "brute_force": "对每个 i，向右扫描所有 j，统计 nums[j]<nums[i]。",
+        "bottleneck": "右侧扫描重复比较大量数；只是缺少“右侧已出现值的动态计数”。",
+        "key_observation": "从右向左处理。BIT 的前缀 query(r-1) 给出已插入值中 rank 小于 nums[i] 的数量；随后 update(r) 把当前值加入右侧集合。",
+        "why_correct": "离散化保持大小关系。处理到 i 时，BIT 中恰好只有右侧元素；query(r-1) 统计 rank 小于等于 r-1 的已出现值，即严格小于当前值。",
+        "trace": [
+          "nums=[5,2,6,1]，离散 rank：1->1,2->2,5->3,6->4。",
+          "从右到左：1 的 rank=2，query(1)=0，插入 rank2。",
+          "6 的 rank=4，query(3)=1，插入 rank4。",
+          "2 的 rank=2，query(1)=0，插入 rank2；5 的 rank=3，query(2)=1。",
+          "反转得到 [2,1,1,0]。"
+        ],
+        "transfer": [
+          "动态排名计数先离散化，再选择 BIT。",
+          "严格比较要小心 query(r) 还是 query(r-1)。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p137-bit-query.svg",
+          "alt": "BIT 从右向左查询和插入",
+          "caption": "先查询右侧严格小于当前值的数量，再插入当前值。"
+        }
       }
     }
   },
@@ -6575,6 +6789,22 @@
           "source": "class NumArray {\n    private int[] nums; private long[] tree;\n    public NumArray(int[] values){nums=values.clone();tree=new long[values.length+1];for(int i=0;i<values.length;i++)for(int j=i+1;j<=values.length;j+=j&-j)tree[j]+=values[i];}\n    public void update(int index,int val){int delta=val-nums[index];nums[index]=val;for(int i=index+1;i<tree.length;i+=i&-i)tree[i]+=delta;}\n    private long prefix(int i){long s=0;for(;i>0;i-=i&-i)s+=tree[i];return s;}\n    public int sumRange(int left,int right){return (int)(prefix(right+1)-prefix(left));}\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "sumRange 直接扫区间；update 直接改数组。两者总有一方 O(n)。",
+        "bottleneck": "前缀和更新困难；差分或前缀数组又无法快速回答任意区间。",
+        "key_observation": "BIT 支持单点增量更新和前缀和查询。区间和 = prefix(right+1)-prefix(left)。update 时只需减旧值加新值。",
+        "why_correct": "BIT 每个 tree[i] 覆盖一段固定下标。单点 delta 会沿所有覆盖它的节点传播；前缀和查询按二进制分解累加，恰好覆盖 [1,i]。",
+        "trace": [
+          "nums=[1,3,5]，BIT 初始化后 sumRange(0,2)=prefix(3)=9。",
+          "update(1,2)：旧值 3，delta=-1。",
+          "BIT 中覆盖下标 1 的节点都减 1。",
+          "sumRange(0,2)=prefix(3)=8。"
+        ],
+        "transfer": [
+          "单点更新 + 区间和用 BIT；区间更新 + 区间和需要差分 BIT 或线段树。",
+          "update 是赋值，必须先求 delta。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p138-model.svg",
         "alt": "区域和检索 - 数组可修改 的模型级状态图",
@@ -6601,7 +6831,7 @@
     ],
     "examples": [
       {
-        "input": "keys=[1,2,3,4,5], t=2",
+        "input": "keys=[1,2,3,4,5], t=3",
         "output": "[[1,2],3,[4,5]]"
       }
     ],
@@ -6623,10 +6853,27 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<List<Integer>> splitLeaf(List<Integer> keys,int t){\n        int mid=t-1;\n        return List.of(new ArrayList<>(keys.subList(0,mid)),List.of(keys.get(mid)),new ArrayList<>(keys.subList(mid+1,keys.size())));\n    }\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p139-model.svg",
-        "alt": "B+ 树节点分裂 的模型级状态图",
-        "caption": "磁盘页大小决定分支因子。 不变量：节点键数处于上下界之间。"
+      "understanding": {
+        "brute_force": "尝试所有把节点键分成两部分的方案，再检查 B 树规则。",
+        "bottleneck": "满节点长度固定为 2t-1，合法分裂方式其实唯一：中间键上移。",
+        "key_observation": "B 树要求左右子节点各有 t-1 个键。满节点 2t-1 个键中，下标 t-1 正好留给父节点，左侧 t-1 个，右侧 t-1 个。",
+        "why_correct": "keys 升序时，左侧全部小于 keys[t-1]，右侧全部大于 separator；两个子节点键数都满足最小度数，节点高度层级保持一致。",
+        "trace": [
+          "keys=[1,2,3,4,5]，t=2。",
+          "separator 下标 t-1=1，即 2。",
+          "左节点得到 [1]，右节点得到 [3,4,5]？注意满节点长度必须为 2t-1=3；若输入是 5 个键，说明 t=3。",
+          "当 t=3 时 separator=keys[2]=3，左 [1,2]，右 [4,5]。",
+          "因此返回 [[1,2],3,[4,5]]。"
+        ],
+        "transfer": [
+          "B 树分裂首先确定 separator，再切割左右。",
+          "满节点键数和最小度数的关系必须先核对。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p139-bplus-split.svg",
+          "alt": "B+ 树满节点分裂",
+          "caption": "中间键上移；左右各保留 t-1 个键。"
+        }
       }
     }
   },
@@ -6671,6 +6918,23 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<Integer> rangeQuery(List<List<Integer>> leaves,int start,int end){\n        List<Integer> ans=new ArrayList<>();\n        for(List<Integer> page:leaves){\n            if(page.isEmpty()||page.get(page.size()-1)<start)continue;\n            for(int x:page){if(x>end)return ans;if(x>=start)ans.add(x);}\n            if(page.get(page.size()-1)>end)break;\n        }\n        return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "把所有叶子键展平成一个数组，排序后过滤范围。",
+        "bottleneck": "B+ 树叶子页本身已按全局顺序排列，展开排序丢弃了页边界和范围可提前停止的信息。",
+        "key_observation": "先跳过最后一键小于 start 的页；页内二分定位起点；沿页顺序扫描，直到键超过 end。",
+        "why_correct": "叶子页之间全局有序。第一个大于等于 start 的键之后的所有键都递增，因此扫描不会漏解；遇到超过 end 的键可安全停止。",
+        "trace": [
+          "leaves=[[1,3],[5,7],[9]]，range=[3,8]。",
+          "第一页 [1,3] 中 3 >= start，输出 3。",
+          "第二页 [5,7] 中 5、7 都在范围内。",
+          "第三页 9 超过 end，停止。",
+          "返回 [3,5,7]。"
+        ],
+        "transfer": [
+          "B+ 树范围查询的价值是定位后顺序扫描。",
+          "页内二分、页间顺序是两个层次的结构。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p140-model.svg",
         "alt": "B+ 树范围查询 的模型级状态图",
@@ -6720,6 +6984,23 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<List<Integer>> mergePages(List<List<Integer>> pages,int capacity){\n        List<List<Integer>> ans=new ArrayList<>();List<Integer> cur=new ArrayList<>();long total=0;\n        for(List<Integer> page:pages)for(int x:page){if(total+x>capacity){if(!cur.isEmpty())ans.add(cur);cur=new ArrayList<>();total=0;}cur.add(x);total+=x;}\n        if(!cur.isEmpty())ans.add(cur);return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "枚举所有相邻页合并方案，选择页数最少的合法组合。",
+        "bottleneck": "页必须保持顺序且页不可拆分；全局重排会破坏 B+ 树叶子链表语义。",
+        "key_observation": "顺序扫描即可：当前页能放入则合并；一旦放入下一页会超过 capacity，就关闭当前页并开启新页。",
+        "why_correct": "相邻页顺序固定，每一步只关心当前累积容量。贪心填充当前页不会减少后续选择，只会保留最大可用空间给后续内容。",
+        "trace": [
+          "pages=[[1,2],[3],[4,5]]，capacity=6。",
+          "第一页作为整体放入，total=3。",
+          "第二页 [3] 总和 6，仍可放入，得到 [1,2,3]。",
+          "第三页 [4,5] 总和 9，超过剩余容量，整页开启新页。",
+          "最终 [[1,2,3],[4],[5]]，页是不可拆分单位。"
+        ],
+        "transfer": [
+          "顺序装填且元素不可拆分时，用扫描贪心。",
+          "若允许拆页，答案与页合并完全不同。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p141-model.svg",
         "alt": "合并相邻索引页 的模型级状态图",
@@ -6768,10 +7049,27 @@
           "source": "import java.util.*;\nclass Solution {\n    private int best;\n    private int[][] items;\n    public int knapsack(int[][] input,int capacity){\n        items=input.clone();Arrays.sort(items,(a,b)->Double.compare((double)b[1]/b[0],(double)a[1]/a[0]));best=0;dfs(0,0,capacity);return best;\n    }\n    private double bound(int i,int value,int left){double total=value;for(;i<items.length;i++){int w=items[i][0],v=items[i][1];if(w<=left){total+=v;left-=w;}else{total+=(double)v*left/w;break;}}return total;}\n    private void dfs(int i,int value,int left){if(i==items.length||left==0){best=Math.max(best,value);return;}if(bound(i,value,left)<=best)return;int w=items[i][0],v=items[i][1];if(w<=left)dfs(i+1,value+v,left-w);dfs(i+1,value,left);}\n}"
         }
       ],
-      "diagram": {
-        "src": "./assets/diagrams/problem-p142-model.svg",
-        "alt": "0/1 背包：上界剪枝 的模型级状态图",
-        "caption": "尽早得到强上界，剪枝才有威力。 不变量：界必须松弛且方向正确。"
+      "understanding": {
+        "brute_force": "枚举每个物品选或不选，共 2^n 种子集，保留总重不超过容量的最大价值。",
+        "bottleneck": "许多部分解即使继续装满剩余容量，也不可能超过当前 best；但暴力仍会展开。",
+        "key_observation": "按单位价值排序后，对部分解 i 计算分数背包上界：剩余物品可整装则装入，最后装不下的物品按比例计入。",
+        "why_correct": "分数背包是 0/1 背包的松弛解，因此一定不小于该分支真实最优值。若该松弛上界 <= best，则分支不可能改善答案，可整棵剪掉。",
+        "trace": [
+          "items=[[2,3],[3,4],[4,5],[5,6]]，capacity=5。",
+          "按单位价值排序后搜索。",
+          "某分支当前 value=4，剩余容量 2，剩余上界不足以超过 best 时剪掉。",
+          "可行分支 3+4=7 成为 best。",
+          "其他分支上界不超过 7，最终返回 7。"
+        ],
+        "transfer": [
+          "分支限界的界必须松弛且方向正确。",
+          "先获得较优 best，可显著增强剪枝。"
+        ],
+        "diagram": {
+          "src": "./assets/diagrams/problem-p142-knapsack-bound.svg",
+          "alt": "0/1 背包的分数背包上界",
+          "caption": "上界不超过当前最优值时，整棵子树剪枝。"
+        }
       }
     }
   },
@@ -6815,6 +7113,23 @@
           "source": "import java.util.*;\nclass Solution {\n    public int travelingSalesman(int[][] cost){int n=cost.length,full=(1<<n)-1;long[][] dp=new long[1<<n][n];for(long[] row:dp)Arrays.fill(row,Long.MAX_VALUE);dp[1][0]=0L;\n        for(int mask=1;mask<=full;mask++){if((mask&1)==0)continue;for(int last=0;last<n;last++){if((mask>>last&1)==0||dp[mask][last]==Long.MAX_VALUE)continue;for(int next=0;next<n;next++){if((mask>>next&1)!=0)continue;int nm=mask|1<<next;dp[nm][next]=Math.min(dp[nm][next],dp[mask][last]+cost[last][next]);}}}\n        long ans=Long.MAX_VALUE;for(int i=1;i<n;i++)if(dp[full][i]<Long.MAX_VALUE)ans=Math.min(ans,dp[full][i]+cost[i][0]);return ans==Long.MAX_VALUE?-1:(int)ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "枚举所有城市排列，从 0 出发依次走完再回到 0，取最小成本。",
+        "bottleneck": "排列数量是 (n-1)!；大量状态只关心“已访问集合和当前城市”，不关心访问顺序。",
+        "key_observation": "定义 dp[mask][i] 表示已访问集合为 mask、当前在城市 i 的最小成本。扩展未访问城市 nxt 时，只需从 dp[mask][i] 加 cost[i][nxt]。",
+        "why_correct": "mask 和 last 决定未来可达状态，历史访问顺序不影响未来成本，满足无后效性。所有转移覆盖每个未访问城市，最后从任意末城回 0。",
+        "trace": [
+          "cost=[[0,10,15],[10,0,20],[15,20,0]]。",
+          "dp[{0}][0]=0。",
+          "访问 1 得 dp[{0,1}][1]=10；访问 2 得 dp[{0,2}][2]=15。",
+          "从 1 到 2 得 dp[{0,1,2}][2]=30；从 2 到 1 得 dp[{0,1,2}][1]=35。",
+          "返回 30+cost[2][0]=45。"
+        ],
+        "transfer": [
+          "n<=20 的集合路径问题用状压 DP 或分支限界。",
+          "最后回到起点必须在所有城市访问完后统一处理。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p143-model.svg",
         "alt": "旅行商路径 的模型级状态图",
@@ -6863,6 +7178,23 @@
           "source": "class Solution {\n    public long splitArray(int[] nums,int k){long lo=0,hi=0;for(int x:nums){lo=Math.max(lo,x);hi+=x;}\n        while(lo<hi){long mid=lo+(hi-lo)/2;if(feasible(nums,k,mid))hi=mid;else lo=mid+1;}return lo;}\n    private boolean feasible(int[] nums,int k,long limit){int count=1;long total=0;for(int x:nums){if(total+x>limit){count++;total=x;}else total+=x;}return count<=k;}\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "枚举所有 k-1 个切分位置，计算每个方案的最大段和。",
+        "bottleneck": "切分位置组合爆炸；答案具有单调性：允许的 limit 越大，所需段数越少。",
+        "key_observation": "二分 limit。贪心扫描数组，当前元素会超过 limit 就新开一段；若总段数 <= k，则 limit 可行。",
+        "why_correct": "非负数组中，贪心是给定 limit 下最少段数的策略。若最少段数 <= k，可进一步拆分某些段达到 k 段且每段仍不超过 limit。",
+        "trace": [
+          "nums=[7,2,5,10,8]，k=2，下界 10，上界 32。",
+          "limit=21 时贪心为 [7,2,5],[10,8]，两段可行。",
+          "尝试更小 limit，直到 18。",
+          "limit=18 时 [7,2,5],[10,8] 仍可行，最大段和 18。",
+          "更小的 limit 无法用两段完成。"
+        ],
+        "transfer": [
+          "“最小化最大值”先证明单调性，再二分答案。",
+          "可行性判断要给出最少资源使用方式。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p144-model.svg",
         "alt": "分割数组的最小最大段和 的模型级状态图",
@@ -6911,6 +7243,22 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<List<int[]>> matrixToAdj(int[][] matrix){int n=matrix.length;List<List<int[]>> adj=new ArrayList<>();for(int i=0;i<n;i++)adj.add(new ArrayList<>());\n        for(int i=0;i<n;i++)for(int j=0;j<n;j++)if(matrix[i][j]!=0)adj.get(i).add(new int[]{j,matrix[i][j]});return adj;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "对每对 (i,j) 反复判断是否有边，再把边放入正确容器。",
+        "bottleneck": "一次扫描矩阵就能得到全部边；重复查边没有意义。",
+        "key_observation": "按行扫描 matrix[i][j]。非零值表示一条 i->j 的有向边，直接加入 adj[i]。",
+        "why_correct": "矩阵下标就是边的完整定义：i 是起点，j 是终点，非零是权。每个非零项只属于一个起点的邻接表。",
+        "trace": [
+          "matrix=[[0,2],[0,0]]。",
+          "第 0 行 j=1 权 2，加入 adj[0]=[(1,2)]。",
+          "第 1 行无非零项，adj[1]=[]。",
+          "得到邻接表 [[(1,2)],[]]。"
+        ],
+        "transfer": [
+          "矩阵适合查边，邻接表适合遍历出边。",
+          "0 是否表示无边或权 0，必须由题面定义。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p145-model.svg",
         "alt": "邻接矩阵转邻接表 的模型级状态图",
@@ -6958,6 +7306,22 @@
           "source": "import java.util.*;\nclass Solution {\n    public boolean reachable(int n,int[][] edges,int source,int target){\n        if(source==target)return true;List<List<Integer>> g=new ArrayList<>();for(int i=0;i<n;i++)g.add(new ArrayList<>());for(int[] e:edges)g.get(e[0]).add(e[1]);\n        boolean[] seen=new boolean[n];Deque<Integer> stack=new ArrayDeque<>();stack.push(source);seen[source]=true;\n        while(!stack.isEmpty()){int u=stack.pop();for(int v:g.get(u)){if(v==target)return true;if(!seen[v]){seen[v]=true;stack.push(v);}}}return false;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "对每个查询单独 DFS/BFS source 到 target。",
+        "bottleneck": "一次可达性判断只需要访问 source 能到达的子图，不需要访问全图；但必须防止环重复访问。",
+        "key_observation": "邻接表只加入 u->v。从 source 开始栈式 DFS，visited 记录已访问节点；遇到 target 立即返回。",
+        "why_correct": "栈中节点都是已确认从 source 可达；扩展其出边覆盖所有直接后继。visited 保证每个节点最多处理一次，终止且不漏可达边。",
+        "trace": [
+          "edges=[0->1,1->2]，source=0，target=2。",
+          "访问 0，发现 1 并入栈。",
+          "访问 1，发现 2，2 正是 target。",
+          "返回 true。"
+        ],
+        "transfer": [
+          "有向图不能自动加反向边。",
+          "递归深度过大时使用显式栈。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p146-model.svg",
         "alt": "有向图可达性 的模型级状态图",
@@ -7005,6 +7369,22 @@
           "source": "import java.util.*;\nclass Solution {\n    public List<Integer> nodesReaching(int n,int[][] edges,int target){\n        List<List<Integer>> rg=new ArrayList<>();for(int i=0;i<n;i++)rg.add(new ArrayList<>());for(int[] e:edges)rg.get(e[1]).add(e[0]);\n        boolean[] seen=new boolean[n];Deque<Integer> stack=new ArrayDeque<>();stack.push(target);seen[target]=true;List<Integer> ans=new ArrayList<>();\n        while(!stack.isEmpty()){int u=stack.pop();ans.add(u);for(int v:rg.get(u))if(!seen[v]){seen[v]=true;stack.push(v);}}\n        java.util.Collections.sort(ans);return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "对每个 u 单独判断 u 是否可达 target，共做 n 次搜索。",
+        "bottleneck": "所有查询都指向同一个 target；应该反过来从 target 出发一次计算。",
+        "key_observation": "原图边 u->v 表示 v 可由 u 到达。反向建边 v->u 后，从 target 出发能访问的所有节点都满足“可到达 target”。",
+        "why_correct": "反向遍历中的每条边 v->u 对应原图 u->v。若反向路径 target -> ... -> u 存在，则原图 u -> ... -> target 存在；visited 集合完整且不重复。",
+        "trace": [
+          "edges=[0->1,2->1,3->1]，target=1。",
+          "反向图得到 1->0、1->2、1->3。",
+          "从 1 开始访问 0、2、3。",
+          "所有节点都能到达 1，返回 [0,1,2,3]。"
+        ],
+        "transfer": [
+          "“谁能到达它”优先建反向图。",
+          "同一目标的多源可达性一次遍历即可。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p147-model.svg",
         "alt": "反向图可达性 的模型级状态图",
@@ -7052,6 +7432,23 @@
           "source": "class Solution {\n    public int gridEdgeCount(int[][] grid){int m=grid.length,n=grid[0].length,ans=0;\n        for(int i=0;i<m;i++)for(int j=0;j<n;j++)if(grid[i][j]==1){if(i+1<m&&grid[i+1][j]==1)ans++;if(j+1<n&&grid[i][j+1]==1)ans++;}return ans;\n    }\n}"
         }
       ],
+      "understanding": {
+        "brute_force": "对每个陆地格子检查四方向邻居，把每条无向边计入两次，最后除以 2。",
+        "bottleneck": "四方向会把每条边看两次；网格图中每个格子的右边和下边能唯一代表全部无向邻接关系。",
+        "key_observation": "每条水平边由左端点的右邻居确定，每条竖直边由上端点的下邻居确定。只检查右和下，即可不重不漏。",
+        "why_correct": "任意相邻陆地 pair 若水平相邻，必然有一个是另一个的右邻；若竖直相邻，必然有一个是另一个的下邻。其余方向只是这两个关系的反向。",
+        "trace": [
+          "grid=[[1,1],[1,0]]。",
+          "(0,0) 右邻 (0,1) 是陆地，计 1。",
+          "(0,0) 下邻 (1,0) 是陆地，计 1。",
+          "(0,1) 无右/下陆地；((1,0)) 无右/下陆地。",
+          "总边数 2。"
+        ],
+        "transfer": [
+          "网格隐式图只生成必要方向可避免重复边。",
+          "对角相邻是否成边必须由题面明确。"
+        ]
+      },
       "diagram": {
         "src": "./assets/diagrams/problem-p148-model.svg",
         "alt": "隐式网格图边数 的模型级状态图",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 505" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="t d">
 <title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
 <defs>
 <marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
@@ -27,6 +27,6 @@
 .axis{stroke:#94a3b8;stroke-width:2}
 .title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
 </style>
-<rect class="panel" x="10" y="10" width="700" height="485" rx="18"/>
-<text class="title" x="32" y="52">单词搜索 II · 前缀路径</text><text class="small" x="34" y="80">模型：Trie：前缀就是路径</text><rect class="box blue" x="58" y="112" width="190" height="82" rx="12"/><text class="t" x="153.0" y="151.0">前缀路径</text><text class="small" x="153.0" y="172.0">当前状态</text><rect class="box orange" x="270" y="112" width="190" height="82" rx="12"/><text class="t" x="365.0" y="151.0">沿字符边移动</text><text class="small" x="365.0" y="172.0">操作</text><rect class="box green" x="482" y="112" width="190" height="82" rx="12"/><text class="t" x="577.0" y="151.0">定位完整词或公共前缀</text><text class="small" x="577.0" y="172.0">目标</text><path class="arrow" d="M248,248 L153,153"/><path class="arrow" d="M460,460 L153,153"/><rect class="box purple" x="58" y="225" width="614" height="76" rx="12"/><text class="s" x="360" y="252">本题 focus</text><text class="s" x="360" y="281">在二维网格中找出所有能由相邻单元格组成的单词。</text><rect class="box green" x="58" y="325" width="614" height="76" rx="12"/><text class="s" x="360" y="352">不变量</text><text class="s" x="360" y="381">从根到节点是一条真实前缀。</text><rect class="box plain" x="58" y="425" width="614" height="56" rx="12"/><text class="s" x="360" y="450">模型图先展示状态迁移骨架；五问法内容仍按批次深化</text>
+<rect class="panel" x="10" y="10" width="700" height="460" rx="18"/>
+<text class="title" x="32" y="50">B+ 树节点分裂：中间键上移</text><rect class="box red" x="80" y="110" width="190" height="58" rx="12"/><text class="t" x="175.0" y="145.0">[1,2,3,4,5]</text><path class="arrow" d="M270,270 L139,139 L330,330 L139,139"/><rect class="box blue" x="335" y="110" width="70" height="58" rx="12"/><text class="t" x="370.0" y="145.0">3</text><rect class="box green" x="105" y="230" width="125" height="58" rx="12"/><text class="t" x="167.5" y="265.0">[1,2]</text><rect class="box green" x="345" y="230" width="125" height="58" rx="12"/><text class="t" x="407.5" y="265.0">[4,5]</text><path class="arrow" d="M150,150 L168,168 L160,160 L226,226"/><path class="arrow" d="M310,310 L168,168 L380,380 L226,226"/><text class="s" x="240" y="330">separator=keys[t-1]</text><rect class="box purple" x="58" y="370" width="614" height="86" rx="12"/><text class="s" x="360" y="396">左、右各 t-1 个键</text><text class="s" x="360" y="424">separator 不能留在子节点</text><text class="s" x="360" y="446">键升序保证左右范围不重叠</text>
 </svg>

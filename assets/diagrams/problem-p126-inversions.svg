@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 505" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" role="img" aria-labelledby="t d">
 <title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
 <defs>
 <marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
@@ -27,6 +27,6 @@
 .axis{stroke:#94a3b8;stroke-width:2}
 .title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
 </style>
-<rect class="panel" x="10" y="10" width="700" height="485" rx="18"/>
-<text class="title" x="32" y="52">0/1 背包：上界剪枝 · 部分解界</text><text class="small" x="34" y="80">模型：分支限界</text><rect class="box blue" x="58" y="112" width="190" height="82" rx="12"/><text class="t" x="153.0" y="151.0">部分解界</text><text class="small" x="153.0" y="172.0">当前状态</text><rect class="box orange" x="270" y="112" width="190" height="82" rx="12"/><text class="t" x="365.0" y="151.0">估计上下界并扩展节点</text><text class="small" x="365.0" y="172.0">操作</text><rect class="box green" x="482" y="112" width="190" height="82" rx="12"/><text class="t" x="577.0" y="151.0">不可能更优的子树被剪掉</text><text class="small" x="577.0" y="172.0">目标</text><path class="arrow" d="M248,248 L153,153"/><path class="arrow" d="M460,460 L153,153"/><rect class="box purple" x="58" y="225" width="614" height="76" rx="12"/><text class="s" x="360" y="252">本题 focus</text><text class="s" x="360" y="281">用分支限界求 0/1 背包最大价值。</text><rect class="box green" x="58" y="325" width="614" height="76" rx="12"/><text class="s" x="360" y="352">不变量</text><text class="s" x="360" y="381">界必须松弛且方向正确。</text><rect class="box plain" x="58" y="425" width="614" height="56" rx="12"/><text class="s" x="360" y="450">模型图先展示状态迁移骨架；五问法内容仍按批次深化</text>
+<rect class="panel" x="10" y="10" width="700" height="480" rx="18"/>
+<text class="title" x="32" y="50">逆序对：在归并跨越处批量计数</text><rect class="box blue" x="65" y="95" width="140" height="58" rx="12"/><text class="t" x="135.0" y="130.0">左半 [5,7]</text><rect class="box orange" x="300" y="95" width="140" height="58" rx="12"/><text class="t" x="370.0" y="130.0">右半 [4,6]</text><path class="arrow" d="M205,205 L124,124 L296,296 L124,124"/><rect class="box red" x="105" y="205" width="80" height="52" rx="12"/><text class="t" x="145.0" y="237.0">取 4</text><rect class="box green" x="310" y="205" width="90" height="52" rx="12"/><text class="t" x="355.0" y="237.0">剩 5,7</text><path class="arrow" d="M240,240 L153,153 L150,150 L201,201"/><text class="s" x="250" y="290">左半剩余 2 个，都大于 4：一次性计 2</text><rect class="box purple" x="58" y="325" width="614" height="76" rx="12"/><text class="s" x="360" y="351">左半和右半各自有序</text><text class="s" x="360" y="380">当前右值 &lt; 当前左值时，跨半逆序数 = m - i + 1</text><rect class="box green" x="58" y="425" width="614" height="52" rx="12"/><text class="s" x="360" y="449">相等用 &lt;=，避免把相等元素算成逆序</text>
 </svg>

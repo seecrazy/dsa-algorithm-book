@@ -395,7 +395,7 @@ localStorage keys：
 | `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
 | `scripts/model_diagrams.py` | 按章节定义模型关键词；`diagram_key()` 生成 SVG 文件名；`model_diagram()` 返回题解图元数据 |
 | `scripts/generate_diagrams.py:model_state_svg()` | 将模型元数据渲染为“状态 -> 操作 -> 目标”的 SVG |
-| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成模型图，再重建手写章节/题解图；当前为 131 张模型图和 38 张手写图 |
+| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成模型图，再重建手写章节/题解图；当前为 123 张模型图和 46 张手写图 |
 | `scripts/new_module_problems.py` | 定义 p125-p148 题目、Python 实现和 `NEW_JAVA`；不含前端运行时逻辑 |
 | `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
 | `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、148 题图引用和无未引用文件；图来源可为 `understanding.diagram` 或 `solution.diagram` |
@@ -503,7 +503,7 @@ interface ProblemDiagram {
 - 前端读取顺序是 `understanding.diagram -> solution.diagram`。
 - 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
 - Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
-- 当前生成 169 个 SVG：38 个手写图（14 个核心章节引用 16 个、17 题专用）和 131 个模型题图；6 个补充模块另有章节图，148 题全部有题解图。
+- 当前生成 169 个 SVG：46 个手写图（20 个章节图 + 26 个题解图）和 123 个模型题图；148 题全部有题解图。
 
 ### 14.2a 题解理解层
 
@@ -569,6 +569,21 @@ interface ProblemDiagram {
 | `graph-representation` | 图表示与建模 | 邻接表、矩阵、边数组、隐式图、空间/查询/遍历代价、反向图与网格图 |
 
 这些模块先提供原理、模板、复杂度、陷阱和章节图；题库问题暂不强行迁移。后续若新增题目，必须沿用 Python/Java、五问法和题解图约定。
+
+### 14.4c 新增模块讲解批次 2
+
+新增 p125-p148 的 24 题全部补齐 `understanding` 五问法，确保新模块不只停留在 API 和模板层面。同时将 8 个代表性题升级为手写专用图：
+
+| id | 题目 | 视觉重点 |
+|---|---|---|
+| p125 | 颜色分类 | 三路分区边界移动 |
+| p126 | 逆序对 | 归并跨越计数 |
+| p130 | Trie | 前缀路径与 is_end |
+| p132 | 单词搜索 II | Trie 与网格 DFS 同步 |
+| p136 | 日程安排 | 有序区间前驱/后继冲突 |
+| p137 | 右侧更小计数 | 离散化 BIT 查询/更新顺序 |
+| p139 | B+ 树节点分裂 | 中间键上移与左右页 |
+| p142 | 0/1 背包上界剪枝 | 分数背包上界与剪枝 |
 
 ### 14.4b 新增模块专属题库
 

@@ -609,5 +609,123 @@ def chapter_interval_schedule():
 DIAGRAMS["chapter-interval-scheduling"] = chapter_interval_schedule
 
 
+def problem_sort_colors():
+    body=[text(32,50,'颜色分类：三个边界把数组切成四个区','title')]
+    vals=['0','0','1','1','2','2']
+    x=78
+    for i,v in enumerate(vals):
+        cls='green' if i<2 else ('blue' if i<4 else ('red' if i>4 else 'orange'))
+        body.append(node(x,100,64,58,v,cls)); body.append(text(x+32,178,str(i))); x+=68
+    body += [text(110,84,'[0,left)'), text(310,84,'[left,i)'), text(478,84,'(i,right]'), text(640,84,'(right,n)')]
+    body += [rect(58,225,614,76,'purple')]
+    body += [text(360,252,'遇 0：与 left 交换，left++，i++'),
+             text(360,281,'遇 2：与 right 交换，right--，i 不前进')]
+    body += [rect(58,325,614,62,'green')]
+    body += [text(360,350,'[0,left) 全 0；(right,n) 全 2；i 到 right 只剩 1 和未处理状态')]
+    body += [text(360,398,'换回的 2 或 0 必须重新判断')]
+    return svg(720,430,''.join(body))
+
+def problem_inversions():
+    body=[text(32,50,'逆序对：在归并跨越处批量计数','title')]
+    body += [node(65,95,140,58,'左半 [5,7]','blue'), node(300,95,140,58,'右半 [4,6]','orange')]
+    body += [path([205,124,296,124])]
+    body += [node(105,205,80,52,'取 4','red'), node(310,205,90,52,'剩 5,7','green')]
+    body += [path([240,153,150,201])]
+    body += [text(250,290,'左半剩余 2 个，都大于 4：一次性计 2')]
+    body += [rect(58,325,614,76,'purple')]
+    body += [text(360,351,'左半和右半各自有序'),
+             text(360,380,'当前右值 < 当前左值时，跨半逆序数 = m - i + 1')]
+    body += [rect(58,425,614,52,'green')]
+    body += [text(360,449,'相等用 <=，避免把相等元素算成逆序')]
+    return svg(720,500,''.join(body))
+
+def problem_trie_path():
+    body=[text(32,50,'Trie：前缀路径与完整词标记','title')]
+    body += [node(300,80,100,52,'root','blue'), node(180,180,90,52,'a','plain'), node(430,180,90,52,'b','plain'), node(180,285,90,52,'p','orange'), node(180,390,110,56,'p · end','green')]
+    body += [path([315,132,195,176]), path([345,132,465,176]), path([225,232,225,281]), path([225,337,235,386])]
+    body += [text(385,236,'b 分支不共享 apple'), text(340,375,'apple 到达 end')]
+    body += [rect(58,475,614,66,'purple')]
+    body += [text(360,500,'search(app) 走到 p，但 end=false'),
+             text(360,528,'startsWith(app) 只要求路径存在')]
+    return svg(720,570,''.join(body))
+
+def problem_trie_dfs():
+    body=[text(32,50,'单词搜索 II：网格路径与 Trie 同步走','title')]
+    body += [node(95,100,70,56,'o','blue'), node(235,100,70,56,'a','green'), node(375,100,70,56,'t','green'), node(515,100,70,56,'h','green')]
+    body += [path([165,128,235,128]), path([305,128,375,128]), path([445,128,515,128])]
+    body += [text(65,185,'网格起点'), text(185,185,'匹配 oa'), text(325,185,'匹配 oat'), text(465,185,'匹配 oath')]
+    body += [rect(58,225,614,80,'purple')]
+    body += [text(360,252,'Trie 无边 => 当前网格子树整体剪枝'),
+             text(360,281,'匹配完整词后加入答案，并清除 end 标记避免重复')]
+    body += [rect(58,330,614,72,'green')]
+    body += [text(360,356,'DFS 进入时临时标记格子'),
+             text(360,386,'四个方向返回后恢复字符')]
+    body += [text(360,435,'共享前缀只搜索一次')]
+    return svg(720,465,''.join(body))
+
+def problem_calendar():
+    body=[text(32,50,'日程安排：只看前驱与后继','title')]
+    body += [rect(85,110,240,58,'green'), rect(385,110,220,58,'orange')]
+    body += [text(205,139,'前驱 [10,20]'), text(495,139,'后继不存在')]
+    body += [rect(295,210,220,58,'blue')]
+    body += [text(405,239,'新区间 [20,30)')]
+    body += ['<path class="line" d="M325,200 L350,168" stroke-dasharray="7 7"/>']
+    body += [text(170,305,'prev.end=20 <= start=20：不冲突')]
+    body += [rect(58,340,614,76,'purple')]
+    body += [text(360,366,'prev.end <= start 且 next.start >= end'),
+             text(360,394,'有序结构只需检查两个相邻候选')]
+    body += [rect(58,440,614,52,'green')]
+    body += [text(360,464,'端点相接视为不重叠')]
+    return svg(720,515,''.join(body))
+
+def problem_bit_query():
+    body=[text(32,50,'BIT：从右往左先查询再插入','title')]
+    body += [node(70,100,120,58,'nums[i]','blue'), node(240,100,150,58,'rank-1','orange'), node(440,100,180,58,'query(r-1)','green')]
+    body += [path([190,129,236,129]), path([390,129,436,129])]
+    body += [rect(58,190,614,80,'purple')]
+    body += [text(360,217,'BIT 中只包含右侧已处理元素'),
+             text(360,245,'query(r-1) 返回严格小于当前 rank 的数量')]
+    body += [rect(58,295,614,76,'green')]
+    body += [text(360,321,'随后 update(r)，把当前数加入右侧集合'),
+             text(360,350,'顺序颠倒会把自身或左侧元素算进去')]
+    body += [text(360,410,'最后反转答案数组')]
+    return svg(720,435,''.join(body))
+
+def problem_bplus_split():
+    body=[text(32,50,'B+ 树节点分裂：中间键上移','title')]
+    body += [node(80,110,190,58,'[1,2,3,4,5]','red'), path([270,139,330,139])]
+    body += [node(335,110,70,58,'3','blue')]
+    body += [node(105,230,125,58,'[1,2]','green'), node(345,230,125,58,'[4,5]','green')]
+    body += [path([150,168,160,226]), path([310,168,380,226])]
+    body += [text(240,330,'separator=keys[t-1]')]
+    body += [rect(58,370,614,86,'purple')]
+    body += [text(360,396,'左、右各 t-1 个键'),
+             text(360,424,'separator 不能留在子节点'),
+             text(360,446,'键升序保证左右范围不重叠')]
+    return svg(720,480,''.join(body))
+
+def problem_knapsack_bound():
+    body=[text(32,50,'0/1 背包分支限界：用松弛上界剪枝','title')]
+    body += [node(75,100,170,64,'部分解 i','blue'), node(300,100,170,64,'分数背包','orange'), node(520,100,150,64,'上界 bound','green')]
+    body += [path([245,132,296,132]), path([470,132,516,132])]
+    body += [rect(58,195,614,86,'purple')]
+    body += [text(360,221,'剩余物品能装则整装；装不下按比例计入'),
+             text(360,250,'这是 0/1 背包的松弛解，不会低估真实可达价值')]
+    body += [rect(58,305,614,80,'red')]
+    body += [text(360,331,'若 bound <= best，整棵子树不可能改善答案'),
+             text(360,360,'立即剪枝，不再枚举剩余选择')]
+    body += [text(360,415,'方向必须正确：最大化问题用上界')]
+    return svg(720,440,''.join(body))
+
+DIAGRAMS["problem-p125-sort-colors"] = problem_sort_colors
+DIAGRAMS["problem-p126-inversions"] = problem_inversions
+DIAGRAMS["problem-p130-trie-path"] = problem_trie_path
+DIAGRAMS["problem-p132-trie-dfs"] = problem_trie_dfs
+DIAGRAMS["problem-p136-calendar"] = problem_calendar
+DIAGRAMS["problem-p137-bit-query"] = problem_bit_query
+DIAGRAMS["problem-p139-bplus-split"] = problem_bplus_split
+DIAGRAMS["problem-p142-knapsack-bound"] = problem_knapsack_bound
+
+
 if __name__ == "__main__":
     main()

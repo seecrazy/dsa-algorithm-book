@@ -1296,8 +1296,6 @@ add("p124", "设计公平调度器", "hard", "engineering-interview", ["系统�
 
 P.extend(NEW_PROBLEMS)
 JAVA_SOLUTIONS.update(NEW_JAVA)
-
-
 def validate(problems):
     ids = [p["id"] for p in problems]
     if len(ids) != len(set(ids)):
@@ -1339,7 +1337,7 @@ def main():
         problem["solution"]["code"].append({"language": "Java", "source": JAVA_SOLUTIONS[problem_id]})
         if problem_id in TEACHING_NOTES:
             problem["solution"]["understanding"] = TEACHING_NOTES[problem_id]
-        elif not problem["solution"].get("understanding", {}).get("diagram"):
+        if not problem["solution"].get("understanding", {}).get("diagram") and not problem["solution"].get("diagram"):
             chapter_lookup = {chapter["id"]: chapter for chapter in json.loads((ROOT / "data/chapters.json").read_text(encoding="utf-8"))}
             model = model_diagram(problem, chapter_lookup)
             problem["solution"]["diagram"] = {
