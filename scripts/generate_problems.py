@@ -7,6 +7,7 @@ from pathlib import Path
 
 from java_solutions import JAVA_SOLUTIONS
 from teaching_notes import TEACHING_NOTES
+from remaining_teaching_notes import FIVE_QUESTION_NOTES
 from model_diagrams import diagram_key, model_diagram
 from new_module_problems import NEW_JAVA, NEW_PROBLEMS
 
@@ -1337,6 +1338,8 @@ def main():
         problem["solution"]["code"].append({"language": "Java", "source": JAVA_SOLUTIONS[problem_id]})
         if problem_id in TEACHING_NOTES:
             problem["solution"]["understanding"] = TEACHING_NOTES[problem_id]
+        elif problem_id in FIVE_QUESTION_NOTES:
+            problem["solution"]["understanding"] = FIVE_QUESTION_NOTES[problem_id]
         if not problem["solution"].get("understanding", {}).get("diagram") and not problem["solution"].get("diagram"):
             chapter_lookup = {chapter["id"]: chapter for chapter in json.loads((ROOT / "data/chapters.json").read_text(encoding="utf-8"))}
             model = model_diagram(problem, chapter_lookup)
