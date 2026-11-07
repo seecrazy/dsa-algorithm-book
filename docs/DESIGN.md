@@ -171,7 +171,7 @@ Problem {
 - [x] 进展文档存在，反映已完成与未完成事项。
 - [x] README 说明产品状态、本地运行、部署和文档入口。
 - [x] 站点可在静态服务器中加载首页、章节和题库。
-- [x] 至少 100 道通用算法题，且带有思路、复杂度和陷阱。
+- [x] 固定 124 道通用算法题，且带有思路、复杂度和陷阱。
 - [x] 章节目录、题库目录、正文链接一致。
 - [x] 全文搜索可用。
 - [x] 亮暗模式可用且状态保存。
@@ -371,10 +371,11 @@ localStorage keys：
 | 常量 / 方法 | 契约 |
 |---|---|
 | `CHAPTER_IDS` | 与 `data/chapters.json` 当前章节集合一致的硬校验集合 |
-| `add()` | 组装题目，必填 13 个字段；参考实现默认 Python |
+| `add()` | 组装题目，必填 13 个字段；先写入 Python 参考实现 |
 | `P` | 内存中的有序题库 |
 | `validate(problems)` | 校验固定 124 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
-| `main()` | 校验、写 JSON、输出按章节统计 |
+| `main()` | 合并 `java_solutions.JAVA_SOLUTIONS`、校验双语言、写 JSON、输出按章节统计 |
+| `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
 
 内容不变量补充：
 
@@ -437,7 +438,7 @@ interface Problem {
 - `Problem.id` 全局唯一。
 - `Problem.chapter` 必须存在于 `Chapter.id`。
 - 题目至少一个示例和三个易错点。
-- 至少一个参考实现；第一版以 Python 为主。
+- 每题必须同时提供 Python 和 Java 两个参考实现。
 - `summary` 若缺失，前端回退显示 `prompt`。
 
 ### 14.3 内容索引
@@ -468,6 +469,7 @@ interface Problem {
 - 题目数量固定为 124。
 - 每题 `chapter` 均有效。
 - 题目 ID 无重复，目录文件无重复。
+- 所有题目都有 Python 与 Java 两个参考实现，且 Java 片段可通过编译检查。
 - `python3 -m py_compile scripts/*.py` 通过。
 - `node --check assets/app.js` 通过。
 

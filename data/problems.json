@@ -33,6 +33,10 @@
         {
           "language": "Python",
           "source": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return []"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (seen.containsKey(target - nums[i])) return new int[]{seen.get(target - nums[i]), i};\n            seen.put(nums[i], i);\n        }\n        return new int[0];\n    }\n}"
         }
       ]
     }
@@ -71,6 +75,10 @@
         {
           "language": "Python",
           "source": "def max_sub_array(nums):\n    ans = cur = nums[0]\n    for x in nums[1:]:\n        cur = max(x, cur + x)\n        ans = max(ans, cur)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public int maxSubArray(int[] nums) {\n        int ans = nums[0], cur = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            cur = Math.max(nums[i], cur + nums[i]);\n            ans = Math.max(ans, cur);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -108,6 +116,10 @@
         {
           "language": "Python",
           "source": "def max_area(height):\n    left, right, ans = 0, len(height) - 1, 0\n    while left < right:\n        ans = max(ans, (right-left) * min(height[left], height[right]))\n        if height[left] < height[right]:\n            left += 1\n        else:\n            right -= 1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public int maxArea(int[] height) {\n        int left = 0, right = height.length - 1, ans = 0;\n        while (left < right) {\n            ans = Math.max(ans, (right - left) * Math.min(height[left], height[right]));\n            if (height[left] < height[right]) left++;\n            else right--;\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -146,6 +158,10 @@
         {
           "language": "Python",
           "source": "def trap(height):\n    l, r = 0, len(height)-1\n    lm = rm = water = 0\n    while l < r:\n        if height[l] <= height[r]:\n            lm = max(lm, height[l]); water += lm-height[l]; l += 1\n        else:\n            rm = max(rm, height[r]); water += rm-height[r]; r -= 1\n    return water"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public int trap(int[] h) {\n        int l = 0, r = h.length - 1, lm = 0, rm = 0, ans = 0;\n        while (l < r) {\n            if (h[l] <= h[r]) { lm = Math.max(lm, h[l++]); ans += lm - h[l - 1]; }\n            else { rm = Math.max(rm, h[r--]); ans += rm - h[r + 1]; }\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -183,6 +199,10 @@
         {
           "language": "Python",
           "source": "def move_zeroes(nums):\n    slow = 0\n    for fast, x in enumerate(nums):\n        if x != 0:\n            nums[slow] = x; slow += 1\n    for i in range(slow, len(nums)):\n        nums[i] = 0"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public void moveZeroes(int[] nums) {\n        int slow = 0;\n        for (int x : nums) if (x != 0) nums[slow++] = x;\n        while (slow < nums.length) nums[slow++] = 0;\n    }\n}"
         }
       ]
     }
@@ -220,6 +240,10 @@
         {
           "language": "Python",
           "source": "def merge(nums1, m, nums2, n):\n    i, j, k = m-1, n-1, m+n-1\n    while i >= 0 and j >= 0:\n        if nums1[i] >= nums2[j]: nums1[k]=nums1[i]; i-=1\n        else: nums1[k]=nums2[j]; j-=1\n        k-=1\n    while j >= 0: nums1[k]=nums2[j]; j-=1; k-=1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public void merge(int[] a, int m, int[] b, int n) {\n        int i = m - 1, j = n - 1, k = m + n - 1;\n        while (i >= 0 && j >= 0) a[k--] = a[i] >= b[j] ? a[i--] : b[j--];\n        while (j >= 0) a[k--] = b[j--];\n    }\n}"
         }
       ]
     }
@@ -257,6 +281,10 @@
         {
           "language": "Python",
           "source": "def remove_duplicates(nums):\n    slow = 0\n    for fast in range(1, len(nums)):\n        if nums[fast] != nums[slow]:\n            slow += 1; nums[slow] = nums[fast]\n    return slow + 1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public int removeDuplicates(int[] nums) {\n        int slow = 0;\n        for (int fast = 1; fast < nums.length; fast++)\n            if (nums[fast] != nums[slow]) nums[++slow] = nums[fast];\n        return slow + 1;\n    }\n}"
         }
       ]
     }
@@ -295,6 +323,10 @@
         {
           "language": "Python",
           "source": "def three_sum(nums):\n    nums.sort(); ans=[]\n    for i in range(len(nums)-2):\n        if i and nums[i]==nums[i-1]: continue\n        l,r=i+1,len(nums)-1\n        while l<r:\n            s=nums[i]+nums[l]+nums[r]\n            if s<0: l+=1\n            elif s>0: r-=1\n            else:\n                ans.append([nums[i],nums[l],nums[r]])\n                l+=1; r-=1\n                while l<r and nums[l]==nums[l-1]: l+=1\n                while l<r and nums[r]==nums[r+1]: r-=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        Arrays.sort(nums);\n        List<List<Integer>> ans = new ArrayList<>();\n        for (int i = 0; i < nums.length - 2; i++) {\n            if (i > 0 && nums[i] == nums[i - 1]) continue;\n            int l = i + 1, r = nums.length - 1;\n            while (l < r) {\n                int sum = nums[i] + nums[l] + nums[r];\n                if (sum < 0) l++;\n                else if (sum > 0) r--;\n                else {\n                    ans.add(new ArrayList<>(List.of(nums[i], nums[l++], nums[r--])));\n                    while (l < r && nums[l] == nums[l - 1]) l++;\n                    while (l < r && nums[r] == nums[r + 1]) r--;\n                }\n            }\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -332,6 +364,10 @@
         {
           "language": "Python",
           "source": "def product_except_self(nums):\n    n=len(nums); ans=[1]*n\n    for i in range(1,n): ans[i]=ans[i-1]*nums[i-1]\n    right=1\n    for i in range(n-1,-1,-1): ans[i]*=right; right*=nums[i]\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public int[] productExceptSelf(int[] nums) {\n        int[] ans = new int[nums.length];\n        ans[0] = 1;\n        for (int i = 1; i < nums.length; i++) ans[i] = ans[i - 1] * nums[i - 1];\n        for (int i = nums.length - 1, right = 1; i >= 0; i--) {\n            ans[i] *= right;\n            right *= nums[i];\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -369,6 +405,10 @@
         {
           "language": "Python",
           "source": "def length_of_longest_substring(s):\n    last={}; left=ans=0\n    for right,ch in enumerate(s):\n        if ch in last and last[ch]>=left: left=last[ch]+1\n        last[ch]=right; ans=max(ans,right-left+1)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int lengthOfLongestSubstring(String s) {\n        Map<Character, Integer> last = new HashMap<>();\n        int ans = 0;\n        for (int left = 0, right = 0; right < s.length(); right++) {\n            char c = s.charAt(right);\n            if (last.containsKey(c) && last.get(c) >= left) left = last.get(c) + 1;\n            last.put(c, right);\n            ans = Math.max(ans, right - left + 1);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -405,6 +445,10 @@
         {
           "language": "Python",
           "source": "def is_valid(s):\n    pairs={')':'(',']':'[','}':'{'}; st=[]\n    for ch in s:\n        if ch in '([{': st.append(ch)\n        elif not st or st.pop()!=pairs[ch]: return False\n    return not st"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public boolean isValid(String s) {\n        Deque<Character> st = new ArrayDeque<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(') st.push(')');\n            else if (c == '[') st.push(']');\n            else if (c == '{') st.push('}');\n            else if (st.isEmpty() || st.pop() != c) return false;\n        }\n        return st.isEmpty();\n    }\n}"
         }
       ]
     }
@@ -442,6 +486,10 @@
         {
           "language": "Python",
           "source": "class MinStack:\n    def __init__(self): self.st=[]; self.mn=[]\n    def push(self,x):\n        self.st.append(x); self.mn.append(min(x,self.mn[-1] if self.mn else x))\n    def pop(self): self.st.pop(); self.mn.pop()\n    def top(self): return self.st[-1]\n    def getMin(self): return self.mn[-1]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass MinStack {\n    private Deque<Long> values = new ArrayDeque<>();\n    private Deque<Long> minimums = new ArrayDeque<>();\n\n    public void push(int val) {\n        values.push((long) val);\n        minimums.push(Math.min((long) val, minimums.isEmpty() ? (long) val : minimums.peek()));\n    }\n\n    public void pop() { values.pop(); minimums.pop(); }\n    public int top() { return values.peek().intValue(); }\n    public int getMin() { return minimums.peek().intValue(); }\n}"
         }
       ]
     }
@@ -479,6 +527,10 @@
         {
           "language": "Python",
           "source": "def next_greater(nums):\n    ans=[-1]*len(nums); st=[]\n    for i,x in enumerate(nums):\n        while st and nums[st[-1]]<x: ans[st.pop()]=x\n        st.append(i)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        int[] ans = new int[nums.length];\n        Arrays.fill(ans, -1);\n        Deque<Integer> st = new ArrayDeque<>();\n        for (int i = 0; i < nums.length; i++) {\n            while (!st.isEmpty() && nums[st.peek()] < nums[i]) ans[st.pop()] = nums[i];\n            st.push(i);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -516,6 +568,10 @@
         {
           "language": "Python",
           "source": "def daily_temperatures(T):\n    ans=[0]*len(T); st=[]\n    for i,x in enumerate(T):\n        while st and T[st[-1]]<x: j=st.pop(); ans[j]=i-j\n        st.append(i)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int[] dailyTemperatures(int[] t) {\n        int[] ans = new int[t.length];\n        Deque<Integer> st = new ArrayDeque<>();\n        for (int i = 0; i < t.length; i++) {\n            while (!st.isEmpty() && t[st.peek()] < t[i]) ans[st.peek()] = i - st.pop();\n            st.push(i);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -553,6 +609,10 @@
         {
           "language": "Python",
           "source": "def largest_rect(heights):\n    hs=heights+[0]; st=[-1]; ans=0\n    for i,h in enumerate(hs):\n        while st[-1]!=-1 and hs[st[-1]]>=h:\n            height=hs[st.pop()]\n            ans=max(ans,height*(i-st[-1]-1))\n        st.append(i)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int largestRectangleArea(int[] hs) {\n        Deque<Integer> st = new ArrayDeque<>();\n        st.push(-1);\n        int ans = 0;\n        for (int i = 0; i <= hs.length; i++) {\n            int h = i == hs.length ? 0 : hs[i];\n            while (st.peek() != -1 && hs[st.peek()] >= h) {\n                int height = hs[st.pop()];\n                ans = Math.max(ans, height * (i - st.peek() - 1));\n            }\n            st.push(i);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -590,6 +650,10 @@
         {
           "language": "Python",
           "source": "def decode_string(s):\n    cnt=[]; st=[]; cur=''; n=0\n    for ch in s:\n        if ch.isdigit(): n=n*10+int(ch)\n        elif ch=='[': cnt.append(n); st.append(cur); n=0; cur=''\n        elif ch==']': cur=st.pop()*cnt.pop()+cur\n        else: cur+=ch\n    return cur"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public String decodeString(String s) {\n        Deque<Integer> counts = new ArrayDeque<>();\n        Deque<StringBuilder> prefixes = new ArrayDeque<>();\n        StringBuilder cur = new StringBuilder();\n        for (int i = 0, n = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n            if (Character.isDigit(c)) n = n * 10 + c - '0';\n            else if (c == '[') { counts.push(n); prefixes.push(cur); cur = new StringBuilder(); n = 0; }\n            else if (c == ']') {\n                StringBuilder next = prefixes.pop();\n                for (int k = counts.pop(); k > 0; k--) next.append(cur);\n                cur = next;\n            } else cur.append(c);\n        }\n        return cur.toString();\n    }\n}"
         }
       ]
     }
@@ -627,6 +691,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef max_window(nums,k):\n    dq=deque(); ans=[]\n    for i,x in enumerate(nums):\n        while dq and nums[dq[-1]]<=x: dq.pop()\n        dq.append(i)\n        if dq[0]<=i-k: dq.popleft()\n        if i>=k-1: ans.append(nums[dq[0]])\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        Deque<Integer> dq = new ArrayDeque<>();\n        int[] ans = new int[nums.length - k + 1];\n        for (int i = 0, j = 0; i < nums.length; i++) {\n            while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) dq.pollLast();\n            dq.addLast(i);\n            if (dq.peekFirst() <= i - k) dq.pollFirst();\n            if (i >= k - 1) ans[j++] = nums[dq.peekFirst()];\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -664,6 +732,10 @@
         {
           "language": "Python",
           "source": "def eval_rpn(tokens):\n    st=[]\n    for x in tokens:\n        if x in '+-*/':\n            b=st.pop(); a=st.pop()\n            if x=='+': st.append(a+b)\n            elif x=='-': st.append(a-b)\n            elif x=='*': st.append(a*b)\n            else: st.append(int(a/b))\n        else: st.append(int(x))\n    return st[0]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int evalRPN(String[] tokens) {\n        Deque<Integer> st = new ArrayDeque<>();\n        for (String t : tokens) {\n            switch (t) {\n                case \"+\" -> st.push(st.pop() + st.pop());\n                case \"*\" -> st.push(st.pop() * st.pop());\n                case \"-\" -> { int b = st.pop(); st.push(st.pop() - b); }\n                case \"/\" -> { int b = st.pop(); st.push(st.pop() / b); }\n                default -> st.push(Integer.parseInt(t));\n            }\n        }\n        return st.pop();\n    }\n}"
         }
       ]
     }
@@ -701,6 +773,10 @@
         {
           "language": "Python",
           "source": "from collections import defaultdict\ndef group_anagrams(strs):\n    g=defaultdict(list)\n    for s in strs: g[tuple(sorted(s))].append(s)\n    return list(g.values())"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> groups = new HashMap<>();\n        for (String s : strs) {\n            char[] a = s.toCharArray();\n            Arrays.sort(a);\n            groups.computeIfAbsent(new String(a), k -> new ArrayList<>()).add(s);\n        }\n        return new ArrayList<>(groups.values());\n    }\n}"
         }
       ]
     }
@@ -738,6 +814,10 @@
         {
           "language": "Python",
           "source": "from collections import Counter\nimport heapq\ndef top_k_freq(nums,k):\n    freq=Counter(nums)\n    return [x for x,_ in heapq.nlargest(k,freq.items(),key=lambda p:p[1])]\n# 或用大小为 k 的堆进行流式维护"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int x : nums) count.merge(x, 1, Integer::sum);\n        return count.entrySet().stream()\n            .sorted(Map.Entry.<Integer,Integer>comparingByValue().reversed())\n            .limit(k).mapToInt(Map.Entry::getKey).toArray();\n    }\n}"
         }
       ]
     }
@@ -775,6 +855,10 @@
         {
           "language": "Python",
           "source": "def longest_consecutive(nums):\n    s=set(nums); ans=0\n    for x in s:\n        if x-1 not in s:\n            y=x\n            while y+1 in s: y+=1\n            ans=max(ans,y-x+1)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int longestConsecutive(int[] nums) {\n        Set<Integer> set = new HashSet<>();\n        for (int x : nums) set.add(x);\n        int ans = 0;\n        for (int x : set) if (!set.contains(x - 1)) {\n            int y = x;\n            while (set.contains(y + 1)) y++;\n            ans = Math.max(ans, y - x + 1);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -812,6 +896,10 @@
         {
           "language": "Python",
           "source": "from collections import defaultdict\ndef subarray_sum(nums,k):\n    seen=defaultdict(int); seen[0]=1; p=ans=0\n    for x in nums:\n        p+=x; ans+=seen[p-k]; seen[p]+=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int subarraySum(int[] nums, int k) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        seen.put(0, 1);\n        int prefix = 0, ans = 0;\n        for (int x : nums) {\n            prefix += x;\n            ans += seen.getOrDefault(prefix - k, 0);\n            seen.merge(prefix, 1, Integer::sum);\n        }\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -848,6 +936,10 @@
         {
           "language": "Python",
           "source": "from collections import Counter\ndef first_unique_char(s):\n    freq=Counter(s)\n    for i,ch in enumerate(s):\n        if freq[ch]==1: return i\n    return -1"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int firstUniqChar(String s) {\n        int[] count = new int[128];\n        for (char c : s.toCharArray()) count[c]++;\n        for (int i = 0; i < s.length(); i++) if (count[s.charAt(i)] == 1) return i;\n        return -1;\n    }\n}"
         }
       ]
     }
@@ -885,6 +977,10 @@
         {
           "language": "Python",
           "source": "def contains_nearby(nums,k):\n    last={}\n    for i,x in enumerate(nums):\n        if x in last and i-last[x]<=k: return True\n        last[x]=i\n    return False"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public boolean containsNearbyDuplicate(int[] nums, int k) {\n        Map<Integer, Integer> last = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            if (last.containsKey(nums[i]) && i - last.get(nums[i]) <= k) return true;\n            last.put(nums[i], i);\n        }\n        return false;\n    }\n}"
         }
       ]
     }
@@ -922,6 +1018,10 @@
         {
           "language": "Python",
           "source": "from collections import Counter\ndef four_sum_count(A,B,C,D):\n    ab=Counter(a+b for a in A for b in B)\n    return sum(ab[-(c+d)] for c in C for d in D)"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public int fourSumCount(int[] a, int[] b, int[] c, int[] d) {\n        Map<Integer, Integer> ab = new HashMap<>();\n        for (int x : a) for (int y : b) ab.merge(x + y, 1, Integer::sum);\n        int ans = 0;\n        for (int x : c) for (int y : d) ans += ab.getOrDefault(-(x + y), 0);\n        return ans;\n    }\n}"
         }
       ]
     }
@@ -959,6 +1059,10 @@
         {
           "language": "Python",
           "source": "import random,bisect\nclass WeightPicker:\n    def __init__(self,w):\n        self.p=[]; s=0\n        for x in w: s+=x; self.p.append(s)\n    def pick(self): return bisect.bisect_left(self.p,random.randint(1,self.p[-1]))"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.concurrent.ThreadLocalRandom;\n\nclass WeightPicker {\n    private int[] prefix;\n\n    public WeightPicker(int[] w) {\n        prefix = new int[w.length];\n        prefix[0] = w[0];\n        for (int i = 1; i < w.length; i++) prefix[i] = prefix[i - 1] + w[i];\n    }\n\n    public int pick() {\n        int target = ThreadLocalRandom.current().nextInt(1, prefix[prefix.length - 1] + 1);\n        int lo = 0, hi = prefix.length - 1;\n        while (lo < hi) {\n            int mid = lo + (hi - lo) / 2;\n            if (prefix[mid] < target) lo = mid + 1; else hi = mid;\n        }\n        return lo;\n    }\n}"
         }
       ]
     }
@@ -995,6 +1099,10 @@
         {
           "language": "Python",
           "source": "def reverse_list(head):\n    prev=None; cur=head\n    while cur: nxt=cur.next; cur.next=prev; prev=cur; cur=nxt\n    return prev"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode reverseList(ListNode head) {\n        ListNode prev = null;\n        while (head != null) {\n            ListNode next = head.next;\n            head.next = prev;\n            prev = head;\n            head = next;\n        }\n        return prev;\n    }\n}"
         }
       ]
     }
@@ -1031,6 +1139,10 @@
         {
           "language": "Python",
           "source": "def middle_node(head):\n    slow=fast=head\n    while fast and fast.next: slow=slow.next; fast=fast.next.next\n    return slow"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode middleNode(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n}"
         }
       ]
     }
@@ -1067,6 +1179,10 @@
         {
           "language": "Python",
           "source": "def has_cycle(head):\n    slow=fast=head\n    while fast and fast.next:\n        slow=slow.next; fast=fast.next.next\n        if slow is fast: return True\n    return False"
+        },
+        {
+          "language": "Java",
+          "source": "public class Solution {\n    public boolean hasCycle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true;\n        }\n        return false;\n    }\n}"
         }
       ]
     }
@@ -1103,6 +1219,10 @@
         {
           "language": "Python",
           "source": "def merge_lists(l1,l2):\n    dummy=tail=ListNode()\n    while l1 and l2:\n        if l1.val<=l2.val: tail.next,l1=l1,l1.next\n        else: tail.next,l2=l2,l2.next\n        tail=tail.next\n    tail.next=l1 or l2\n    return dummy.next"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode mergeTwoLists(ListNode a, ListNode b) {\n        ListNode dummy = new ListNode(), tail = dummy;\n        while (a != null && b != null) {\n            if (a.val <= b.val) { tail.next = a; a = a.next; }\n            else { tail.next = b; b = b.next; }\n            tail = tail.next;\n        }\n        tail.next = a != null ? a : b;\n        return dummy.next;\n    }\n}"
         }
       ]
     }
@@ -1139,6 +1259,10 @@
         {
           "language": "Python",
           "source": "def sort_list(head):\n    if not head or not head.next: return head\n    slow,fast=head,head.next\n    while fast and fast.next: slow=slow.next; fast=fast.next.next\n    mid=slow.next; slow.next=None\n    return merge_lists(sort_list(head),sort_list(mid))"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode sortList(ListNode head) {\n        if (head == null || head.next == null) return head;\n        ListNode slow = head, fast = head.next;\n        while (fast != null && fast.next != null) { slow = slow.next; fast = fast.next.next; }\n        ListNode mid = slow.next;\n        slow.next = null;\n        return merge(sortList(head), sortList(mid));\n    }\n\n    private ListNode merge(ListNode a, ListNode b) {\n        ListNode dummy = new ListNode(), tail = dummy;\n        while (a != null && b != null) {\n            if (a.val <= b.val) { tail.next = a; a = a.next; }\n            else { tail.next = b; b = b.next; }\n            tail = tail.next;\n        }\n        tail.next = a != null ? a : b;\n        return dummy.next;\n    }\n}"
         }
       ]
     }
@@ -1175,6 +1299,10 @@
         {
           "language": "Python",
           "source": "def remove_nth(head,n):\n    dummy=ListNode(0,head); fast=slow=dummy\n    for _ in range(n+1): fast=fast.next\n    while fast: fast=fast.next; slow=slow.next\n    slow.next=slow.next.next\n    return dummy.next"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode();\n        dummy.next = head;\n        ListNode slow = dummy, fast = dummy;\n        for (int i = 0; i <= n; i++) fast = fast.next;\n        while (fast != null) { slow = slow.next; fast = fast.next; }\n        slow.next = slow.next.next;\n        return dummy.next;\n    }\n}"
         }
       ]
     }
@@ -1211,6 +1339,10 @@
         {
           "language": "Python",
           "source": "def is_palindrome_list(head):\n    a=[]\n    while head: a.append(head.val); head=head.next\n    return a==a[::-1]\n# O(1) 版本使用中点反转后半段"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public boolean isPalindrome(ListNode head) {\n        List<Integer> values = new ArrayList<>();\n        for (; head != null; head = head.next) values.add(head.val);\n        for (int l = 0, r = values.size() - 1; l < r; l++, r--)\n            if (!values.get(l).equals(values.get(r))) return false;\n        return true;\n    }\n}"
         }
       ]
     }
@@ -1248,6 +1380,10 @@
         {
           "language": "Python",
           "source": "def add_two_numbers(l1,l2):\n    dummy=tail=ListNode(); carry=0\n    while l1 or l2 or carry:\n        s=(l1.val if l1 else 0)+(l2.val if l2 else 0)+carry\n        carry,val=divmod(s,10); tail.next=ListNode(val); tail=tail.next\n        l1=l1.next if l1 else None; l2=l2.next if l2 else None\n    return dummy.next"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution {\n    public ListNode addTwoNumbers(ListNode a, ListNode b) {\n        ListNode dummy = new ListNode(), tail = dummy;\n        for (int carry = 0; a != null || b != null || carry > 0; tail = tail.next) {\n            int sum = carry + (a != null ? a.val : 0) + (b != null ? b.val : 0);\n            carry = sum / 10;\n            tail.next = new ListNode(sum % 10);\n            if (a != null) a = a.next;\n            if (b != null) b = b.next;\n        }\n        return dummy.next;\n    }\n}"
         }
       ]
     }
@@ -1284,6 +1420,10 @@
         {
           "language": "Python",
           "source": "def copy_random(head):\n    m={None:None}; cur=head\n    while cur: m[cur]=ListNode(cur.val); cur=cur.next\n    cur=head\n    while cur: m[cur].next=m[cur.next]; m[cur].random=m[cur.random]; cur=cur.next\n    return m[head]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution {\n    public Node copyRandomList(Node head) {\n        if (head == null) return null;\n        Map<Node, Node> copied = new HashMap<>();\n        for (Node cur = head; cur != null; cur = cur.next) copied.put(cur, new Node(cur.val));\n        for (Node cur = head; cur != null; cur = cur.next) {\n            copied.get(cur).next = copied.get(cur.next);\n            copied.get(cur).random = copied.get(cur.random);\n        }\n        return copied.get(head);\n    }\n}"
         }
       ]
     }
@@ -1321,6 +1461,10 @@
         {
           "language": "Python",
           "source": "class LRUCache:\n    def __init__(self,cap):\n        self.cap=cap; self.m={}; self.head=Node(); self.tail=Node(); self.head.next=self.tail; self.tail.prev=self.head\n    def _remove(self,n): n.prev.next=n.next; n.next.prev=n.prev\n    def _add(self,n): n.next=self.head.next; n.prev=self.head; self.head.next.prev=n; self.head.next=n\n    def get(self,k):\n        if k not in self.m: return -1\n        n=self.m[k]; self._remove(n); self._add(n); return n.v\n    def put(self,k,v):\n        if k in self.m: n=self.m[k]; n.v=v; self._remove(n)\n        else: n=Node(k,v); self.m[k]=n\n        self._add(n)\n        if len(self.m)>self.cap: old=self.tail.prev; self._remove(old); del self.m[old.k]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass LRUCache {\n    private final int capacity;\n    private final Map<Integer, Node> map = new HashMap<>();\n    private final Node head = new Node(), tail = new Node();\n\n    private static class Node {\n        int key, value;\n        Node prev, next;\n    }\n\n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        head.next = tail;\n        tail.prev = head;\n    }\n\n    public int get(int key) {\n        Node node = map.get(key);\n        if (node == null) return -1;\n        remove(node); addFirst(node);\n        return node.value;\n    }\n\n    public void put(int key, int value) {\n        Node node = map.get(key);\n        if (node != null) { node.value = value; remove(node); }\n        else {\n            node = new Node(); node.key = key; map.put(key, node);\n        }\n        node.value = value; addFirst(node);\n        if (map.size() > capacity) {\n            Node old = tail.prev;\n            remove(old); map.remove(old.key);\n        }\n    }\n\n    private void remove(Node n) { n.prev.next = n.next; n.next.prev = n.prev; }\n    private void addFirst(Node n) {\n        n.next = head.next; n.prev = head;\n        head.next.prev = n; head.next = n;\n    }\n}"
         }
       ]
     }
@@ -1358,6 +1502,10 @@
         {
           "language": "Python",
           "source": "def my_pow(x,n):\n    if n<0: return 1/my_pow(x,-n)\n    ans=1\n    while n:\n        if n&1: ans*=x\n        x*=x; n>>=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public double myPow(double x, long n) { if (n < 0) return 1 / myPow(x, -n); double ans = 1; while (n > 0) { if ((n & 1) == 1) ans *= x; x *= x; n >>= 1; } return ans; } }"
         }
       ]
     }
@@ -1394,6 +1542,10 @@
         {
           "language": "Python",
           "source": "def my_sqrt(x):\n    if x<2: return x\n    lo,hi=1,x//2+1\n    while lo<hi:\n        mid=(lo+hi)//2\n        if mid<=x//mid: lo=mid+1\n        else: hi=mid\n    return lo-1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int mySqrt(int x) { if (x < 2) return x; int lo = 1, hi = x / 2 + 1; while (lo < hi) { int mid = lo + (hi - lo) / 2; if (mid <= x / mid) lo = mid + 1; else hi = mid; } return lo - 1; } }"
         }
       ]
     }
@@ -1430,6 +1582,10 @@
         {
           "language": "Python",
           "source": "def search_rotated(nums,t):\n    lo,hi=0,len(nums)-1\n    while lo<=hi:\n        mid=(lo+hi)//2\n        if nums[mid]==t: return mid\n        if nums[lo]<=nums[mid]:\n            if nums[lo]<=t<nums[mid]: hi=mid-1\n            else: lo=mid+1\n        else:\n            if nums[mid]<t<=nums[hi]: lo=mid+1\n            else: hi=mid-1\n    return -1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int search(int[] nums, int target) { int lo = 0, hi = nums.length - 1; while (lo <= hi) { int mid = lo + (hi - lo) / 2; if (nums[mid] == target) return mid; if (nums[lo] <= nums[mid]) { if (nums[lo] <= target && target < nums[mid]) hi = mid - 1; else lo = mid + 1; } else { if (nums[mid] < target && target <= nums[hi]) lo = mid + 1; else hi = mid - 1; } } return -1; } }"
         }
       ]
     }
@@ -1466,6 +1622,10 @@
         {
           "language": "Python",
           "source": "def binary_search(nums,t):\n    lo,hi=0,len(nums)-1\n    while lo<=hi:\n        mid=(lo+hi)//2\n        if nums[mid]==t: return mid\n        if nums[mid]<t: lo=mid+1\n        else: hi=mid-1\n    return -1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int search(int[] nums, int target) { int lo = 0, hi = nums.length - 1; while (lo <= hi) { int mid = lo + (hi - lo) / 2; if (nums[mid] == target) return mid; if (nums[mid] < target) lo = mid + 1; else hi = mid - 1; } return -1; } }"
         }
       ]
     }
@@ -1502,6 +1662,10 @@
         {
           "language": "Python",
           "source": "def first_bad_version(n):\n    lo,hi=1,n\n    while lo<hi:\n        mid=lo+(hi-lo)//2\n        if is_bad(mid): hi=mid\n        else: lo=mid+1\n    return lo"
+        },
+        {
+          "language": "Java",
+          "source": "public class Solution extends VersionControl { public int firstBadVersion(int n) { int lo = 1, hi = n; while (lo < hi) { int mid = lo + (hi - lo) / 2; if (isBadVersion(mid)) hi = mid; else lo = mid + 1; } return lo; } }"
         }
       ]
     }
@@ -1538,6 +1702,10 @@
         {
           "language": "Python",
           "source": "def find_peak(nums):\n    lo,hi=0,len(nums)-1\n    while lo<hi:\n        mid=(lo+hi)//2\n        if nums[mid]<nums[mid+1]: lo=mid+1\n        else: hi=mid\n    return lo"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int findPeakElement(int[] nums) { int lo = 0, hi = nums.length - 1; while (lo < hi) { int mid = lo + (hi - lo) / 2; if (nums[mid] < nums[mid + 1]) lo = mid + 1; else hi = mid; } return lo; } }"
         }
       ]
     }
@@ -1574,6 +1742,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef find_kth_largest(nums,k):\n    heap=[]\n    for x in nums:\n        heapq.heappush(heap,x)\n        if len(heap)>k: heapq.heappop(heap)\n    return heap[0]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int findKthLargest(int[] nums, int k) { PriorityQueue<Integer> pq = new PriorityQueue<>(); for (int x : nums) { pq.offer(x); if (pq.size() > k) pq.poll(); } return pq.peek(); } }"
         }
       ]
     }
@@ -1611,6 +1783,10 @@
         {
           "language": "Python",
           "source": "def find_median(A,B):\n    if len(A)>len(B): A,B=B,A\n    m,n=len(A),len(B); lo,hi=0,m; half=(m+n+1)//2\n    while lo<=hi:\n        i=(lo+hi)//2; j=half-i\n        LA=A[i-1] if i else float('-inf'); RA=A[i] if i<m else float('inf')\n        LB=B[j-1] if j else float('-inf'); RB=B[j] if j<n else float('inf')\n        if LA>RB: hi=i-1\n        elif LB>RA: lo=i+1\n        else:\n            left=max(LA,LB); right=min(RA,RB)\n            return left if (m+n)%2 else (left+right)/2\n    raise ValueError('invalid input')"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public double findMedianSortedArrays(int[] a, int[] b) { if (a.length > b.length) return findMedianSortedArrays(b, a); int m = a.length, n = b.length, lo = 0, hi = m, half = (m + n + 1) / 2; while (lo <= hi) { int i = lo + (hi - lo) / 2, j = half - i; int la = i == 0 ? Integer.MIN_VALUE : a[i - 1], ra = i == m ? Integer.MAX_VALUE : a[i]; int lb = j == 0 ? Integer.MIN_VALUE : b[j - 1], rb = j == n ? Integer.MAX_VALUE : b[j]; if (la > rb) hi = i - 1; else if (lb > ra) lo = i + 1; else return (m + n) % 2 == 1 ? Math.max(la, lb) : (Math.max(la, lb) + Math.min(ra, rb)) / 2.0; } throw new IllegalArgumentException(); } }"
         }
       ]
     }
@@ -1647,6 +1823,10 @@
         {
           "language": "Python",
           "source": "def max_depth(root):\n    if not root: return 0\n    return 1+max(max_depth(root.left),max_depth(root.right))"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int maxDepth(TreeNode root) { return root == null ? 0 : 1 + Math.max(maxDepth(root.left), maxDepth(root.right)); } }"
         }
       ]
     }
@@ -1683,6 +1863,10 @@
         {
           "language": "Python",
           "source": "def invert_tree(root):\n    if root: root.left,root.right=invert_tree(root.right),invert_tree(root.left)\n    return root"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public TreeNode invertTree(TreeNode root) { if (root != null) { TreeNode left = invertTree(root.left); root.left = invertTree(root.right); root.right = left; } return root; } }"
         }
       ]
     }
@@ -1719,6 +1903,10 @@
         {
           "language": "Python",
           "source": "def is_valid_bst(root,lo=float('-inf'),hi=float('inf')):\n    if not root: return True\n    if not lo<root.val<hi: return False\n    return is_valid_bst(root.left,lo,root.val) and is_valid_bst(root.right,root.val,hi)"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean isValidBST(TreeNode root) { return valid(root, Long.MIN_VALUE, Long.MAX_VALUE); } private boolean valid(TreeNode n, long lo, long hi) { return n == null || (lo < n.val && n.val < hi && valid(n.left, lo, n.val) && valid(n.right, n.val, hi)); } }"
         }
       ]
     }
@@ -1755,6 +1943,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef level_order(root):\n    if not root: return []\n    q=deque([root]); ans=[]\n    while q:\n        ans.append([x.val for x in q])\n        for _ in range(len(ans[-1])):\n            x=q.popleft()\n            if x.left: q.append(x.left)\n            if x.right: q.append(x.right)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> levelOrder(TreeNode root) { List<List<Integer>> ans = new ArrayList<>(); Queue<TreeNode> q = new ArrayDeque<>(); if (root != null) q.offer(root); while (!q.isEmpty()) { int size = q.size(); List<Integer> row = new ArrayList<>(); for (int i = 0; i < size; i++) { TreeNode n = q.poll(); row.add(n.val); if (n.left != null) q.offer(n.left); if (n.right != null) q.offer(n.right); } ans.add(row); } return ans; } }"
         }
       ]
     }
@@ -1791,6 +1983,10 @@
         {
           "language": "Python",
           "source": "def zigzag(root):\n    levels=level_order(root)\n    return [lv if i%2==0 else lv[::-1] for i,lv in enumerate(levels)]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> zigzagLevelOrder(TreeNode root) { List<List<Integer>> ans = levelOrder(root); for (int i = 1; i < ans.size(); i += 2) Collections.reverse(ans.get(i)); return ans; } private List<List<Integer>> levelOrder(TreeNode root) { List<List<Integer>> ans = new ArrayList<>(); Queue<TreeNode> q = new ArrayDeque<>(); if (root != null) q.offer(root); while (!q.isEmpty()) { List<Integer> row = new ArrayList<>(); for (int i = q.size(); i > 0; i--) { TreeNode n = q.poll(); row.add(n.val); if (n.left != null) q.offer(n.left); if (n.right != null) q.offer(n.right); } ans.add(row); } return ans; } }"
         }
       ]
     }
@@ -1827,6 +2023,10 @@
         {
           "language": "Python",
           "source": "def diameter_of_binary_tree(root):\n    ans=0\n    def depth(n):\n        nonlocal ans\n        if not n: return 0\n        l,r=depth(n.left),depth(n.right); ans=max(ans,l+r)\n        return 1+max(l,r)\n    depth(root); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { private int ans = 0; public int diameterOfBinaryTree(TreeNode root) { depth(root); return ans; } private int depth(TreeNode n) { if (n == null) return 0; int l = depth(n.left), r = depth(n.right); ans = Math.max(ans, l + r); return 1 + Math.max(l, r); } }"
         }
       ]
     }
@@ -1863,6 +2063,10 @@
         {
           "language": "Python",
           "source": "def is_balanced(root):\n    def h(n):\n        if not n: return 0\n        l,r=h(n.left),h(n.right)\n        if l<0 or r<0 or abs(l-r)>1: return -1\n        return 1+max(l,r)\n    return h(root)!=-1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean isBalanced(TreeNode root) { return height(root) >= 0; } private int height(TreeNode n) { if (n == null) return 0; int l = height(n.left), r = height(n.right); if (l < 0 || r < 0 || Math.abs(l - r) > 1) return -1; return 1 + Math.max(l, r); } }"
         }
       ]
     }
@@ -1899,6 +2103,10 @@
         {
           "language": "Python",
           "source": "def lowest_common_ancestor_bst(root,p,q):\n    while root:\n        if p.val<root.val and q.val<root.val: root=root.left\n        elif p.val>root.val and q.val>root.val: root=root.right\n        else: return root"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) { while (root != null) { if (p.val < root.val && q.val < root.val) root = root.left; else if (p.val > root.val && q.val > root.val) root = root.right; else return root; } return null; } }"
         }
       ]
     }
@@ -1935,6 +2143,10 @@
         {
           "language": "Python",
           "source": "def serialize(root):\n    if not root: return '#'\n    return f\"{root.val},{serialize(root.left)},{serialize(root.right)}\"\ndef deserialize(data):\n    vals=iter(data.split(','))\n    def build():\n        v=next(vals)\n        if v=='#': return None\n        node=TreeNode(int(v)); node.left=build(); node.right=build(); return node\n    return build()"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\npublic class Codec { public String serialize(TreeNode root) { return root == null ? \"#\" : root.val + \",\" + serialize(root.left) + \",\" + serialize(root.right); } public TreeNode deserialize(String data) { Queue<String> q = new LinkedList<>(Arrays.asList(data.split(\",\"))); return build(q); } private TreeNode build(Queue<String> q) { String v = q.poll(); if (v.equals(\"#\")) return null; TreeNode root = new TreeNode(Integer.parseInt(v)); root.left = build(q); root.right = build(q); return root; } }"
         }
       ]
     }
@@ -1972,6 +2184,10 @@
         {
           "language": "Python",
           "source": "from collections import defaultdict\ndef path_sum(root,target):\n    seen=defaultdict(int); seen[0]=1; ans=0\n    def dfs(n,cur):\n        nonlocal ans\n        if not n: return\n        cur+=n.val; ans+=seen[cur-target]; seen[cur]+=1\n        dfs(n.left,cur); dfs(n.right,cur); seen[cur]-=1\n    dfs(root,0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { private int ans = 0; public int pathSum(TreeNode root, int target) { Map<Long,Integer> seen = new HashMap<>(); seen.put(0L, 1); dfs(root, target, 0, seen); return ans; } private void dfs(TreeNode n, int target, long cur, Map<Long,Integer> seen) { if (n == null) return; cur += n.val; ans += seen.getOrDefault(cur - target, 0); seen.merge(cur, 1, Integer::sum); dfs(n.left, target, cur, seen); dfs(n.right, target, cur, seen); seen.merge(cur, -1, Integer::sum); } }"
         }
       ]
     }
@@ -2008,6 +2224,10 @@
         {
           "language": "Python",
           "source": "def right_side_view(root):\n    ans=[]\n    def dfs(n,d):\n        if not n: return\n        if d==len(ans): ans.append(n.val)\n        dfs(n.right,d+1); dfs(n.left,d+1)\n    dfs(root,0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<Integer> rightSideView(TreeNode root) { List<Integer> ans = new ArrayList<>(); dfs(root, 0, ans); return ans; } private void dfs(TreeNode n, int depth, List<Integer> ans) { if (n == null) return; if (depth == ans.size()) ans.add(n.val); dfs(n.right, depth + 1, ans); dfs(n.left, depth + 1, ans); } }"
         }
       ]
     }
@@ -2044,6 +2264,10 @@
         {
           "language": "Python",
           "source": "def build_tree(preorder,inorder):\n    idx={v:i for i,v in enumerate(inorder)}; pos=0\n    def build(l,r):\n        nonlocal pos\n        if l>r: return None\n        root=TreeNode(preorder[pos]); k=idx[preorder[pos]]; pos+=1\n        root.left=build(l,k-1); root.right=build(k+1,r)\n        return root\n    return build(0,len(inorder)-1)"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { private int pos = 0; public TreeNode buildTree(int[] preorder, int[] inorder) { Map<Integer,Integer> idx = new HashMap<>(); for (int i = 0; i < inorder.length; i++) idx.put(inorder[i], i); return build(preorder, idx, 0, inorder.length - 1); } private TreeNode build(int[] pre, Map<Integer,Integer> idx, int lo, int hi) { if (lo > hi) return null; TreeNode root = new TreeNode(pre[pos++]); int mid = idx.get(root.val); root.left = build(pre, idx, lo, mid - 1); root.right = build(pre, idx, mid + 1, hi); return root; } }"
         }
       ]
     }
@@ -2081,6 +2305,10 @@
         {
           "language": "Python",
           "source": "import heapq\nclass KthLargest:\n    def __init__(self,k,nums):\n        self.k=k; self.h=[]\n        for x in nums: self.add(x)\n    def add(self,x):\n        heapq.heappush(self.h,x)\n        if len(self.h)>self.k: heapq.heappop(self.h)\n        return self.h[0]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass KthLargest { private final PriorityQueue<Integer> pq = new PriorityQueue<>(); private final int k; public KthLargest(int k, int[] nums) { this.k = k; for (int x : nums) add(x); } public int add(int val) { pq.offer(val); if (pq.size() > k) pq.poll(); return pq.peek(); } }"
         }
       ]
     }
@@ -2117,6 +2345,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef k_closest(points,k):\n    heap=[]\n    for x,y in points:\n        d=-(x*x+y*y)\n        if len(heap)<k: heapq.heappush(heap,(d,x,y))\n        elif d>heap[0][0]: heapq.heapreplace(heap,(d,x,y))\n    return [(x,y) for _,x,y in heap]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int[][] kClosest(int[][] points, int k) { PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> b[0] - a[0]); for (int[] p : points) { int d = p[0] * p[0] + p[1] * p[1]; if (pq.size() < k) pq.offer(new int[]{d, p[0], p[1]}); else if (d < pq.peek()[0]) { pq.poll(); pq.offer(new int[]{d, p[0], p[1]}); } } return pq.stream().map(x -> new int[]{x[1], x[2]}).toArray(int[][]::new); } }"
         }
       ]
     }
@@ -2154,6 +2386,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef merge_k_lists(lists):\n    heap=[]\n    for i,node in enumerate(lists):\n        if node: heapq.heappush(heap,(node.val,i,node))\n    dummy=tail=ListNode()\n    while heap:\n        _,i,node=heapq.heappop(heap); tail.next=node; tail=tail.next\n        if node.next: heapq.heappush(heap,(node.next.val,i,node.next))\n    return dummy.next"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public ListNode mergeKLists(ListNode[] lists) { PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]); ListNode dummy = new ListNode(), tail = dummy; for (int i = 0; i < lists.length; i++) if (lists[i] != null) pq.offer(new int[]{lists[i].val, i}); while (!pq.isEmpty()) { int[] top = pq.poll(); int i = top[1]; tail.next = lists[i]; tail = tail.next; lists[i] = lists[i].next; if (lists[i] != null) pq.offer(new int[]{lists[i].val, i}); } return dummy.next; } }"
         }
       ]
     }
@@ -2191,6 +2427,10 @@
         {
           "language": "Python",
           "source": "from collections import Counter\ndef top_k_words(words,k):\n    c=Counter(words)\n    return sorted(c,key=lambda w:(-c[w],w))[:k]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<String> topKFrequent(String[] words, int k) { Map<String,Integer> count = new HashMap<>(); for (String w : words) count.merge(w, 1, Integer::sum); return count.keySet().stream().sorted((a,b) -> { int d = count.get(b) - count.get(a); return d != 0 ? d : a.compareTo(b); }).limit(k).toList(); } }"
         }
       ]
     }
@@ -2227,6 +2467,10 @@
         {
           "language": "Python",
           "source": "import heapq\nclass MedianFinder:\n    def __init__(self): self.left=[]; self.right=[]\n    def add(self,x):\n        heapq.heappush(self.left,-x)\n        heapq.heappush(self.right,-heapq.heappop(self.left))\n        if len(self.right)>len(self.left): heapq.heappush(self.left,-heapq.heappop(self.right))\n    def find(self):\n        return -self.left[0] if len(self.left)>len(self.right) else (-self.left[0]+self.right[0])/2"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass MedianFinder { private final PriorityQueue<Integer> left = new PriorityQueue<>(Collections.reverseOrder()); private final PriorityQueue<Integer> right = new PriorityQueue<>(); public void addNum(int x) { left.offer(x); right.offer(left.poll()); if (right.size() > left.size()) left.offer(right.poll()); } public double findMedian() { return left.size() > right.size() ? left.peek() : (left.peek() + right.peek()) / 2.0; } }"
         }
       ]
     }
@@ -2264,6 +2508,10 @@
         {
           "language": "Python",
           "source": "from collections import Counter\ndef least_interval(tasks,n):\n    c=Counter(tasks); m=max(c.values())\n    max_count=sum(v==m for v in c.values())\n    return max(len(tasks),(m-1)*(n+1)+max_count)"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int leastInterval(char[] tasks, int n) { int[] count = new int[26]; for (char c : tasks) count[c - 'A']++; int max = Arrays.stream(count).max().orElse(0), ties = 0; for (int x : count) if (x == max) ties++; return Math.max(tasks.length, (max - 1) * (n + 1) + ties); } }"
         }
       ]
     }
@@ -2301,6 +2549,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef k_smallest_pairs(A,B,k):\n    if not A or not B: return []\n    heap=[(A[i]+B[0],i,0) for i in range(min(k,len(A)))]\n    heapq.heapify(heap); ans=[]\n    while heap and len(ans)<k:\n        _,i,j=heapq.heappop(heap); ans.append([A[i],B[j]])\n        if j+1<len(B): heapq.heappush(heap,(A[i]+B[j+1],i,j+1))\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> kSmallestPairs(int[] a, int[] b, int k) { PriorityQueue<int[]> pq = new PriorityQueue<>((x,y) -> x[0] - y[0]); for (int i = 0; i < Math.min(k, a.length); i++) pq.offer(new int[]{a[i] + b[0], i, 0}); List<List<Integer>> ans = new ArrayList<>(); while (!pq.isEmpty() && ans.size() < k) { int[] top = pq.poll(); ans.add(List.of(a[top[1]], b[top[2]])); if (top[2] + 1 < b.length) pq.offer(new int[]{a[top[1]] + b[top[2] + 1], top[1], top[2] + 1}); } return ans; } }"
         }
       ]
     }
@@ -2337,6 +2589,10 @@
         {
           "language": "Python",
           "source": "def num_islands(grid):\n    if not grid: return 0\n    m,n=len(grid),len(grid[0])\n    def dfs(i,j):\n        if not(0<=i<m and 0<=j<n) or grid[i][j]!='1': return\n        grid[i][j]='0'\n        for di,dj in ((1,0),(-1,0),(0,1),(0,-1)): dfs(i+di,j+dj)\n    ans=0\n    for i in range(m):\n        for j in range(n):\n            if grid[i][j]=='1': dfs(i,j); ans+=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { private static final int[] D = {1,0,-1,0,0,1,0,-1}; public int numIslands(char[][] grid) { int ans = 0; for (int i = 0; i < grid.length; i++) for (int j = 0; j < grid[0].length; j++) if (grid[i][j] == '1') { dfs(grid, i, j); ans++; } return ans; } private void dfs(char[][] g, int i, int j) { if (i < 0 || i >= g.length || j < 0 || j >= g[0].length || g[i][j] != '1') return; g[i][j] = '0'; for (int d = 0; d < 8; d += 2) dfs(g, i + D[d], j + D[d + 1]); } }"
         }
       ]
     }
@@ -2374,6 +2630,10 @@
         {
           "language": "Python",
           "source": "def clone_graph(node):\n    if not node: return None\n    m={node:Node(node.val)}; q=[node]\n    while q:\n        cur=q.pop()\n        for nb in cur.neighbors:\n            if nb not in m: m[nb]=Node(nb.val); q.append(nb)\n            m[cur].neighbors.append(m[nb])\n    return m[node]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public Node cloneGraph(Node node) { if (node == null) return null; Map<Node,Node> copied = new HashMap<>(); copied.put(node, new Node(node.val)); Queue<Node> q = new ArrayDeque<>(); q.offer(node); while (!q.isEmpty()) { Node cur = q.poll(); for (Node next : cur.neighbors) { if (!copied.containsKey(next)) { copied.put(next, new Node(next.val)); q.offer(next); } copied.get(cur).neighbors.add(copied.get(next)); } } return copied.get(node); } }"
         }
       ]
     }
@@ -2410,6 +2670,10 @@
         {
           "language": "Python",
           "source": "from collections import deque,defaultdict\ndef can_finish(n,edges):\n    g=defaultdict(list); indeg=[0]*n\n    for a,b in edges: g[b].append(a); indeg[a]+=1\n    q=deque(i for i in range(n) if indeg[i]==0); seen=0\n    while q:\n        u=q.popleft(); seen+=1\n        for v in g[u]:\n            indeg[v]-=1\n            if indeg[v]==0: q.append(v)\n    return seen==n"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public boolean canFinish(int n, int[][] edges) { List<List<Integer>> g = new ArrayList<>(); for (int i = 0; i < n; i++) g.add(new ArrayList<>()); int[] indeg = new int[n]; for (int[] e : edges) { g.get(e[1]).add(e[0]); indeg[e[0]]++; } Queue<Integer> q = new ArrayDeque<>(); for (int i = 0; i < n; i++) if (indeg[i] == 0) q.offer(i); int seen = 0; while (!q.isEmpty()) { int u = q.poll(); seen++; for (int v : g.get(u)) if (--indeg[v] == 0) q.offer(v); } return seen == n; } }"
         }
       ]
     }
@@ -2446,6 +2710,10 @@
         {
           "language": "Python",
           "source": "def find_order(n,edges):\n    g=[[] for _ in range(n)]; indeg=[0]*n\n    for a,b in edges: g[b].append(a); indeg[a]+=1\n    q=deque(i for i in range(n) if indeg[i]==0); ans=[]\n    while q:\n        u=q.popleft(); ans.append(u)\n        for v in g[u]:\n            indeg[v]-=1\n            if indeg[v]==0: q.append(v)\n    return ans if len(ans)==n else []"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int[] findOrder(int n, int[][] edges) { List<List<Integer>> g = new ArrayList<>(); for (int i = 0; i < n; i++) g.add(new ArrayList<>()); int[] indeg = new int[n]; for (int[] e : edges) { g.get(e[1]).add(e[0]); indeg[e[0]]++; } Queue<Integer> q = new ArrayDeque<>(); for (int i = 0; i < n; i++) if (indeg[i] == 0) q.offer(i); int[] ans = new int[n]; int idx = 0; while (!q.isEmpty()) { int u = q.poll(); ans[idx++] = u; for (int v : g.get(u)) if (--indeg[v] == 0) q.offer(v); } return idx == n ? ans : new int[0]; } }"
         }
       ]
     }
@@ -2482,6 +2750,10 @@
         {
           "language": "Python",
           "source": "def pacific_atlantic(h):\n    m,n=len(h),len(h[0]); pac=set(); atl=set()\n    def dfs(i,j,seen):\n        seen.add((i,j))\n        for di,dj in ((1,0),(-1,0),(0,1),(0,-1)):\n            a,b=i+di,j+dj\n            if 0<=a<m and 0<=b<n and (a,b) not in seen and h[a][b]>=h[i][j]: dfs(a,b,seen)\n    for i in range(m): dfs(i,0,pac); dfs(i,n-1,atl)\n    for j in range(n): dfs(0,j,pac); dfs(m-1,j,atl)\n    return [list(x) for x in pac&atl]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> pacificAtlantic(int[][] h) { int m = h.length, n = h[0].length; boolean[][] pac = new boolean[m][n], atl = new boolean[m][n]; for (int i = 0; i < m; i++) { dfs(h, pac, i, 0); dfs(h, atl, i, n - 1); } for (int j = 0; j < n; j++) { dfs(h, pac, 0, j); dfs(h, atl, m - 1, j); } List<List<Integer>> ans = new ArrayList<>(); for (int i = 0; i < m; i++) for (int j = 0; j < n; j++) if (pac[i][j] && atl[i][j]) ans.add(List.of(i,j)); return ans; } private void dfs(int[][] h, boolean[][] seen, int i, int j) { if (i < 0 || i >= h.length || j < 0 || j >= h[0].length || seen[i][j]) return; seen[i][j] = true; int[][] d = {{1,0},{-1,0},{0,1},{0,-1}}; for (int[] p : d) { int a = i + p[0], b = j + p[1]; if (a >= 0 && a < h.length && b >= 0 && b < h[0].length && h[a][b] >= h[i][j]) dfs(h, seen, a, b); } } }"
         }
       ]
     }
@@ -2518,6 +2790,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef oranges_rotting(grid):\n    m,n=len(grid),len(grid[0]); q=deque(); fresh=0\n    for i in range(m):\n        for j in range(n):\n            if grid[i][j]==2: q.append((i,j,0))\n            elif grid[i][j]==1: fresh+=1\n    ans=0\n    while q and fresh:\n        i,j,t=q.popleft()\n        for di,dj in ((1,0),(-1,0),(0,1),(0,-1)):\n            a,b=i+di,j+dj\n            if 0<=a<m and 0<=b<n and grid[a][b]==1:\n                grid[a][b]=2; fresh-=1; ans=t+1; q.append((a,b,t+1))\n    return -1 if fresh else ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int orangesRotting(int[][] grid) { int m = grid.length, n = grid[0].length, fresh = 0, ans = 0; Queue<int[]> q = new ArrayDeque<>(); for (int i = 0; i < m; i++) for (int j = 0; j < n; j++) { if (grid[i][j] == 2) q.offer(new int[]{i,j}); if (grid[i][j] == 1) fresh++; } int[][] d = {{1,0},{-1,0},{0,1},{0,-1}}; while (!q.isEmpty() && fresh > 0) { for (int size = q.size(); size > 0; size--) { int[] cur = q.poll(); for (int[] p : d) { int a = cur[0] + p[0], b = cur[1] + p[1]; if (a >= 0 && a < m && b >= 0 && b < n && grid[a][b] == 1) { grid[a][b] = 2; fresh--; q.offer(new int[]{a,b}); } } } ans++; } return fresh == 0 ? ans : -1; } }"
         }
       ]
     }
@@ -2555,6 +2831,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef ladder_length(begin,end,words):\n    words=set(words)\n    if end not in words: return 0\n    q=deque([(begin,1)]); words.discard(begin)\n    while q:\n        word,d=q.popleft()\n        if word==end: return d\n        for i,ch in enumerate(word):\n            for c in 'abcdefghijklmnopqrstuvwxyz':\n                nxt=word[:i]+c+word[i+1:]\n                if nxt in words: q.append((nxt,d+1)); words.remove(nxt)\n    return 0"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int ladderLength(String begin, String end, List<String> words) { Set<String> dict = new HashSet<>(words); if (!dict.contains(end)) return 0; Queue<String> q = new ArrayDeque<>(); q.offer(begin); dict.remove(begin); for (int depth = 1; !q.isEmpty(); depth++) for (int size = q.size(); size > 0; size--) { String cur = q.poll(); if (cur.equals(end)) return depth; char[] a = cur.toCharArray(); for (int i = 0; i < a.length; i++) for (char c = 'a'; c <= 'z'; c++) { char old = a[i]; a[i] = c; String next = new String(a); if (dict.remove(next)) q.offer(next); a[i] = old; } } return 0; } }"
         }
       ]
     }
@@ -2591,6 +2871,10 @@
         {
           "language": "Python",
           "source": "def count_components(n,edges):\n    g=[[] for _ in range(n)]\n    for a,b in edges: g[a].append(b); g[b].append(a)\n    seen=[False]*n\n    def dfs(u):\n        seen[u]=True\n        for v in g[u]:\n            if not seen[v]: dfs(v)\n    ans=0\n    for i in range(n):\n        if not seen[i]: dfs(i); ans+=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int countComponents(int n, int[][] edges) { List<List<Integer>> g = new ArrayList<>(); for (int i = 0; i < n; i++) g.add(new ArrayList<>()); for (int[] e : edges) { g.get(e[0]).add(e[1]); g.get(e[1]).add(e[0]); } boolean[] seen = new boolean[n]; int ans = 0; for (int i = 0; i < n; i++) if (!seen[i]) { dfs(g, seen, i); ans++; } return ans; } private void dfs(List<List<Integer>> g, boolean[] seen, int u) { seen[u] = true; for (int v : g.get(u)) if (!seen[v]) dfs(g, seen, v); } }"
         }
       ]
     }
@@ -2627,6 +2911,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef is_bipartite(n,edges):\n    g=[[] for _ in range(n)]\n    for a,b in edges: g[a].append(b); g[b].append(a)\n    color=[None]*n\n    for start in range(n):\n        if color[start] is not None: continue\n        color[start]=0; q=deque([start])\n        while q:\n            u=q.popleft()\n            for v in g[u]:\n                if color[v] is None: color[v]=color[u]^1; q.append(v)\n                elif color[v]==color[u]: return False\n    return True"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public boolean isBipartite(int n, int[][] edges) { List<List<Integer>> g = new ArrayList<>(); for (int i = 0; i < n; i++) g.add(new ArrayList<>()); for (int[] e : edges) { g.get(e[0]).add(e[1]); g.get(e[1]).add(e[0]); } int[] color = new int[n]; Arrays.fill(color, -1); for (int start = 0; start < n; start++) if (color[start] < 0) { Queue<Integer> q = new ArrayDeque<>(); q.offer(start); color[start] = 0; while (!q.isEmpty()) { int u = q.poll(); for (int v : g.get(u)) { if (color[v] < 0) { color[v] = color[u] ^ 1; q.offer(v); } else if (color[v] == color[u]) return false; } } } return true; } }"
         }
       ]
     }
@@ -2664,6 +2952,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef network_delay(times,n,k):\n    g=[[] for _ in range(n+1)]\n    for u,v,w in times: g[u].append((v,w))\n    dist=[float('inf')]*(n+1); dist[k]=0; heap=[(0,k)]\n    while heap:\n        d,u=heapq.heappop(heap)\n        if d>dist[u]: continue\n        for v,w in g[u]:\n            nd=d+w\n            if nd<dist[v]: dist[v]=nd; heapq.heappush(heap,(nd,v))\n    ans=max(dist[1:])\n    return -1 if ans==float('inf') else ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int networkDelayTime(int[][] times, int n, int k) { List<int[][]> adj = new ArrayList<>(); int[] dist = new int[n + 1]; Arrays.fill(dist, Integer.MAX_VALUE); dist[k] = 0; Queue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]); pq.offer(new int[]{0,k}); while (!pq.isEmpty()) { int[] cur = pq.poll(); int u = cur[1]; if (cur[0] > dist[u]) continue; for (int[] e : adjacent(times, u)) { int v = e[0], nd = dist[u] + e[1]; if (nd < dist[v]) { dist[v] = nd; pq.offer(new int[]{nd,v}); } } } int ans = 0; for (int i = 1; i <= n; i++) ans = Math.max(ans, dist[i]); return ans == Integer.MAX_VALUE ? -1 : ans; } private List<int[]> adjacent(int[][] times, int u) { List<int[]> res = new ArrayList<>(); for (int[] e : times) if (e[0] == u) res.add(new int[]{e[1], e[2]}); return res; } }"
         }
       ]
     }
@@ -2701,6 +2993,10 @@
         {
           "language": "Python",
           "source": "def cheapest_flights(n,flights,src,dst,k):\n    dist=[float('inf')]*n; dist[src]=0\n    for _ in range(k+1):\n        temp=dist[:]\n        for u,v,w in flights:\n            if dist[u]<float('inf'): temp[v]=min(temp[v],dist[u]+w)\n        dist=temp\n    return -1 if dist[dst]==float('inf') else dist[dst]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) { int[] dist = new int[n]; Arrays.fill(dist, Integer.MAX_VALUE); dist[src] = 0; for (int round = 0; round <= k; round++) { int[] next = dist.clone(); for (int[] e : flights) if (dist[e[0]] != Integer.MAX_VALUE) next[e[1]] = Math.min(next[e[1]], dist[e[0]] + e[2]); dist = next; } return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst]; } }"
         }
       ]
     }
@@ -2737,6 +3033,10 @@
         {
           "language": "Python",
           "source": "from collections import deque\ndef minimum_effort(h):\n    m,n=len(h),len(h[0])\n    def ok(limit):\n        seen={(0,0)}; q=deque([(0,0)])\n        while q:\n            i,j=q.popleft()\n            if (i,j)==(m-1,n-1): return True\n            for di,dj in ((1,0),(-1,0),(0,1),(0,-1)):\n                a,b=i+di,j+dj\n                if 0<=a<m and 0<=b<n and (a,b) not in seen and abs(h[a][b]-h[i][j])<=limit:\n                    seen.add((a,b)); q.append((a,b))\n        return False\n    lo,hi=0,max(map(max,h))\n    while lo<hi:\n        mid=(lo+hi)//2\n        if ok(mid): hi=mid\n        else: lo=mid+1\n    return lo"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int minimumEffortPath(int[][] h) { int m = h.length, n = h[0].length, lo = 0, hi = 0; for (int[] row : h) for (int x : row) hi = Math.max(hi, x); while (lo < hi) { int mid = lo + (hi - lo) / 2; if (can(h, mid)) hi = mid; else lo = mid + 1; } return lo; } private boolean can(int[][] h, int limit) { int m = h.length, n = h[0].length; boolean[][] seen = new boolean[m][n]; Deque<int[]> q = new ArrayDeque<>(); q.offer(new int[]{0,0}); seen[0][0] = true; int[][] d = {{1,0},{-1,0},{0,1},{0,-1}}; while (!q.isEmpty()) { int[] cur = q.poll(); if (cur[0] == m - 1 && cur[1] == n - 1) return true; for (int[] p : d) { int a = cur[0] + p[0], b = cur[1] + p[1]; if (a >= 0 && a < m && b >= 0 && b < n && !seen[a][b] && Math.abs(h[a][b] - h[cur[0]][cur[1]]) <= limit) { seen[a][b] = true; q.offer(new int[]{a,b}); } } } return false; } }"
         }
       ]
     }
@@ -2773,6 +3073,10 @@
         {
           "language": "Python",
           "source": "import heapq\ndef min_cost_connect(points):\n    n=len(points); seen=set(); heap=[(0,0)]; ans=0\n    while len(seen)<n:\n        d,u=heapq.heappop(heap)\n        if u in seen: continue\n        seen.add(u); ans+=d\n        x1,y1=points[u]\n        for v,(x2,y2) in enumerate(points):\n            if v not in seen: heapq.heappush(heap,(abs(x1-x2)+abs(y1-y2),v))\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int minCostConnectPoints(int[][] points) { int n = points.length, ans = 0; boolean[] seen = new boolean[n]; PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]); pq.offer(new int[]{0,0}); while (!pq.isEmpty()) { int[] cur = pq.poll(); if (seen[cur[1]]) continue; seen[cur[1]] = true; ans += cur[0]; for (int i = 0; i < n; i++) if (!seen[i]) { int d = Math.abs(points[i][0] - points[cur[1]][0]) + Math.abs(points[i][1] - points[cur[1]][1]); pq.offer(new int[]{d,i}); } } return ans; } }"
         }
       ]
     }
@@ -2809,6 +3113,10 @@
         {
           "language": "Python",
           "source": "def find_redundant(edges):\n    p=list(range(len(edges)+1))\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    for a,b in edges:\n        ra,rb=find(a),find(b)\n        if ra==rb: return [a,b]\n        p[ra]=rb\n    return []"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int[] findRedundantConnection(int[][] edges) { int[] parent = new int[edges.length + 1]; for (int i = 0; i <= edges.length; i++) parent[i] = i; for (int[] e : edges) if (find(parent, e[0]) == find(parent, e[1])) return e; else parent[find(parent, e[0])] = find(parent, e[1]); return new int[0]; } private int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; } }"
         }
       ]
     }
@@ -2846,6 +3154,10 @@
         {
           "language": "Python",
           "source": "def min_cost(n,module,edges):\n    all_edges=[(module[i],0,i+1) for i in range(n)]+[(w,a,b) for a,b,w in edges]\n    all_edges.sort(); p=list(range(n+1))\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    ans=used=0\n    for w,a,b in all_edges:\n        ra,rb=find(a),find(b)\n        if ra!=rb: p[ra]=rb; ans+=w; used+=1\n        if used==n: return ans\n    return -1"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int minCost(int n, int[] modules, int[][] edges) { List<int[]> all = new ArrayList<>(); for (int i = 0; i < n; i++) all.add(new int[]{modules[i], 0, i + 1}); for (int[] e : edges) all.add(new int[]{e[2], e[0], e[1]}); all.sort(Comparator.comparingInt(x -> x[0])); int[] parent = new int[n + 1]; for (int i = 0; i <= n; i++) parent[i] = i; int ans = 0, used = 0; for (int[] e : all) { int a = find(parent, e[1]), b = find(parent, e[2]); if (a != b) { parent[a] = b; ans += e[0]; if (++used == n) return ans; } } return -1; } private int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; } }"
         }
       ]
     }
@@ -2882,6 +3194,10 @@
         {
           "language": "Python",
           "source": "def permute(nums):\n    ans=[]; used=[False]*len(nums); path=[]\n    def dfs():\n        if len(path)==len(nums): ans.append(path.copy()); return\n        for i,x in enumerate(nums):\n            if not used[i]: used[i]=True; path.append(x); dfs(); path.pop(); used[i]=False\n    dfs(); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> permute(int[] nums) { List<List<Integer>> ans = new ArrayList<>(); dfs(nums, new boolean[nums.length], new ArrayList<>(), ans); return ans; } private void dfs(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> ans) { if (path.size() == nums.length) { ans.add(new ArrayList<>(path)); return; } for (int i = 0; i < nums.length; i++) if (!used[i]) { used[i] = true; path.add(nums[i]); dfs(nums, used, path, ans); path.remove(path.size() - 1); used[i] = false; } } }"
         }
       ]
     }
@@ -2918,6 +3234,10 @@
         {
           "language": "Python",
           "source": "def subsets(nums):\n    ans=[]; path=[]\n    def dfs(start):\n        ans.append(path.copy())\n        for i in range(start,len(nums)):\n            path.append(nums[i]); dfs(i+1); path.pop()\n    dfs(0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> subsets(int[] nums) { List<List<Integer>> ans = new ArrayList<>(); dfs(nums, 0, new ArrayList<>(), ans); return ans; } private void dfs(int[] nums, int start, List<Integer> path, List<List<Integer>> ans) { ans.add(new ArrayList<>(path)); for (int i = start; i < nums.length; i++) { path.add(nums[i]); dfs(nums, i + 1, path, ans); path.remove(path.size() - 1); } } }"
         }
       ]
     }
@@ -2955,6 +3275,10 @@
         {
           "language": "Python",
           "source": "def combination_sum(candidates,target):\n    candidates.sort(); ans=[]; path=[]\n    def dfs(start,rest):\n        if rest==0: ans.append(path.copy()); return\n        for i in range(start,len(candidates)):\n            if candidates[i]>rest: break\n            path.append(candidates[i]); dfs(i,rest-candidates[i]); path.pop()\n    dfs(0,target); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<Integer>> combinationSum(int[] candidates, int target) { Arrays.sort(candidates); List<List<Integer>> ans = new ArrayList<>(); dfs(candidates, target, 0, new ArrayList<>(), ans); return ans; } private void dfs(int[] candidates, int rest, int start, List<Integer> path, List<List<Integer>> ans) { if (rest == 0) { ans.add(new ArrayList<>(path)); return; } for (int i = start; i < candidates.length && candidates[i] <= rest; i++) { path.add(candidates[i]); dfs(candidates, rest - candidates[i], i, path, ans); path.remove(path.size() - 1); } } }"
         }
       ]
     }
@@ -2991,6 +3315,10 @@
         {
           "language": "Python",
           "source": "def partition(s):\n    n=len(s); pal=[[False]*n for _ in range(n)]\n    for i in range(n-1,-1,-1):\n        for j in range(i,n): pal[i][j]=s[i]==s[j] and (j-i<2 or pal[i+1][j-1])\n    ans=[]; path=[]\n    def dfs(start):\n        if start==n: ans.append(path.copy()); return\n        for end in range(start,n):\n            if pal[start][end]: path.append(s[start:end+1]); dfs(end+1); path.pop()\n    dfs(0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<String>> partition(String s) { List<List<String>> ans = new ArrayList<>(); dfs(s, 0, new ArrayList<>(), ans); return ans; } private void dfs(String s, int start, List<String> path, List<List<String>> ans) { if (start == s.length()) { ans.add(new ArrayList<>(path)); return; } for (int end = start + 1; end <= s.length(); end++) if (isPalindrome(s, start, end - 1)) { path.add(s.substring(start, end)); dfs(s, end, path, ans); path.remove(path.size() - 1); } } private boolean isPalindrome(String s, int lo, int hi) { while (lo < hi) if (s.charAt(lo++) != s.charAt(hi--)) return false; return true; } }"
         }
       ]
     }
@@ -3028,6 +3356,10 @@
         {
           "language": "Python",
           "source": "def exist(board,word):\n    m,n=len(board),len(board[0])\n    def dfs(i,j,k):\n        if k==len(word): return True\n        if not(0<=i<m and 0<=j<n) or board[i][j]!=word[k]: return False\n        old=board[i][j]; board[i][j]='#'\n        ok=any(dfs(i+di,j+dj,k+1) for di,dj in ((1,0),(-1,0),(0,1),(0,-1)))\n        board[i][j]=old; return ok\n    return any(dfs(i,j,0) for i in range(m) for j in range(n))"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean exist(char[][] board, String word) { for (int i = 0; i < board.length; i++) for (int j = 0; j < board[0].length; j++) if (dfs(board, word, i, j, 0)) return true; return false; } private boolean dfs(char[][] b, String word, int i, int j, int k) { if (k == word.length()) return true; if (i < 0 || i >= b.length || j < 0 || j >= b[0].length || b[i][j] != word.charAt(k)) return false; char old = b[i][j]; b[i][j] = '#'; boolean found = dfs(b, word, i+1, j, k+1) || dfs(b, word, i-1, j, k+1) || dfs(b, word, i, j+1, k+1) || dfs(b, word, i, j-1, k+1); b[i][j] = old; return found; } }"
         }
       ]
     }
@@ -3064,6 +3396,10 @@
         {
           "language": "Python",
           "source": "def solve_n_queens(n):\n    ans=[]; cols=set(); d1=set(); d2=set(); qs=[]\n    def dfs(row):\n        if row==n:\n            ans.append(['.'*c+'Q'+'.'*(n-c-1) for c in qs]); return\n        for col in range(n):\n            if col in cols or row-col in d1 or row+col in d2: continue\n            cols.add(col); d1.add(row-col); d2.add(row+col); qs.append(col)\n            dfs(row+1)\n            cols.remove(col); d1.remove(row-col); d2.remove(row+col); qs.pop()\n    dfs(0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<String>> solveNQueens(int n) { List<List<String>> ans = new ArrayList<>(); dfs(n, 0, new HashSet<>(), new HashSet<>(), new HashSet<>(), new ArrayList<>(), ans); return ans; } private void dfs(int n, int row, Set<Integer> cols, Set<Integer> d1, Set<Integer> d2, List<Integer> queens, List<List<String>> ans) { if (row == n) { List<String> board = new ArrayList<>(); for (int c : queens) board.add(\".\".repeat(c) + \"Q\" + \".\".repeat(n - c - 1)); ans.add(board); return; } for (int col = 0; col < n; col++) if (!cols.contains(col) && !d1.contains(row - col) && !d2.contains(row + col)) { cols.add(col); d1.add(row - col); d2.add(row + col); queens.add(col); dfs(n, row + 1, cols, d1, d2, queens, ans); queens.remove(queens.size() - 1); d2.remove(row + col); d1.remove(row - col); cols.remove(col); } } }"
         }
       ]
     }
@@ -3101,6 +3437,10 @@
         {
           "language": "Python",
           "source": "def solve_sudoku(board):\n    rows=[set() for _ in range(9)]; cols=[set() for _ in range(9)]; boxes=[set() for _ in range(9)]; empties=[]\n    for i in range(9):\n        for j in range(9):\n            if board[i][j]=='.': empties.append((i,j))\n            else: rows[i].add(v:=int(board[i][j])); cols[j].add(v); boxes[(i//3)*3+j//3].add(v)\n    def dfs(k=0):\n        if k==len(empties): return True\n        i,j=empties[k]; b=(i//3)*3+j//3\n        for v in range(1,10):\n            if v not in rows[i] and v not in cols[j] and v not in boxes[b]:\n                board[i][j]=str(v); rows[i].add(v); cols[j].add(v); boxes[b].add(v)\n                if dfs(k+1): return True\n                rows[i].remove(v); cols[j].remove(v); boxes[b].remove(v); board[i][j]='.'\n        return False\n    dfs()"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public void solveSudoku(char[][] board) { solve(board); } private boolean solve(char[][] b) { for (int i = 0; i < 9; i++) for (int j = 0; j < 9; j++) if (b[i][j] == '.') { for (char v = '1'; v <= '9'; v++) if (valid(b, i, j, v)) { b[i][j] = v; if (solve(b)) return true; b[i][j] = '.'; } return false; } return true; } private boolean valid(char[][] b, int row, int col, char v) { for (int i = 0; i < 9; i++) if (b[row][i] == v || b[i][col] == v || b[(row/3)*3 + i/3][(col/3)*3 + i%3] == v) return false; return true; } }"
         }
       ]
     }
@@ -3137,6 +3477,10 @@
         {
           "language": "Python",
           "source": "def letter_combinations(digits):\n    if not digits: return []\n    mp={'2':'abc','3':'def','4':'ghi','5':'jkl','6':'mno','7':'pqrs','8':'tuv','9':'wxyz'}\n    ans=[]; path=[]\n    def dfs(i):\n        if i==len(digits): ans.append(''.join(path)); return\n        for ch in mp[digits[i]]: path.append(ch); dfs(i+1); path.pop()\n    dfs(0); return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { private static final String[] MAP = {\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"}; public List<String> letterCombinations(String digits) { List<String> ans = new ArrayList<>(); if (!digits.isEmpty()) dfs(digits, 0, new StringBuilder(), ans); return ans; } private void dfs(String digits, int i, StringBuilder path, List<String> ans) { if (i == digits.length()) { ans.add(path.toString()); return; } for (char c : MAP[digits.charAt(i) - '0'].toCharArray()) { path.append(c); dfs(digits, i + 1, path, ans); path.deleteCharAt(path.length() - 1); } } }"
         }
       ]
     }
@@ -3174,6 +3518,10 @@
         {
           "language": "Python",
           "source": "def can_jump(nums):\n    far=0\n    for i,x in enumerate(nums):\n        if i>far: return False\n        far=max(far,i+x)\n    return True"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean canJump(int[] nums) { int far = 0; for (int i = 0; i < nums.length; i++) { if (i > far) return false; far = Math.max(far, i + nums[i]); } return true; } }"
         }
       ]
     }
@@ -3211,6 +3559,10 @@
         {
           "language": "Python",
           "source": "def jump(nums):\n    steps=end=far=0\n    for i in range(len(nums)-1):\n        far=max(far,i+nums[i])\n        if i==end: steps+=1; end=far\n    return steps"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int jump(int[] nums) { int steps = 0, end = 0, far = 0; for (int i = 0; i < nums.length - 1; i++) { far = Math.max(far, i + nums[i]); if (i == end) { steps++; end = far; } } return steps; } }"
         }
       ]
     }
@@ -3247,6 +3599,10 @@
         {
           "language": "Python",
           "source": "def merge_intervals(intervals):\n    intervals.sort(); merged=[]\n    for s,e in intervals:\n        if merged and s<=merged[-1][1]: merged[-1][1]=max(merged[-1][1],e)\n        else: merged.append([s,e])\n    return merged"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int[][] merge(int[][] intervals) { Arrays.sort(intervals, (a,b) -> a[0] - b[0]); List<int[]> merged = new ArrayList<>(); for (int[] interval : intervals) if (!merged.isEmpty() && interval[0] <= merged.get(merged.size() - 1)[1]) merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], interval[1]); else merged.add(interval); return merged.toArray(int[][]::new); } }"
         }
       ]
     }
@@ -3283,6 +3639,10 @@
         {
           "language": "Python",
           "source": "def erase_overlap(intervals):\n    intervals.sort(key=lambda x:x[1]); end=float('-inf'); remove=0\n    for s,e in intervals:\n        if s>=end: end=e\n        else: remove+=1\n    return remove"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int eraseOverlapIntervals(int[][] intervals) { Arrays.sort(intervals, (a,b) -> Integer.compare(a[1], b[1])); int remove = 0, end = Integer.MIN_VALUE; for (int[] interval : intervals) if (interval[0] >= end) end = interval[1]; else remove++; return remove; } }"
         }
       ]
     }
@@ -3319,6 +3679,10 @@
         {
           "language": "Python",
           "source": "def find_min_arrows(points):\n    if not points: return 0\n    points.sort(key=lambda p:p[1]); arrows=1; pos=points[0][1]\n    for s,e in points[1:]:\n        if s>pos: arrows+=1; pos=e\n    return arrows"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int findMinArrowShots(int[][] points) { if (points.length == 0) return 0; Arrays.sort(points, (a,b) -> Integer.compare(a[1], b[1])); int arrows = 1, pos = points[0][1]; for (int[] p : points) if (p[0] > pos) { arrows++; pos = p[1]; } return arrows; } }"
         }
       ]
     }
@@ -3355,6 +3719,10 @@
         {
           "language": "Python",
           "source": "def find_content_children(g,s):\n    g.sort(); s.sort(); i=j=0\n    while i<len(g) and j<len(s):\n        if s[j]>=g[i]: i+=1\n        j+=1\n    return i"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int findContentChildren(int[] g, int[] s) { Arrays.sort(g); Arrays.sort(s); int i = 0, j = 0; while (i < g.length && j < s.length) if (s[j++] >= g[i]) i++; return i; } }"
         }
       ]
     }
@@ -3391,6 +3759,10 @@
         {
           "language": "Python",
           "source": "def partition_labels(s):\n    last={ch:i for i,ch in enumerate(s)}; ans=[]; start=end=0\n    for i,ch in enumerate(s):\n        end=max(end,last[ch])\n        if i==end: ans.append(end-start+1); start=end+1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<Integer> partitionLabels(String s) { int[] last = new int[128]; for (int i = 0; i < s.length(); i++) last[s.charAt(i)] = i; List<Integer> ans = new ArrayList<>(); for (int i = 0, start = 0, end = 0; i < s.length(); i++) { end = Math.max(end, last[s.charAt(i)]); if (i == end) { ans.add(end - start + 1); start = end + 1; } } return ans; } }"
         }
       ]
     }
@@ -3427,6 +3799,10 @@
         {
           "language": "Python",
           "source": "def candy(ratings):\n    n=len(ratings); left=[1]*n\n    for i in range(1,n):\n        if ratings[i]>ratings[i-1]: left[i]=left[i-1]+1\n    ans=right=1\n    for i in range(n-2,-1,-1):\n        if ratings[i]>ratings[i+1]: right+=1\n        else: right=1\n        ans+=max(left[i],right)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int candy(int[] ratings) { int[] left = new int[ratings.length]; Arrays.fill(left, 1); for (int i = 1; i < ratings.length; i++) if (ratings[i] > ratings[i - 1]) left[i] = left[i - 1] + 1; int ans = 0, right = 1; for (int i = ratings.length - 1; i >= 0; i--) { if (i < ratings.length - 1 && ratings[i] > ratings[i + 1]) right++; else right = 1; ans += Math.max(left[i], right); } return ans; } }"
         }
       ]
     }
@@ -3463,6 +3839,10 @@
         {
           "language": "Python",
           "source": "def climb_stairs(n):\n    a=b=1\n    for _ in range(2,n+1): a,b=b,a+b\n    return b"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int climbStairs(int n) { int a = 1, b = 1; for (int i = 2; i <= n; i++) { int next = a + b; a = b; b = next; } return b; } }"
         }
       ]
     }
@@ -3498,6 +3878,10 @@
         {
           "language": "Python",
           "source": "def rob(nums):\n    prev=cur=0\n    for x in nums: prev,cur=cur,max(cur,prev+x)\n    return cur"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int rob(int[] nums) { int prev = 0, cur = 0; for (int x : nums) { int next = Math.max(cur, prev + x); prev = cur; cur = next; } return cur; } }"
         }
       ]
     }
@@ -3534,6 +3918,10 @@
         {
           "language": "Python",
           "source": "def coin_change(coins,amount):\n    dp=[0]+[float('inf')]*amount\n    for c in coins:\n        for x in range(c,amount+1): dp[x]=min(dp[x],dp[x-c]+1)\n    return -1 if dp[amount]==float('inf') else dp[amount]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int coinChange(int[] coins, int amount) { int[] dp = new int[amount + 1]; Arrays.fill(dp, Integer.MAX_VALUE); dp[0] = 0; for (int coin : coins) for (int c = coin; c <= amount; c++) if (dp[c - coin] != Integer.MAX_VALUE) dp[c] = Math.min(dp[c], dp[c - coin] + 1); return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount]; } }"
         }
       ]
     }
@@ -3571,6 +3959,10 @@
         {
           "language": "Python",
           "source": "def change(coins,amount):\n    dp=[1]+[0]*amount\n    for coin in coins:\n        for c in range(coin,amount+1): dp[c]+=dp[c-coin]\n    return dp[amount]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int change(int amount, int[] coins) { int[] dp = new int[amount + 1]; dp[0] = 1; for (int coin : coins) for (int c = coin; c <= amount; c++) dp[c] += dp[c - coin]; return dp[amount]; } }"
         }
       ]
     }
@@ -3607,6 +3999,10 @@
         {
           "language": "Python",
           "source": "from bisect import bisect_left\ndef length_of_lis(nums):\n    tails=[]\n    for x in nums:\n        i=bisect_left(tails,x)\n        if i==len(tails): tails.append(x)\n        else: tails[i]=x\n    return len(tails)"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int lengthOfLIS(int[] nums) { int[] tails = new int[nums.length]; int size = 0; for (int x : nums) { int lo = 0, hi = size; while (lo < hi) { int mid = lo + (hi - lo) / 2; if (tails[mid] < x) lo = mid + 1; else hi = mid; } tails[lo] = x; if (lo == size) size++; } return size; } }"
         }
       ]
     }
@@ -3643,6 +4039,10 @@
         {
           "language": "Python",
           "source": "def lcs(a,b):\n    m,n=len(a),len(b); dp=[[0]*(n+1) for _ in range(m+1)]\n    for i in range(1,m+1):\n        for j in range(1,n+1):\n            dp[i][j]=dp[i-1][j-1]+1 if a[i-1]==b[j-1] else max(dp[i-1][j],dp[i][j-1])\n    return dp[m][n]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int longestCommonSubsequence(String a, String b) { int[][] dp = new int[a.length() + 1][b.length() + 1]; for (int i = 1; i <= a.length(); i++) for (int j = 1; j <= b.length(); j++) dp[i][j] = a.charAt(i - 1) == b.charAt(j - 1) ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]); return dp[a.length()][b.length()]; } }"
         }
       ]
     }
@@ -3679,6 +4079,10 @@
         {
           "language": "Python",
           "source": "def min_distance(a,b):\n    m,n=len(a),len(b); dp=[[0]*(n+1) for _ in range(m+1)]\n    for i in range(m+1): dp[i][0]=i\n    for j in range(n+1): dp[0][j]=j\n    for i in range(1,m+1):\n        for j in range(1,n+1):\n            dp[i][j]=dp[i-1][j-1] if a[i-1]==b[j-1] else 1+min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])\n    return dp[m][n]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int minDistance(String a, String b) { int[][] dp = new int[a.length() + 1][b.length() + 1]; for (int i = 0; i <= a.length(); i++) dp[i][0] = i; for (int j = 0; j <= b.length(); j++) dp[0][j] = j; for (int i = 1; i <= a.length(); i++) for (int j = 1; j <= b.length(); j++) dp[i][j] = a.charAt(i - 1) == b.charAt(j - 1) ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], Math.min(dp[i][j - 1], dp[i - 1][j - 1])); return dp[a.length()][b.length()]; } }"
         }
       ]
     }
@@ -3714,6 +4118,10 @@
         {
           "language": "Python",
           "source": "def unique_paths(m,n):\n    dp=[1]*n\n    for _ in range(1,m):\n        for j in range(1,n): dp[j]+=dp[j-1]\n    return dp[-1]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public int uniquePaths(int m, int n) { int[] dp = new int[n]; Arrays.fill(dp, 1); for (int i = 1; i < m; i++) for (int j = 1; j < n; j++) dp[j] += dp[j - 1]; return dp[n - 1]; } }"
         }
       ]
     }
@@ -3749,6 +4157,10 @@
         {
           "language": "Python",
           "source": "def min_path_sum(grid):\n    m,n=len(grid),len(grid[0]); dp=[float('inf')]*n; dp[0]=0\n    for row in grid:\n        dp[0]+=row[0]\n        for j in range(1,n): dp[j]=row[j]+min(dp[j],dp[j-1])\n    return dp[-1]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int minPathSum(int[][] grid) { int m = grid.length, n = grid[0].length; int[] dp = new int[n]; dp[0] = grid[0][0]; for (int j = 1; j < n; j++) dp[j] = dp[j - 1] + grid[0][j]; for (int i = 1; i < m; i++) { dp[0] += grid[i][0]; for (int j = 1; j < n; j++) dp[j] = grid[i][j] + Math.min(dp[j], dp[j - 1]); } return dp[n - 1]; } }"
         }
       ]
     }
@@ -3786,6 +4198,10 @@
         {
           "language": "Python",
           "source": "def can_partition(nums):\n    total=sum(nums)\n    if total%2: return False\n    target=total//2; dp=[True]+[False]*target\n    for x in nums:\n        for c in range(target,x-1,-1): dp[c]=dp[c] or dp[c-x]\n    return dp[target]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public boolean canPartition(int[] nums) { int total = Arrays.stream(nums).sum(); if (total % 2 == 1) return false; int target = total / 2; boolean[] dp = new boolean[target + 1]; dp[0] = true; for (int x : nums) for (int c = target; c >= x; c--) dp[c] |= dp[c - x]; return dp[target]; } }"
         }
       ]
     }
@@ -3822,6 +4238,10 @@
         {
           "language": "Python",
           "source": "def word_break(s,words):\n    words=set(words); n=len(s); dp=[True]+[False]*n\n    for i in range(1,n+1):\n        for j in range(i):\n            if dp[j] and s[j:i] in words: dp[i]=True; break\n    return dp[n]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public boolean wordBreak(String s, List<String> words) { Set<String> dict = new HashSet<>(words); boolean[] dp = new boolean[s.length() + 1]; dp[0] = true; for (int i = 1; i <= s.length(); i++) for (int j = 0; j < i && !dp[i]; j++) if (dp[j] && dict.contains(s.substring(j, i))) dp[i] = true; return dp[s.length()]; } }"
         }
       ]
     }
@@ -3858,6 +4278,10 @@
         {
           "language": "Python",
           "source": "def num_decodings(s):\n    if s[0]=='0': return 0\n    prev=cur=1\n    for i in range(1,len(s)):\n        nxt=0\n        if s[i]!='0': nxt=cur\n        if 10<=int(s[i-1:i+1])<=26: nxt+=prev\n        if not nxt: return 0\n        prev,cur=cur,nxt\n    return cur"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int numDecodings(String s) { if (s.charAt(0) == '0') return 0; int prev = 1, cur = 1; for (int i = 1; i < s.length(); i++) { int next = s.charAt(i) == '0' ? 0 : cur; int two = Integer.parseInt(s.substring(i - 1, i + 1)); if (two >= 10 && two <= 26) next += prev; if (next == 0) return 0; prev = cur; cur = next; } return cur; } }"
         }
       ]
     }
@@ -3894,6 +4318,10 @@
         {
           "language": "Python",
           "source": "def maximal_square(matrix):\n    m,n=len(matrix),len(matrix[0]); dp=[0]*(n+1); best=0; prev_diag=0\n    for i in range(m):\n        prev_diag=0\n        for j in range(1,n+1):\n            old=dp[j]\n            if matrix[i][j-1]=='1': dp[j]=min(dp[j],dp[j-1],prev_diag)+1; best=max(best,dp[j])\n            else: dp[j]=0\n            prev_diag=old\n    return best*best"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int maximalSquare(char[][] matrix) { int m = matrix.length, n = matrix[0].length, ans = 0, prevDiag = 0; int[] dp = new int[n + 1]; for (int i = 0; i < m; i++) { prevDiag = 0; for (int j = 1; j <= n; j++) { int old = dp[j]; if (matrix[i][j - 1] == '1') { dp[j] = Math.min(prevDiag, Math.min(dp[j], dp[j - 1])) + 1; ans = Math.max(ans, dp[j]); } else dp[j] = 0; prevDiag = old; } } return ans * ans; } }"
         }
       ]
     }
@@ -3929,6 +4357,10 @@
         {
           "language": "Python",
           "source": "def max_coins(nums):\n    a=[1]+[x for x in nums if x]+[1]; n=len(a)\n    dp=[[0]*n for _ in range(n)]\n    for length in range(2,n):\n        for l in range(n-length):\n            r=l+length\n            dp[l][r]=max(dp[l][k]+a[l]*a[k]*a[r]+dp[k][r] for k in range(l+1,r))\n    return dp[0][n-1]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int maxCoins(int[] nums) { int n = nums.length + 2; int[] a = new int[n]; a[0] = a[n - 1] = 1; for (int i = 0; i < nums.length; i++) a[i + 1] = nums[i]; int[][] dp = new int[n][n]; for (int len = 2; len < n; len++) for (int l = 0, r = len; r < n; l++, r++) for (int k = l + 1; k < r; k++) dp[l][r] = Math.max(dp[l][r], dp[l][k] + a[l] * a[k] * a[r] + dp[k][r]); return dp[0][n - 1]; } }"
         }
       ]
     }
@@ -3965,6 +4397,10 @@
         {
           "language": "Python",
           "source": "def is_palindrome(s):\n    l,r=0,len(s)-1\n    while l<r:\n        while l<r and not s[l].isalnum(): l+=1\n        while l<r and not s[r].isalnum(): r-=1\n        if s[l].lower()!=s[r].lower(): return False\n        l+=1; r-=1\n    return True"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean isPalindrome(String s) { for (int l = 0, r = s.length() - 1; l < r; l++, r--) { while (l < r && !Character.isLetterOrDigit(s.charAt(l))) l++; while (l < r && !Character.isLetterOrDigit(s.charAt(r))) r--; if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) return false; } return true; } }"
         }
       ]
     }
@@ -4001,6 +4437,10 @@
         {
           "language": "Python",
           "source": "def my_atoi(s):\n    i=0; sign=1\n    while i<len(s) and s[i]==' ': i+=1\n    if i<len(s) and s[i] in '+-': sign=-1 if s[i]=='-' else 1; i+=1\n    num=0\n    while i<len(s) and s[i].isdigit():\n        num=num*10+int(s[i]); i+=1\n    num=sign*num\n    return max(-2**31,min(2**31-1,num))"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int myAtoi(String s) { int i = 0, sign = 1; while (i < s.length() && s.charAt(i) == ' ') i++; if (i < s.length() && (s.charAt(i) == '+' || s.charAt(i) == '-')) sign = s.charAt(i++) == '-' ? -1 : 1; long num = 0; while (i < s.length() && Character.isDigit(s.charAt(i))) { num = num * 10 + s.charAt(i++) - '0'; if (sign == 1 && num > Integer.MAX_VALUE) return Integer.MAX_VALUE; if (sign == -1 && -num < Integer.MIN_VALUE) return Integer.MIN_VALUE; } return sign * (int) num; } }"
         }
       ]
     }
@@ -4037,6 +4477,10 @@
         {
           "language": "Python",
           "source": "def longest_palindrome(s):\n    best=(0,0)\n    def expand(l,r):\n        while l>=0 and r<len(s) and s[l]==s[r]: l-=1; r+=1\n        return l+1,r\n    for i in range(len(s)):\n        for l,r in (expand(i,i),expand(i,i+1)):\n            if r-l>best[1]-best[0]: best=(l,r)\n    return s[best[0]:best[1]]"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public String longestPalindrome(String s) { int[] best = {0, 0}; for (int i = 0; i < s.length(); i++) { for (int[] range : new int[][]{expand(s, i, i), expand(s, i, i + 1)}) if (range[1] - range[0] > best[1] - best[0]) best = range; } return s.substring(best[0], best[1]); } private int[] expand(String s, int l, int r) { while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) { l--; r++; } return new int[]{l + 1, r}; } }"
         }
       ]
     }
@@ -4073,6 +4517,10 @@
         {
           "language": "Python",
           "source": "def str_str(h,n):\n    if not n: return 0\n    nxt=[0]*len(n); k=0\n    for i in range(1,len(n)):\n        while k and n[i]!=n[k]: k=nxt[k-1]\n        if n[i]==n[k]: k+=1\n        nxt[i]=k\n    k=0\n    for i,ch in enumerate(h):\n        while k and ch!=n[k]: k=nxt[k-1]\n        if ch==n[k]: k+=1\n        if k==len(n): return i-k+1\n    return -1"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int strStr(String haystack, String needle) { if (needle.isEmpty()) return 0; int[] next = new int[needle.length()]; for (int i = 1, k = 0; i < needle.length(); i++) { while (k > 0 && needle.charAt(i) != needle.charAt(k)) k = next[k - 1]; if (needle.charAt(i) == needle.charAt(k)) k++; next[i] = k; } for (int i = 0, k = 0; i < haystack.length(); i++) { while (k > 0 && haystack.charAt(i) != needle.charAt(k)) k = next[k - 1]; if (haystack.charAt(i) == needle.charAt(k)) k++; if (k == needle.length()) return i - k + 1; } return -1; } }"
         }
       ]
     }
@@ -4110,6 +4558,10 @@
         {
           "language": "Python",
           "source": "def remove_kdigits(num,k):\n    st=[]\n    for ch in num:\n        while st and k and st[-1]>ch: st.pop(); k-=1\n        st.append(ch)\n    while k: st.pop(); k-=1\n    return ''.join(st).lstrip('0') or '0'"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public String removeKdigits(String num, int k) { Deque<Character> st = new ArrayDeque<>(); for (char c : num.toCharArray()) { while (k > 0 && !st.isEmpty() && st.peekLast() > c) { st.pollLast(); k--; } st.addLast(c); } while (k-- > 0) st.pollLast(); StringBuilder sb = new StringBuilder(); boolean leading = true; for (char c : st) { if (leading && c == '0') continue; leading = false; sb.append(c); } return sb.length() == 0 ? \"0\" : sb.toString(); } }"
         }
       ]
     }
@@ -4146,6 +4598,10 @@
         {
           "language": "Python",
           "source": "def is_alien_sorted(words,order):\n    rank={ch:i for i,ch in enumerate(order)}\n    def le(a,b):\n        for x,y in zip(a,b):\n            if rank[x]<rank[y]: return True\n            if rank[x]>rank[y]: return False\n        return len(a)<=len(b)\n    return all(le(words[i],words[i+1]) for i in range(len(words)-1))"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean isAlienSorted(String[] words, String order) { int[] rank = new int[128]; for (int i = 0; i < order.length(); i++) rank[order.charAt(i)] = i; for (int i = 1; i < words.length; i++) if (!inOrder(words[i - 1], words[i], rank)) return false; return true; } private boolean inOrder(String a, String b, int[] rank) { int n = Math.min(a.length(), b.length()); for (int i = 0; i < n; i++) if (rank[a.charAt(i)] != rank[b.charAt(i)]) return rank[a.charAt(i)] < rank[b.charAt(i)]; return a.length() <= b.length(); } }"
         }
       ]
     }
@@ -4182,6 +4638,10 @@
         {
           "language": "Python",
           "source": "def find_circle_num(m):\n    n=len(m); p=list(range(n)); size=[1]*n\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    ans=n\n    for i in range(n):\n        for j in range(i+1,n):\n            if m[i][j]==1:\n                a,b=find(i),find(j)\n                if a!=b:\n                    if size[a]<size[b]: a,b=b,a\n                    p[b]=a; size[a]+=size[b]; ans-=1\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int findCircleNum(int[][] isConnected) { int n = isConnected.length; int[] parent = new int[n], size = new int[n]; for (int i = 0; i < n; i++) { parent[i] = i; size[i] = 1; } int ans = n; for (int i = 0; i < n; i++) for (int j = i + 1; j < n; j++) if (isConnected[i][j] == 1) { int a = find(parent, i), b = find(parent, j); if (a != b) { if (size[a] < size[b]) { int t = a; a = b; b = t; } parent[b] = a; size[a] += size[b]; ans--; } } return ans; } private int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; } }"
         }
       ]
     }
@@ -4219,6 +4679,10 @@
         {
           "language": "Python",
           "source": "def num_islands2(m,n,pos):\n    p={}; dirs=((1,0),(-1,0),(0,1),(0,-1)); ans=[]; count=0\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    def add(x,y):\n        nonlocal count\n        key=(x,y)\n        if key in p: ans.append(count); return\n        p[key]=key; count+=1\n        for di,dj in dirs:\n            nb=(x+di,y+dj)\n            if nb in p:\n                ra,rb=find(key),find(nb)\n                if ra!=rb: p[ra]=rb; count-=1\n        ans.append(count)\n    for x,y in pos: add(x,y)\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<Integer> numIslands2(int m, int n, int[][] positions) { int[][] d = {{1,0},{-1,0},{0,1},{0,-1}}; Map<Long,Long> parent = new HashMap<>(); List<Integer> ans = new ArrayList<>(); int count = 0; for (int[] pos : positions) { long key = pos[0] * 1_000_00L + pos[1]; if (parent.containsKey(key)) { ans.add(count); continue; } parent.put(key, key); count++; for (int[] p : d) { int a = pos[0] + p[0], b = pos[1] + p[1]; long nk = a * 1_000_00L + b; if (a >= 0 && a < m && b >= 0 && b < n && parent.containsKey(nk)) { long ra = find(parent, key), rb = find(parent, nk); if (ra != rb) { parent.put(ra, rb); count--; } } } ans.add(count); } return ans; } private long find(Map<Long,Long> p, long x) { while (p.get(x) != x) { p.put(x, p.get(p.get(x))); x = p.get(x); } return x; } }"
         }
       ]
     }
@@ -4255,6 +4719,10 @@
         {
           "language": "Python",
           "source": "from collections import defaultdict\ndef accounts_merge(accounts):\n    email_id={}; emails=[]\n    for acc in accounts:\n        for e in acc[1:]:\n            if e not in email_id: email_id[e]=len(emails); emails.append(e)\n    p=list(range(len(emails)))\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    def union(a,b):\n        ra,rb=find(a),find(b)\n        if ra!=rb: p[ra]=rb\n    for acc in accounts:\n        ids=[email_id[e] for e in acc[1:]]\n        for x in ids[1:]: union(ids[0],x)\n    groups=defaultdict(set)\n    for e,i in email_id.items(): groups[find(i)].add(e)\n    owner={email_id[acc[1]]:acc[0] for acc in accounts}\n    return [[owner[root]]+sorted(emails) for root,emails in groups.items()]"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass Solution { public List<List<String>> accountsMerge(List<List<String>> accounts) { Map<String,Integer> id = new HashMap<>(); List<String> emails = new ArrayList<>(); for (List<String> account : accounts) for (int i = 1; i < account.size(); i++) if (!id.containsKey(account.get(i))) { id.put(account.get(i), emails.size()); emails.add(account.get(i)); } int[] parent = new int[emails.size()]; for (int i = 0; i < parent.length; i++) parent[i] = i; for (List<String> account : accounts) for (int i = 2; i < account.size(); i++) union(parent, id.get(account.get(1)), id.get(account.get(i))); Map<Integer,TreeSet<String>> groups = new HashMap<>(); for (String email : emails) groups.computeIfAbsent(find(parent, id.get(email)), k -> new TreeSet<>()).add(email); List<List<String>> ans = new ArrayList<>(); for (var entry : groups.entrySet()) { List<String> row = new ArrayList<>(); row.add(accounts.stream().filter(a -> id.containsKey(a.get(1)) && find(parent, id.get(a.get(1))) == entry.getKey()).findFirst().orElseThrow().get(0)); row.addAll(entry.getValue()); ans.add(row); } return ans; } private int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; } private void union(int[] p, int a, int b) { a = find(p,a); b = find(p,b); if (a != b) p[a] = b; } }"
         }
       ]
     }
@@ -4291,6 +4759,10 @@
         {
           "language": "Python",
           "source": "def equations_possible(equations):\n    p=list(range(26))\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    for eq in equations:\n        if eq[1]=='=':\n            a,b=find(ord(eq[0])-97),find(ord(eq[3])-97)\n            if a!=b: p[a]=b\n    for eq in equations:\n        if eq[1]=='!' and find(ord(eq[0])-97)==find(ord(eq[3])-97): return False\n    return True"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public boolean equationsPossible(String[] equations) { int[] parent = new int[26]; for (int i = 0; i < 26; i++) parent[i] = i; for (String eq : equations) if (eq.charAt(1) == '=') union(parent, eq.charAt(0) - 'a', eq.charAt(3) - 'a'); for (String eq : equations) if (eq.charAt(1) == '!' && find(parent, eq.charAt(0) - 'a') == find(parent, eq.charAt(3) - 'a')) return false; return true; } private int find(int[] p, int x) { while (p[x] != x) { p[x] = p[p[x]]; x = p[x]; } return x; } private void union(int[] p, int a, int b) { a = find(p,a); b = find(p,b); if (a != b) p[a] = b; } }"
         }
       ]
     }
@@ -4327,6 +4799,10 @@
         {
           "language": "Python",
           "source": "def single_number(nums):\n    ans=0\n    for x in nums: ans^=x\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int singleNumber(int[] nums) { int ans = 0; for (int x : nums) ans ^= x; return ans; } }"
         }
       ]
     }
@@ -4363,6 +4839,10 @@
         {
           "language": "Python",
           "source": "def count_bits(num):\n    dp=[0]*(num+1)\n    for i in range(1,num+1): dp[i]=dp[i>>1]+(i&1)\n    return dp"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int[] countBits(int num) { int[] dp = new int[num + 1]; for (int i = 1; i <= num; i++) dp[i] = dp[i >> 1] + (i & 1); return dp; } }"
         }
       ]
     }
@@ -4399,6 +4879,10 @@
         {
           "language": "Python",
           "source": "def missing_number(nums):\n    ans=len(nums)\n    for i,x in enumerate(nums): ans^=i^x\n    return ans"
+        },
+        {
+          "language": "Java",
+          "source": "class Solution { public int missingNumber(int[] nums) { int ans = nums.length; for (int i = 0; i < nums.length; i++) ans ^= i ^ nums[i]; return ans; } }"
         }
       ]
     }
@@ -4435,6 +4919,10 @@
         {
           "language": "Python",
           "source": "import random\nclass ShuffleArray:\n    def __init__(self,nums): self.original=nums[:]; self.a=nums[:]\n    def reset(self): self.a=self.original[:]; return self.a\n    def shuffle(self):\n        for i in range(len(self.a)-1,0,-1):\n            j=random.randint(0,i); self.a[i],self.a[j]=self.a[j],self.a[i]\n        return self.a"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass ShuffleArray { private final int[] original; private int[] values; private final Random random = new Random(); public ShuffleArray(int[] nums) { original = nums.clone(); values = nums.clone(); } public int[] reset() { values = original.clone(); return values; } public int[] shuffle() { for (int i = values.length - 1; i > 0; i--) { int j = random.nextInt(i + 1); int t = values[i]; values[i] = values[j]; values[j] = t; } return values; } }"
         }
       ]
     }
@@ -4472,6 +4960,10 @@
         {
           "language": "Python",
           "source": "import threading\nclass BoundedQueue:\n    def __init__(self,cap):\n        self.cap=cap; self.items=[]; self.lock=threading.Lock(); self.not_full=threading.Condition(self.lock); self.not_empty=threading.Condition(self.lock)\n    def put(self,x):\n        with self.not_full:\n            while len(self.items)==self.cap: self.not_full.wait()\n            self.items.append(x); self.not_empty.notify()\n    def get(self):\n        with self.not_empty:\n            while not self.items: self.not_empty.wait()\n            x=self.items.pop(0); self.not_full.notify(); return x"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.concurrent.locks.*;\n\nclass BoundedQueue<T> { private final Object[] items; private int count, head, tail; private final Lock lock = new ReentrantLock(); private final Condition notFull = lock.newCondition(); private final Condition notEmpty = lock.newCondition(); public BoundedQueue(int capacity) { items = new Object[capacity]; } public void put(T item) throws InterruptedException { lock.lock(); try { while (count == items.length) notFull.await(); items[tail] = item; tail = (tail + 1) % items.length; count++; notEmpty.signal(); } finally { lock.unlock(); } } @SuppressWarnings(\"unchecked\") public T get() throws InterruptedException { lock.lock(); try { while (count == 0) notEmpty.await(); T item = (T) items[head]; items[head] = null; head = (head + 1) % items.length; count--; notFull.signal(); return item; } finally { lock.unlock(); } } }"
         }
       ]
     }
@@ -4509,6 +5001,10 @@
         {
           "language": "Python",
           "source": "import heapq,time\nclass FairScheduler:\n    def __init__(self): self.heap=[]; self.seq=0; self.usage={}\n    def submit(self,task,deadline,user,base_priority):\n        self.seq+=1\n        fairness=self.usage.get(user,0)*0.001\n        heapq.heappush(self.heap,(deadline,base_priority+fairness,self.seq,user,task))\n    def next_task(self):\n        if not self.heap: return None\n        deadline,priority,seq,user,task=heapq.heappop(self.heap)\n        self.usage[user]=self.usage.get(user,0)+1\n        return task"
+        },
+        {
+          "language": "Java",
+          "source": "import java.util.*;\n\nclass FairScheduler {\n    private static final class Task {\n        long deadline, priority, sequence;\n        String user, task;\n    }\n\n    private final PriorityQueue<Task> heap = new PriorityQueue<>((a,b) -> {\n        if (a.deadline != b.deadline) return Long.compare(a.deadline, b.deadline);\n        if (a.priority != b.priority) return Long.compare(a.priority, b.priority);\n        return Long.compare(a.sequence, b.sequence);\n    });\n    private long sequence;\n    private final Map<String,Long> usage = new HashMap<>();\n\n    public void submit(String task, long deadline, String user, int basePriority) {\n        Task item = new Task();\n        item.deadline = deadline;\n        item.priority = basePriority + usage.getOrDefault(user, 0L) * 1_000L;\n        item.sequence = ++sequence;\n        item.user = user;\n        item.task = task;\n        heap.offer(item);\n    }\n\n    public String nextTask() {\n        Task item = heap.poll();\n        if (item == null) return null;\n        usage.merge(item.user, 1L, Long::sum);\n        return item.task;\n    }\n}"
         }
       ]
     }

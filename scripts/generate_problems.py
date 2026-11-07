@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from java_solutions import JAVA_SOLUTIONS
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "problems.json"
 CHAPTER_IDS = {
@@ -1300,11 +1302,18 @@ def validate(problems):
             raise ValueError(f"invalid difficulty in {p['id']}")
         if not p["constraints"] or not p["examples"] or len(p["solution"]["pitfalls"]) < 3:
             raise ValueError(f"incomplete problem {p['id']}")
-        if not p["solution"]["code"]:
-            raise ValueError(f"missing code in {p['id']}")
+        languages = [item["language"] for item in p["solution"]["code"]]
+        if set(languages) != {"Python", "Java"}:
+            raise ValueError(f"expected Python and Java in {p['id']}, got {languages}")
 
 
 def main():
+    for problem in P:
+        problem_id = problem["id"]
+        if problem_id not in JAVA_SOLUTIONS:
+            raise ValueError(f"missing Java solution: {problem_id}")
+        problem["solution"]["code"].append({"language": "Java", "source": JAVA_SOLUTIONS[problem_id]})
+
     validate(P)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(P, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

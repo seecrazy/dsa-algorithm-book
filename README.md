@@ -14,7 +14,7 @@
 ## 功能
 
 - 19 个学习单元规划：从复杂度地图到工程化调试。
-- 124 道通用算法题：题面、约束、示例、思路、复杂度、易错点和参考实现。
+- 124 道通用算法题：题面、约束、示例、思路、复杂度、易错点，以及成对的 Python/Java 参考实现。
 - 纯静态阅读器：目录导航、Hash 路由、题库筛选、全文搜索、暗色模式和本地进度。
 - 无运行时框架、无包安装、无构建步骤。
 - 响应式桌面/移动端排版，支持打印样式。
@@ -47,7 +47,8 @@ http://localhost:8000
 │   └── problems.json         # 有序题库索引
 ├── scripts/
 │   ├── generate_content.py    # 章节与章节索引生成器
-│   └── generate_problems.py   # 题库生成与硬校验器
+│   ├── generate_problems.py   # 题库生成与硬校验器
+│   └── java_solutions.py     # 124 个题目的 Java 参考实现
 ├── docs/
 │   ├── DESIGN.md             # 产品、架构、系统与详细设计
 │   └── ROADMAP.md            # 已完成、进行中和 backlog
@@ -78,7 +79,7 @@ http://localhost:8000
 
 - 修改产品行为前，先更新 `docs/DESIGN.md`。
 - 新增或调整章节时，同步维护 `data/chapters.json` 和章节 Markdown。
-- 新增题目必须填写难度、标签、章节、约束、示例、思路、复杂度、易错点和参考实现。
+- 新增题目必须填写难度、标签、章节、约束、示例、思路、复杂度、易错点，并同时提供 Python 与 Java 参考。
 - 内容完成后更新 `docs/ROADMAP.md`、`README.md` 和 `HANDOFF.md`。
 - 稳定节点执行本地 `git add` 与 `git commit`。
 
