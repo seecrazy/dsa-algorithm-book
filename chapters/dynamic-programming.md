@@ -133,4 +133,4 @@ dp[1 << i][i] = cost[start][i]
 
 ## 一图看懂
 
-![DP 状态来源与边界顺序](./assets/diagrams/chapter-dp-state-grid.svg)
+![DP 状态来源与边界顺序](./assets/diagrams/chapter-dp-state-grid.png)

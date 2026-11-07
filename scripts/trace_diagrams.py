@@ -1,51 +1,26 @@
 # -*- coding: utf-8 -*-
-"""Trace-driven solution diagrams built from each problem's five-question notes.
+"""Trace-driven animated solution diagrams.
 
-Every diagram renders the problem's own example trace: nodes are example
-states, edges are the operations between them, and the footer carries the
-invariant behind correctness. No chapter-level model placeholders.
+Each problem's five-question ``trace`` becomes a GIF: one frame per step,
+the current step highlighted, future steps shown as ghost slots, and the
+invariant footer emphasized on the final frame. Rendered with Pillow via
+scripts/imdraw.py so text is measured, never estimated.
 """
+from html import escape
 
-CJK_WIDTH = 15.0
-ASCII_WIDTH = 8.0
-LINE_HEIGHT = 24
-TEXT_MAX_WIDTH = 540.0
-SVG_WIDTH = 720
+from imdraw import INK, MUTED, SUB, Diagram, save_gif
 
-
-def wrap_text(value: str, max_width: float = TEXT_MAX_WIDTH) -> list:
-    lines = []
-    current = ""
-    width = 0.0
-    for ch in value:
-        w = CJK_WIDTH if ord(ch) > 0x2E7F else ASCII_WIDTH
-        if width + w > max_width and current:
-            lines.append(current)
-            current = ch
-            width = w
-        else:
-            current += ch
-            width += w
-    if current:
-        lines.append(current)
-    return lines or [""]
+CANVAS_W = 760
+BOX_X = 52
+BOX_W = 668
+CHIP_CX = 26
+GAP = 22
+STEP_SIZE = 15
+LINE_H = 24
 
 
 def diagram_key(problem_id: str) -> str:
-    return f"problem-{problem_id}-trace.svg"
-
-
-def _text_block(x: float, y: float, w: float, h: float, lines: list, label=None):
-    """Centered multi-line text inside a box of height h starting at y."""
-    parts = []
-    total = len(lines) * LINE_HEIGHT
-    top = y + h / 2 - total / 2 + LINE_HEIGHT / 2 + 5
-    for index, line in enumerate(lines):
-        cls = "t" if (label and index == 0) else "s"
-        parts.append(
-            f'<text class="{cls}" x="{x + w / 2:g}" y="{top + index * LINE_HEIGHT:g}">{line}</text>'
-        )
-    return parts
+    return f"problem-{problem_id}-trace.gif"
 
 
 def trace_diagram_meta(problem: dict, chapter_lookup=None) -> dict:
@@ -59,78 +34,117 @@ def trace_diagram_meta(problem: dict, chapter_lookup=None) -> dict:
         if chapter:
             chapter_title = chapter.get("title", chapter_id)
     observation = understanding.get("key_observation", "")
-    caption = f"{len(steps)} 步示例跟踪：{observation}"
+    caption = f"{len(steps)} 步动画跟踪：{observation}"
     if len(caption) > 110:
         caption = caption[:108].rstrip() + "…"
     return {
         "src": f"./assets/diagrams/{diagram_key(problem['id'])}",
-        "alt": f"{title} 的题解跟踪图（{chapter_title}）",
+        "alt": f"{title} 的题解跟踪动画（{chapter_title}）",
         "caption": caption,
     }
 
 
-def trace_state_svg(problem: dict, chapter_lookup=None) -> str:
-    from html import escape
+class StepLayout:
+    """Precomputed geometry shared by every frame of one GIF."""
 
-    from generate_diagrams import svg, rect, path
+    def __init__(self, problem, chapter_lookup):
+        understanding = problem["solution"]["understanding"]
+        self.title = problem.get("title", problem["id"])
+        self.steps = understanding.get("trace") or ["初始状态"]
+        self.why_correct = understanding.get("why_correct", "")
+        chapter_id = problem.get("chapter", "")
+        self.chapter_title = chapter_id
+        if chapter_lookup:
+            chapter = chapter_lookup.get(chapter_id)
+            if chapter:
+                self.chapter_title = chapter.get("title", chapter_id)
 
-    understanding = problem["solution"]["understanding"]
-    title = problem.get("title", problem["id"])
-    steps = understanding.get("trace") or ["初始状态"]
-    why_correct = understanding.get("why_correct", "")
+        self.step_lines = [_layout_lines(s, BOX_W - 40, STEP_SIZE) for s in self.steps]
+        self.step_h = [
+            max(52, 20 + len(lines) * LINE_H) for lines in self.step_lines
+        ]
+        self.step_y = []
+        y = 112
+        for height in self.step_h:
+            self.step_y.append(y)
+            y += height + GAP
+        self.footer_body_n = len(_layout_lines(self.why_correct, BOX_W - 40, STEP_SIZE))
+        self.footer_y = y
+        self.footer_h = 34 + (1 + self.footer_body_n) * LINE_H
+        self.height = self.footer_y + self.footer_h + 26
 
-    chapter_id = problem.get("chapter", "")
-    chapter_title = chapter_id
-    if chapter_lookup:
-        chapter = chapter_lookup.get(chapter_id)
-        if chapter:
-            chapter_title = chapter.get("title", chapter_id)
+    def style(self, index):
+        last = len(self.steps) - 1
+        return "blue" if index == 0 else ("green" if index == last else "orange")
 
-    body = [
-        f'<text class="title" x="32" y="52">{escape(title + " · 题解跟踪", quote=False)}</text>',
-        f'<text class="small" x="360" y="80">{escape("示例驱动：" + chapter_title + " · 每个节点是本题示例的一个状态", quote=False)}</text>',
-    ]
 
-    y = 104
-    arrow_slots = []
-    gap = 26
-    for index, step in enumerate(steps):
-        lines = wrap_text(step)
-        height = max(56, 20 + len(lines) * LINE_HEIGHT)
-        cls = "blue" if index == 0 else ("green" if index == len(steps) - 1 else "orange")
-        body.append(rect(76, y, 592, height, cls))
-        body += _text_block(76, y, 592, height, [escape(line, quote=False) for line in lines])
-        body.append(
-            f'<circle cx="38" cy="{y + height / 2:g}" r="17" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>'
-        )
-        body.append(
-            f'<text class="t" x="38" y="{y + height / 2 + 6:g}">{index + 1}</text>'
-        )
-        arrow_slots.append((y, height))
-        y += height + gap
+def _layout_lines(text, max_w, size):
+    probe = Diagram(10, 10)
+    return probe.wrap(text, max_w, size)
 
-    for index in range(len(arrow_slots) - 1):
-        top_y, top_h = arrow_slots[index]
-        bottom_y, _ = arrow_slots[index + 1]
-        start = top_y + top_h + 3
-        end = bottom_y - 3
-        body.append(path([(372, start), (372, end)], "arrow"))
-        body.append(
-            f'<text class="small" x="414" y="{(start + end) / 2 + 5:g}">{escape("操作", quote=False)}</text>'
-        )
 
-    footer_label = ["为什么正确（本题不变量）"] + wrap_text(why_correct)
-    footer_height = 24 + len(footer_label) * LINE_HEIGHT
-    footer_y = y
-    body.append(rect(76, footer_y, 592, footer_height, "purple"))
-    body += _text_block(
-        76,
-        footer_y,
-        592,
-        footer_height,
-        [escape(line, quote=False) for line in footer_label],
-        label=True,
+def _frame(layout, shown, total):
+    """Render one frame: steps 1..shown revealed, current = `shown`."""
+    d = Diagram(CANVAS_W, layout.height)
+    d.panel()
+    d.header(layout.title + " · 题解跟踪", f"示例驱动 · {layout.chapter_title} · 每个节点是本题示例的一个状态")
+    d.text(CANVAS_W - 30, 30, f"第 {shown} / {total} 步", size=14, color=SUB, bold=True, anchor="ra")
+
+    bar_y = 92
+    d.d.rounded_rectangle(
+        [40 * 2, bar_y * 2, (CANVAS_W - 40) * 2, (bar_y + 4) * 2],
+        radius=4, fill="#e2e8f0",
     )
+    if shown:
+        frac = shown / total
+        fill_w = round(((CANVAS_W - 80) * frac))
+        d.d.rounded_rectangle(
+            [40 * 2, bar_y * 2, (40 + fill_w) * 2, (bar_y + 4) * 2],
+            radius=4, fill="#2563eb",
+        )
 
-    height = footer_y + footer_height + 30
-    return svg(SVG_WIDTH, height, "".join(body))
+    for index, (y, height) in enumerate(zip(layout.step_y, layout.step_h)):
+        step_no = index + 1
+        if step_no > shown:
+            d.box(BOX_X, y, BOX_W, height, "ghost")
+            d.text(BOX_X + BOX_W / 2, y + height / 2, "…", size=16, color=MUTED, anchor="mm")
+            d.chip(CHIP_CX, y + height / 2, str(step_no), "plain", r=14)
+            continue
+        current = step_no == shown
+        d.box(BOX_X, y, BOX_W, height, layout.style(index), line_w=3 if current else 2)
+        lines = layout.step_lines[index]
+        text_color = INK if current else SUB
+        ty = y + (height - len(lines) * LINE_H) / 2
+        for line in lines:
+            d.text(BOX_X + BOX_W / 2, ty, line, size=STEP_SIZE, color=text_color, anchor="ma")
+            ty += LINE_H
+        d.chip(CHIP_CX, y + height / 2, str(step_no), layout.style(index), r=14)
+        if index:
+            prev_bottom = layout.step_y[index - 1] + layout.step_h[index - 1]
+            d.arrow(BOX_X + BOX_W / 2, prev_bottom + 2, BOX_X + BOX_W / 2, y - 2)
+
+    fy = layout.footer_y
+    final = shown == total
+    d.box(BOX_X, fy, BOX_W, layout.footer_h, "purple", line_w=3 if final else 2)
+    d.text(BOX_X + BOX_W / 2, fy + 20, "为什么正确（本题不变量）", size=14, bold=True, anchor="ma")
+    probe = Diagram(10, 10)
+    body = probe.wrap(layout.why_correct, BOX_W - 40, STEP_SIZE)
+    ty = fy + 26 + LINE_H
+    for line in body:
+        d.text(BOX_X + BOX_W / 2, ty + STEP_SIZE * 0.72, line, size=STEP_SIZE, color=SUB, anchor="ma")
+        ty += LINE_H
+    return d
+
+
+def trace_state_gif(problem, chapter_lookup, out_path):
+    layout = StepLayout(problem, chapter_lookup)
+    total = len(layout.steps)
+    frames = [_frame(layout, shown, total) for shown in range(1, total + 1)]
+    per_step = 1250 if total <= 5 else 1050
+    durations = [per_step] * (total - 1) + [per_step * 2]
+    save_gif(out_path, frames, durations)
+
+
+# Backwards-compatible alias for callers that still expect a static render.
+def trace_state_svg(problem, chapter_lookup):
+    raise NotImplementedError("trace diagrams are animated GIFs now; call trace_state_gif()")

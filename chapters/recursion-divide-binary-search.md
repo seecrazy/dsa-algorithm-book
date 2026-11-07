@@ -94,4 +94,4 @@ def quickselect(a, k):
 
 ## 一图看懂
 
-![二分搜索维持已确定边界](./assets/diagrams/chapter-binary-search-boundary.svg)
+![二分搜索维持已确定边界](./assets/diagrams/chapter-binary-search-boundary.png)

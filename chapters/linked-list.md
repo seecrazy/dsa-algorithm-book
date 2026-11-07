@@ -103,4 +103,4 @@ del self.map[tail.key]
 
 ## 一图看懂
 
-![快慢指针在环内追上](./assets/diagrams/chapter-linked-list-cycle.svg)
+![快慢指针在环内追上](./assets/diagrams/chapter-linked-list-cycle.png)

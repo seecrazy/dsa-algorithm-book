@@ -16,7 +16,7 @@
 - 25 个学习单元规划：24 章正文 + 题库索引，从复杂度地图到平衡树、B+ 树、分支限界和工程化调试。
 - 148 道通用算法题：题面、约束、示例、思路、复杂度、易错点，以及成对的 Python/Java 参考实现。
 - 148 道题全部配备“五问法”讲解：笨办法、瓶颈、关键观察、正确性、示例跟踪与迁移。
-- 24 章覆盖新增排序、Trie、AVL/红黑树、B/B+ 树、分支限界和图表示；核心章节含静态 SVG 状态图，148 题全部配备题解专用图：25 张手写图 + 123 张由五问法 trace 生成的题解跟踪图。
+- 24 章覆盖新增排序、Trie、AVL/红黑树、B/B+ 树、分支限界和图表示；核心章节含 PNG 状态图，148 题全部配备题解专用图：25 张手写图 + 123 张由五问法 trace 生成的逐步动画 GIF（Pillow 渲染，文字按实测字宽定位）。
 - 纯静态阅读器：目录导航、Hash 路由、题库筛选、全文搜索、暗色模式和本地进度。
 - 无运行时框架、无包安装、无构建步骤。
 - 响应式桌面/移动端排版，支持打印样式。
@@ -41,7 +41,7 @@ http://localhost:8000
 .
 ├── index.html                # 应用外壳
 ├── assets/
-│   ├── diagrams/             # 由脚本生成的静态 SVG 图示
+│   ├── diagrams/             # 由脚本生成的 PNG/GIF 图示
 │   ├── app.js                # 路由、Markdown 渲染、搜索、状态
 │   └── style.css             # 设计 tokens、版式、组件和响应式
 ├── chapters/                 # 24 个章节 Markdown 正文
@@ -57,7 +57,7 @@ http://localhost:8000
 │   ├── remaining_teaching_notes.py # 其余 107 题的五问式讲解
 │   ├── trace_diagrams.py     # 由五问法 trace 生成题解跟踪图
 │   ├── generate_diagrams.py  # 生成章节图、手写题图与 trace 题解图
-│   └── validate_diagrams.py  # 校验 SVG、图引用与五问法覆盖
+│   └── validate_diagrams.py  # 校验图文件、图引用与五问法覆盖
 ├── docs/
 │   ├── DESIGN.md             # 产品、架构、系统与详细设计
 │   └── ROADMAP.md            # 已完成、进行中和 backlog

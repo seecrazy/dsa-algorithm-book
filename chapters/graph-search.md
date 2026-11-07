@@ -108,6 +108,6 @@ def topo_order(n, edges):
 
 ## 一图看懂
 
-![BFS 按层扩散与访问标记](./assets/diagrams/chapter-graph-bfs-layers.svg)
+![BFS 按层扩散与访问标记](./assets/diagrams/chapter-graph-bfs-layers.png)
 
-![DAG 拓扑排序按入度展开](./assets/diagrams/chapter-topological-order.svg)
+![DAG 拓扑排序按入度展开](./assets/diagrams/chapter-topological-order.png)

@@ -108,4 +108,4 @@ def search(r, c, idx):
 
 ## 一图看懂
 
-![回溯的选择、探索与撤销](./assets/diagrams/chapter-backtracking-tree.svg)
+![回溯的选择、探索与撤销](./assets/diagrams/chapter-backtracking-tree.png)

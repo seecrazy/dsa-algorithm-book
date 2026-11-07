@@ -74,4 +74,4 @@ dirs = [(1,0), (-1,0), (0,1), (0,-1)]
 
 ## 一图看懂
 
-![邻接表、矩阵、边数组和隐式图对比](./assets/diagrams/chapter-graph-representation.svg)
+![邻接表、矩阵、边数组和隐式图对比](./assets/diagrams/chapter-graph-representation.png)

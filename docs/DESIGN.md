@@ -393,11 +393,11 @@ localStorage keys：
 | `validate(problems)` | 校验固定 148 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
 | `main()` | 合并 `java_solutions.JAVA_SOLUTIONS`、校验双语言、写 JSON、输出按章节统计 |
 | `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
-| `scripts/trace_diagrams.py` | `diagram_key()` 生成 `problem-<id>-trace.svg` 文件名；`trace_diagram_meta()` 返回题解图元数据；`trace_state_svg()` 渲染题解跟踪图 |
-| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成 trace 题解图，再重建手写章节/题解图；当前为 123 张 trace 图和 46 张手写图 |
+| `scripts/trace_diagrams.py` | `diagram_key()` 生成 `problem-<id>-trace.gif` 文件名；`trace_diagram_meta()` 返回题解图元数据；`trace_state_gif()` 渲染逐步动画 GIF |
+| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成 trace 动画 GIF，再重建手写章节/题解 PNG；当前为 123 张 GIF 和 46 张 PNG |
 | `scripts/new_module_problems.py` | 定义 p125-p148 题目、Python 实现和 `NEW_JAVA`；不含前端运行时逻辑 |
 | `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
-| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、148 题图引用、五问法全覆盖和无未引用文件；同时拒绝任何 `-model.svg` 占位图回潮 |
+| `scripts/validate_diagrams.py` | 校验 PNG/GIF 完整性（GIF 至少 2 帧）、章节引用、148 题图引用、五问法全覆盖和无未引用文件；拒绝任何残留 SVG 或 `-model` 占位图回潮 |
 | `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
 
 内容不变量补充：
@@ -466,13 +466,13 @@ interface Problem {
 
 ### 14.1a 视觉学习层
 
-“一图胜千言”不是加装饰图，而是把抽象过程画成可追踪的状态图。项目采用静态 SVG 图示，由 `scripts/generate_diagrams.py` 生成。
+“一图胜千言”不是加装饰图，而是把抽象过程画成可追踪的状态图。项目由 Pillow 渲染 PNG/GIF，运行时零依赖，由 `scripts/generate_diagrams.py` 统一生成。
 
 目标：
 
 - 让读者先看到状态如何移动，再看代码如何实现。
 - 把复杂度、指针、栈、哈希映射、递归树、DP 网格等抽象过程变成可见对象。
-- 保持无构建部署：SVG 是最终产物，GitHub Pages 直接托管。
+- 保持无构建部署：PNG/GIF 是最终产物，GitHub Pages 直接托管；浏览器 `<img>` 原生播放 GIF 动画。
 
 视觉语言约定：
 
@@ -486,7 +486,7 @@ interface Problem {
 
 实现约定：
 
-- 章节图通过 Markdown 图片语法插入：`![说明](./assets/diagrams/xxx.svg)`。
+- 章节图通过 Markdown 图片语法插入：`![说明](./assets/diagrams/xxx.png)`。
 - 题解图存放在 `Problem.solution.understanding.diagram`：
 
 ```ts
@@ -500,7 +500,24 @@ interface ProblemDiagram {
 - 前端在五问法块内渲染 `understanding.diagram`。
 - 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
 - Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
-- 当前生成 169 个 SVG：46 个手写图（21 个章节图 + 25 个题解图）和 123 个 trace 题解图；148 题全部有题解专用图。
+- 当前生成 169 张图：46 张手写 PNG（21 张章节图 + 25 张题解图）和 123 张 trace 题解动画 GIF；148 题全部有题解专用图。
+
+### 14.1b 图示渲染管线（Pillow）
+
+图示由 Pillow 渲染，不再手写 SVG。管线分三层：
+
+| 模块 | 职责 |
+|---|---|
+| `scripts/imdraw.py` | 绘图工具包：圆角盒、箭头、步骤圆片、多行注释框；所有坐标基于实测字宽（Hiragino Sans GB，缺字形自动回退 Arial Unicode），2x 超采样后缩输出；GIF 共享调色板防闪烁 |
+| `scripts/static_diagrams.py` | 46 个手写图 builder（21 章节 + 25 题解），返回 `Diagram`，统一保存为 PNG |
+| `scripts/trace_diagrams.py` | 题解动画：每个 trace 步骤一帧，当前步高亮、未来步幽灵占位、进度条 + 步骤计数，末帧加粗不变量框，导出 GIF |
+
+约定：
+
+- 语义配色沿用视觉语言：蓝=当前重点、绿=确定/安全、橙=待处理、红=冲突、紫=不变量。
+- 盒内文字垂直居中、行高按字号 + 9px 计算；标题行加粗；正文色 `#475569`。
+- `note_h()` 与 `note()` 必须传同一组参数，保证“先量高度再画布”不裁切。
+- 本地渲染依赖：`python3 -m pip install --user pillow fonttools`（仅生成器需要，站点运行时零依赖）。
 
 ### 14.2a 题解理解层
 
@@ -604,7 +621,7 @@ Problem.solution.understanding?: ProblemUnderstanding;
 
 ### 14.4a 新增模块图示
 
-新增 6 章均有章节级 SVG：
+新增 6 章均有章节级 PNG：
 
 - `sorting`：比较排序与非比较排序选型。
 - `trie`：共享前缀路径。
@@ -615,13 +632,13 @@ Problem.solution.understanding?: ProblemUnderstanding;
 
 ## 14.5 题解图示策略（已升级为 trace 驱动）
 
-首批 17 题与 8 个新模块代表题使用手写专用 SVG。其余题由 `scripts/trace_diagrams.py` 生成“题解跟踪图”：
+首批 17 题与 8 个新模块代表题使用手写专用 PNG。其余题由 `scripts/trace_diagrams.py` 生成“题解跟踪动画”：
 
-- 每题至少一张 SVG，文件名为 `problem-<id>-trace.svg`。
+- 每题至少一个 GIF，文件名为 `problem-<id>-trace.gif`。
 - 标题来自题目；副标题标注章节与“示例驱动”。
 - 节点来自该题 `understanding.trace` 的每一步示例状态，按“初始（蓝）→ 中间（橙）→ 答案（绿）”着色。
 - 边表示相邻步骤之间的操作；底部紫色块展示 `why_correct` 的不变量。
-- 中文按全角宽度估算换行，图内文字不越界；校验器要求：148 题全部有题解图、五问法全覆盖、无 `-model.svg` 占位图、无未引用 SVG。
+- 中文按实测字宽换行，图内文字不越界；校验器要求：148 题全部有题解图、五问法全覆盖、无残留 SVG、无未引用图片。
 
 ## 15. 错误处理矩阵
 

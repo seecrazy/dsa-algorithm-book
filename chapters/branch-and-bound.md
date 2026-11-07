@@ -61,4 +61,4 @@ def upper_bound(items, i, value, capacity_left):
 
 ## 一图看懂
 
-![分支限界按界剪枝](./assets/diagrams/chapter-branch-bound.svg)
+![分支限界按界剪枝](./assets/diagrams/chapter-branch-bound.png)

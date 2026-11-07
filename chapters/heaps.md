@@ -100,4 +100,4 @@ while heap and invalid(heap[0]):
 
 ## 一图看懂
 
-![堆父子顺序与 Top K 维护](./assets/diagrams/chapter-heap-shape.svg)
+![堆父子顺序与 Top K 维护](./assets/diagrams/chapter-heap-shape.png)

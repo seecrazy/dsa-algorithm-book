@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Validate generated SVG files and Markdown/data diagram references."""
+"""Validate generated diagram files and Markdown/data diagram references.
+
+Diagrams are PNG (hand-built) and GIF (trace animations). The validator
+rejects any leftover SVG artefacts or model-placeholder names so the old
+SVG/-model pipeline cannot sneak back.
+"""
 from pathlib import Path
 import json
 import re
 import sys
-import xml.etree.ElementTree as ET
+
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 DIAGRAMS = ROOT / "assets" / "diagrams"
@@ -13,12 +19,21 @@ CHAPTERS = ROOT / "chapters"
 PROBLEMS = ROOT / "data" / "problems.json"
 
 errors = []
-svg_files = sorted(DIAGRAMS.glob("*.svg"))
-for path in svg_files:
+image_files = sorted(
+    p for p in DIAGRAMS.iterdir() if p.suffix.lower() in {".png", ".gif"}
+)
+stale_svg = sorted(DIAGRAMS.glob("*.svg"))
+if stale_svg:
+    errors.append("stale SVG files on disk: " + ", ".join(p.name for p in stale_svg))
+
+for path in image_files:
     try:
-        root = ET.parse(path).getroot()
-        if root.tag != "{http://www.w3.org/2000/svg}svg":
-            errors.append(f"{path.name}: root is not SVG")
+        with Image.open(path) as im:
+            im.verify()
+        if path.suffix.lower() == ".gif":
+            with Image.open(path) as im:
+                if getattr(im, "n_frames", 1) < 2:
+                    errors.append(f"{path.name}: trace GIF has a single frame")
     except Exception as exc:
         errors.append(f"{path.name}: {exc}")
 
@@ -43,26 +58,23 @@ for problem in problems:
         errors.append(f"{problem['id']}: missing diagram")
         continue
     diagrammed += 1
-    if "-model.svg" in diagram["src"]:
-        errors.append(f"{problem['id']}: model placeholder diagram {diagram['src']}")
-    source = Path(diagram["src"].removeprefix("./"))
+    src = diagram["src"]
+    if "-model." in src or src.endswith(".svg"):
+        errors.append(f"{problem['id']}: legacy diagram reference {src}")
+    source = Path(src.removeprefix("./"))
     if not source.is_file():
-        errors.append(f"{problem['id']}: missing {diagram['src']}")
+        errors.append(f"{problem['id']}: missing {src}")
     referenced.add(source.name)
 
 if explained != len(problems):
     errors.append(f"five-question coverage {explained}/{len(problems)}, expected full coverage")
 
-model_files = [path.name for path in svg_files if "-model.svg" in path.name]
-if model_files:
-    errors.append("model placeholder SVGs still on disk: " + ", ".join(model_files))
-
-unused = sorted(path.name for path in svg_files if path.name not in referenced)
+unused = sorted(path.name for path in image_files if path.name not in referenced)
 if unused:
-    errors.append("unreferenced SVG files: " + ", ".join(unused))
+    errors.append("unreferenced diagram files: " + ", ".join(unused))
 
-print(f"SVG files: {len(svg_files)}")
-print(f"chapter diagram references: {len(referenced & {p.name for p in svg_files})}")
+print(f"diagram files: {len(image_files)} ({sum(1 for p in image_files if p.suffix == '.gif')} GIF)")
+print(f"referenced diagram files: {len(referenced & {p.name for p in image_files})}")
 print(f"problem diagrams: {diagrammed}")
 print("validation: ok" if not errors else "validation: failed")
 for error in errors:

@@ -88,4 +88,4 @@ parent[x] = root_x
 
 ## 一图看懂
 
-![并查集按根判断连通](./assets/diagrams/chapter-union-find.svg)
+![并查集按根判断连通](./assets/diagrams/chapter-union-find.png)

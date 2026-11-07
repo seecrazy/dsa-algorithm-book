@@ -55,7 +55,7 @@
           "返回下标时必须存下标；只判断存在性时可以用集合。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p001-two-sum.svg",
+          "src": "./assets/diagrams/problem-p001-two-sum.png",
           "alt": "两数之和的哈希表查询过程",
           "caption": "扫描到 7 时，同伴 2 已经在历史表里，不需要回头扫一遍。"
         }
@@ -120,7 +120,7 @@
           "如果要求同时返回左右边界，要在 ans 更新时记录起点。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p002-max-subarray.svg",
+          "src": "./assets/diagrams/problem-p002-max-subarray.png",
           "alt": "最大子数组和的负前缀丢弃过程",
           "caption": "cur 表示“以当前元素结尾”的最大和；负前缀只会拖累后面的数。"
         }
@@ -182,7 +182,7 @@
           "关键不是移动指针本身，而是证明被跳过的区间不可能更优。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p003-container.svg",
+          "src": "./assets/diagrams/problem-p003-container.png",
           "alt": "盛水容器的左右指针与面积",
           "caption": "短边限制水面高度；移动长边不可能让面积变大。"
         }
@@ -245,9 +245,9 @@
           "双指针关键是证明短侧可结算。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p004-trace.svg",
-          "alt": "接雨水 的题解跟踪图（数组与双指针）",
-          "caption": "4 步示例跟踪：双指针维护左侧最大 lm 和右侧最大 rm。较短一侧的最大值已确定该侧水量，可安全结算并移动。"
+          "src": "./assets/diagrams/problem-p004-trace.gif",
+          "alt": "接雨水 的题解跟踪动画（数组与双指针）",
+          "caption": "4 步动画跟踪：双指针维护左侧最大 lm 和右侧最大 rm。较短一侧的最大值已确定该侧水量，可安全结算并移动。"
         }
       }
     }
@@ -307,9 +307,9 @@
           "先写入非零，再把尾部清零，避免覆盖错误。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p005-trace.svg",
-          "alt": "移动零 的题解跟踪图（数组与双指针）",
-          "caption": "4 步示例跟踪：快指针读取非零并写入 slow；slow 左侧永远是非零且相对顺序不变。"
+          "src": "./assets/diagrams/problem-p005-trace.gif",
+          "alt": "移动零 的题解跟踪动画（数组与双指针）",
+          "caption": "4 步动画跟踪：快指针读取非零并写入 slow；slow 左侧永远是非零且相对顺序不变。"
         }
       }
     }
@@ -369,9 +369,9 @@
           "循环结束后单独处理剩余 nums2。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p006-trace.svg",
-          "alt": "合并两个有序数组 的题解跟踪图（数组与双指针）",
-          "caption": "4 步示例跟踪：nums1 后半是空位；从最大端向前比较，直接把较大者放入 nums1[m+n-1]。"
+          "src": "./assets/diagrams/problem-p006-trace.gif",
+          "alt": "合并两个有序数组 的题解跟踪动画（数组与双指针）",
+          "caption": "4 步动画跟踪：nums1 后半是空位；从最大端向前比较，直接把较大者放入 nums1[m+n-1]。"
         }
       }
     }
@@ -431,9 +431,9 @@
           "返回长度时别忘了 slow 从 0 开始。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p007-trace.svg",
-          "alt": "有序数组去重 的题解跟踪图（数组与双指针）",
-          "caption": "4 步示例跟踪：slow 表示去重后最后一个位置；fast 只在 nums[fast]!=nums[slow] 时扩展。"
+          "src": "./assets/diagrams/problem-p007-trace.gif",
+          "alt": "有序数组去重 的题解跟踪动画（数组与双指针）",
+          "caption": "4 步动画跟踪：slow 表示去重后最后一个位置；fast 只在 nums[fast]!=nums[slow] 时扩展。"
         }
       }
     }
@@ -494,7 +494,7 @@
           "四数之和同理固定两个数，再套双指针。排序和去重是这类题的基本纪律。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p008-three-sum.svg",
+          "src": "./assets/diagrams/problem-p008-three-sum.png",
           "alt": "三数之和的固定一个数加对撞双指针",
           "caption": "排序后，固定 i，剩下的两个数用方向明确的 l/r 收缩。"
         }
@@ -556,9 +556,9 @@
           "有零时除法方案不可靠，扫描贡献更稳。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p009-trace.svg",
-          "alt": "乘积除以自身 的题解跟踪图（数组与双指针）",
-          "caption": "4 步示例跟踪：先存每个位置左侧乘积，再从右向左乘入右侧乘积。"
+          "src": "./assets/diagrams/problem-p009-trace.gif",
+          "alt": "乘积除以自身 的题解跟踪动画（数组与双指针）",
+          "caption": "4 步动画跟踪：先存每个位置左侧乘积，再从右向左乘入右侧乘积。"
         }
       }
     }
@@ -618,7 +618,7 @@
           "窗口内需要统计频次时，add/remove 必须成对维护，否则状态会漂移。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p010-sliding-window.svg",
+          "src": "./assets/diagrams/problem-p010-sliding-window.png",
           "alt": "无重复字符最长子串的滑动窗口",
           "caption": "right 扩张，left 跳过冲突；窗口内始终无重复字符。"
         }
@@ -679,9 +679,9 @@
           "右括号出现时必须同时检查栈非空和类型。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p011-trace.svg",
-          "alt": "有效括号 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：栈保存等待闭合的左括号；右括号必须匹配最近左括号。"
+          "src": "./assets/diagrams/problem-p011-trace.gif",
+          "alt": "有效括号 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：栈保存等待闭合的左括号；右括号必须匹配最近左括号。"
         }
       }
     }
@@ -741,9 +741,9 @@
           "相等最小值也要入辅助栈，避免 pop 后丢失。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p012-trace.svg",
-          "alt": "最小栈 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：辅助栈与主栈同步，保存每个高度下的最小值。"
+          "src": "./assets/diagrams/problem-p012-trace.gif",
+          "alt": "最小栈 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：辅助栈与主栈同步，保存每个高度下的最小值。"
         }
       }
     }
@@ -804,7 +804,7 @@
           "需要距离或宽度时存下标；只需要值时可以存值。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p013-next-greater.svg",
+          "src": "./assets/diagrams/problem-p013-next-greater.png",
           "alt": "下一个更大元素的单调栈",
           "caption": "新值淘汰旧候选；被弹出的元素立刻得到答案。"
         }
@@ -866,9 +866,9 @@
           "需要等待距离时保存下标而不是温度。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p014-trace.svg",
-          "alt": "每日温度 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：单调递减栈保存还没找到更高温度的下标；新高温弹出所有较低下标。"
+          "src": "./assets/diagrams/problem-p014-trace.gif",
+          "alt": "每日温度 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：单调递减栈保存还没找到更高温度的下标；新高温弹出所有较低下标。"
         }
       }
     }
@@ -928,7 +928,7 @@
           "哨兵用于保证栈清空；若不想改输入，可在循环结束后单独处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p015-histogram.svg",
+          "src": "./assets/diagrams/problem-p015-histogram.png",
           "alt": "柱状图最大矩形的边界",
           "caption": "更矮柱子成为右边界；栈顶给出左边界，宽度因此确定。"
         }
@@ -990,9 +990,9 @@
           "多位数字要逐字符累积，不能只取一个字符。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p016-trace.svg",
-          "alt": "解码字符串 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：数字栈、字符串前缀栈和当前串一起处理。遇 [ 保存重复次数和括号外前缀；遇 ] 弹出并重复。"
+          "src": "./assets/diagrams/problem-p016-trace.gif",
+          "alt": "解码字符串 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：数字栈、字符串前缀栈和当前串一起处理。遇 [ 保存重复次数和括号外前缀；遇 ] 弹出并重复。"
         }
       }
     }
@@ -1052,9 +1052,9 @@
           "队首过期判断必须在记录结果前完成。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p017-trace.svg",
-          "alt": "滑动窗口最大值 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：双端队列保存下标且对应值递减。新数弹出队尾较小值；队首过期则移除。"
+          "src": "./assets/diagrams/problem-p017-trace.gif",
+          "alt": "滑动窗口最大值 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：双端队列保存下标且对应值递减。新数弹出队尾较小值；队首过期则移除。"
         }
       }
     }
@@ -1114,9 +1114,9 @@
           "减法和除法必须注意操作数顺序。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p018-trace.svg",
-          "alt": "逆波兰表达式求值 的题解跟踪图（栈、队列与单调结构）",
-          "caption": "4 步示例跟踪：数字入栈；运算符弹出两个操作数，注意先弹出的是右操作数。"
+          "src": "./assets/diagrams/problem-p018-trace.gif",
+          "alt": "逆波兰表达式求值 的题解跟踪动画（栈、队列与单调结构）",
+          "caption": "4 步动画跟踪：数字入栈；运算符弹出两个操作数，注意先弹出的是右操作数。"
         }
       }
     }
@@ -1176,9 +1176,9 @@
           "排序签名简单；字符计数签名可省去 log k。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p019-trace.svg",
-          "alt": "字母异位词分组 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：为每个单词生成排序后的签名，把原词加入同签名组。"
+          "src": "./assets/diagrams/problem-p019-trace.gif",
+          "alt": "字母异位词分组 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：为每个单词生成排序后的签名，把原词加入同签名组。"
         }
       }
     }
@@ -1238,9 +1238,9 @@
           "频次相等时必须确定稳定规则。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p020-trace.svg",
-          "alt": "前 K 个高频元素 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：Counter 统计频次，再用大小为 k 的小根堆或快速选择保留高频项。"
+          "src": "./assets/diagrams/problem-p020-trace.gif",
+          "alt": "前 K 个高频元素 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：Counter 统计频次，再用大小为 k 的小根堆或快速选择保留高频项。"
         }
       }
     }
@@ -1300,9 +1300,9 @@
           "重复元素先去重，不影响连续长度。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p021-trace.svg",
-          "alt": "最长连续序列 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：哈希集合去重。只有 x-1 不在集合时，x 是连续序列起点，向右扩展到 y。"
+          "src": "./assets/diagrams/problem-p021-trace.gif",
+          "alt": "最长连续序列 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：哈希集合去重。只有 x-1 不在集合时，x 是连续序列起点，向右扩展到 y。"
         }
       }
     }
@@ -1363,7 +1363,7 @@
           "数组含负数时不能用滑动窗口；需要计数时用 Map 而不是 Set。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p022-prefix-sum.svg",
+          "src": "./assets/diagrams/problem-p022-prefix-sum.png",
           "alt": "前缀和差值与哈希表查询",
           "caption": "区间和等于两个前缀差；查询历史前缀即可得到答案数量。"
         }
@@ -1424,9 +1424,9 @@
           "数组计数比 Counter 更省小字符集空间。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p023-trace.svg",
-          "alt": "第一个只出现一次的字符 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：第一次扫描计数，第二次按原序找 count==1 的字符。"
+          "src": "./assets/diagrams/problem-p023-trace.gif",
+          "alt": "第一个只出现一次的字符 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：第一次扫描计数，第二次按原序找 count==1 的字符。"
         }
       }
     }
@@ -1486,9 +1486,9 @@
           "更新 last 必须放在判断之后。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p024-trace.svg",
-          "alt": "存在重复元素 II 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：哈希记录每个值最近一次下标。遇到相同值比较 i-last[x]<=k。"
+          "src": "./assets/diagrams/problem-p024-trace.gif",
+          "alt": "存在重复元素 II 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：哈希记录每个值最近一次下标。遇到相同值比较 i-last[x]<=k。"
         }
       }
     }
@@ -1548,9 +1548,9 @@
           "求组合数用 Counter，不能用集合。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p025-trace.svg",
-          "alt": "四数相加 II 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：先统计所有 a+b 的频次；再枚举 c+d，查 -(c+d) 在 ab 中出现次数。"
+          "src": "./assets/diagrams/problem-p025-trace.gif",
+          "alt": "四数相加 II 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：先统计所有 a+b 的频次；再枚举 c+d，查 -(c+d) 在 ab 中出现次数。"
         }
       }
     }
@@ -1610,9 +1610,9 @@
           "二分边界必须包含 total。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p026-trace.svg",
-          "alt": "随机按权重选择 的题解跟踪图（哈希表与计数）",
-          "caption": "4 步示例跟踪：初始化建 prefix；pick 取随机整数 r∈[1,total]，二分找第一个 prefix[i]>=r。"
+          "src": "./assets/diagrams/problem-p026-trace.gif",
+          "alt": "随机按权重选择 的题解跟踪动画（哈希表与计数）",
+          "caption": "4 步动画跟踪：初始化建 prefix；pick 取随机整数 r∈[1,total]，二分找第一个 prefix[i]>=r。"
         }
       }
     }
@@ -1671,9 +1671,9 @@
           "循环结束返回 prev，不是 cur。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p027-trace.svg",
-          "alt": "反转链表 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：prev、cur、nxt 三指针。每步先保存 cur.next，再把 cur.next 指向 prev，然后整体前进。"
+          "src": "./assets/diagrams/problem-p027-trace.gif",
+          "alt": "反转链表 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：prev、cur、nxt 三指针。每步先保存 cur.next，再把 cur.next 指向 prev，然后整体前进。"
         }
       }
     }
@@ -1732,9 +1732,9 @@
           "处理偶数长度要先约定返回哪一个中点。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p028-trace.svg",
-          "alt": "链表中点 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：slow 每走一步，fast 每走两步。fast 或 fast.next 为空时停止。"
+          "src": "./assets/diagrams/problem-p028-trace.gif",
+          "alt": "链表中点 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：slow 每走一步，fast 每走两步。fast 或 fast.next 为空时停止。"
         }
       }
     }
@@ -1793,7 +1793,7 @@
           "链表中点也用快慢指针，但循环条件必须避免空指针访问。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p029-cycle.svg",
+          "src": "./assets/diagrams/problem-p029-cycle.png",
           "alt": "快慢指针在环中追上",
           "caption": "fast 每步相对 slow 前进 1 格；进入环后距离必然缩小。"
         }
@@ -1854,9 +1854,9 @@
           "归并结尾必须接上非空剩余链。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p030-trace.svg",
-          "alt": "合并两个有序链表 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：dummy 指向结果头，tail 追加较小节点；最后接入剩余链表。"
+          "src": "./assets/diagrams/problem-p030-trace.gif",
+          "alt": "合并两个有序链表 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：dummy 指向结果头，tail 追加较小节点；最后接入剩余链表。"
         }
       }
     }
@@ -1915,9 +1915,9 @@
           "切分时必须把 slow.next 置空，否则死循环。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p031-trace.svg",
-          "alt": "排序链表 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：快慢指针找中点并断链，递归排序两半，再归并。"
+          "src": "./assets/diagrams/problem-p031-trace.gif",
+          "alt": "排序链表 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：快慢指针找中点并断链，递归排序两半，再归并。"
         }
       }
     }
@@ -1976,7 +1976,7 @@
           "“倒数第 k 个”可转换为固定距离的双指针。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p032-remove-nth.svg",
+          "src": "./assets/diagrams/problem-p032-remove-nth.png",
           "alt": "删除倒数第 n 个节点的双指针距离",
           "caption": "fast 提前走出固定距离；slow 最后停在待删节点前驱。"
         }
@@ -2037,9 +2037,9 @@
           "比较后是否恢复链表取决于题目要求。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p033-trace.svg",
-          "alt": "回文链表 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：快慢指针找中点，反转后半段，再与前半段逐节点比较。"
+          "src": "./assets/diagrams/problem-p033-trace.gif",
+          "alt": "回文链表 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：快慢指针找中点，反转后半段，再与前半段逐节点比较。"
         }
       }
     }
@@ -2099,9 +2099,9 @@
           "两链长度不同按 0 补齐。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p034-trace.svg",
-          "alt": "两数相加 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：同步遍历两链，sum=carry+两个当前值；新节点存 sum%10，carry=sum//10。"
+          "src": "./assets/diagrams/problem-p034-trace.gif",
+          "alt": "两数相加 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：同步遍历两链，sum=carry+两个当前值；新节点存 sum%10，carry=sum//10。"
         }
       }
     }
@@ -2160,9 +2160,9 @@
           "必须先创建全部节点，再连接指针。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p035-trace.svg",
-          "alt": "复制带随机指针链表 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：哈希表 old->new。第一次创建所有新节点，第二次复制 next 和 random。"
+          "src": "./assets/diagrams/problem-p035-trace.gif",
+          "alt": "复制带随机指针链表 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：哈希表 old->new。第一次创建所有新节点，第二次复制 next 和 random。"
         }
       }
     }
@@ -2222,9 +2222,9 @@
           "更新已有 key 也要移动到最新。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p036-trace.svg",
-          "alt": "LRU 缓存 的题解跟踪图（链表与边界控制）",
-          "caption": "4 步示例跟踪：哈希表保存 key->node；双向链表按使用顺序排列。访问后移到头，容量满删除尾。"
+          "src": "./assets/diagrams/problem-p036-trace.gif",
+          "alt": "LRU 缓存 的题解跟踪动画（链表与边界控制）",
+          "caption": "4 步动画跟踪：哈希表保存 key->node；双向链表按使用顺序排列。访问后移到头，容量满删除尾。"
         }
       }
     }
@@ -2284,9 +2284,9 @@
           "负指数先转换，注意最小负数取反溢出。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p037-trace.svg",
-          "alt": "快速幂 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：把 n 二进制分解。每位为 1 时把当前 x^2^k 乘入答案，然后 x 自乘。"
+          "src": "./assets/diagrams/problem-p037-trace.gif",
+          "alt": "快速幂 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：把 n 二进制分解。每位为 1 时把当前 x^2^k 乘入答案，然后 x 自乘。"
         }
       }
     }
@@ -2345,9 +2345,9 @@
           "第一个假位置减一才是最大真位置。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p038-trace.svg",
-          "alt": "x 的平方根 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：二分最大的 mid，使 mid<=x/mid；返回 lo-1。"
+          "src": "./assets/diagrams/problem-p038-trace.gif",
+          "alt": "x 的平方根 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：二分最大的 mid，使 mid<=x/mid；返回 lo-1。"
         }
       }
     }
@@ -2406,9 +2406,9 @@
           "区间判断必须包含端点。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p039-trace.svg",
-          "alt": "搜索旋转排序数组 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：每轮判断 [lo,mid] 是否有序；若 target 在该有序区间则收缩到左半，否则右半。"
+          "src": "./assets/diagrams/problem-p039-trace.gif",
+          "alt": "搜索旋转排序数组 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：每轮判断 [lo,mid] 是否有序；若 target 在该有序区间则收缩到左半，否则右半。"
         }
       }
     }
@@ -2467,9 +2467,9 @@
           "闭区间更新为 lo=mid+1、hi=mid-1。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p040-trace.svg",
-          "alt": "二分查找 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：闭区间 [lo,hi] 每轮比较 mid，排除一半。"
+          "src": "./assets/diagrams/problem-p040-trace.gif",
+          "alt": "二分查找 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：闭区间 [lo,hi] 每轮比较 mid，排除一半。"
         }
       }
     }
@@ -2528,9 +2528,9 @@
           "大 n 使用 lo+(hi-lo)/2 防溢出。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p041-trace.svg",
-          "alt": "第一个错误版本 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：二分最小的坏版本。is_bad(mid) 为真时 hi=mid，否则 lo=mid+1。"
+          "src": "./assets/diagrams/problem-p041-trace.gif",
+          "alt": "第一个错误版本 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：二分最小的坏版本。is_bad(mid) 为真时 hi=mid，否则 lo=mid+1。"
         }
       }
     }
@@ -2589,9 +2589,9 @@
           "循环条件 lo<hi，避免 mid+1 越界。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p042-trace.svg",
-          "alt": "寻找峰值 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：若 nums[mid]<nums[mid+1]，右侧必有峰，lo=mid+1；否则左侧或 mid 本身有峰，hi=mid。"
+          "src": "./assets/diagrams/problem-p042-trace.gif",
+          "alt": "寻找峰值 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：若 nums[mid]<nums[mid+1]，右侧必有峰，lo=mid+1；否则左侧或 mid 本身有峰，hi=mid。"
         }
       }
     }
@@ -2650,9 +2650,9 @@
           "流式数据不能全排序。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p043-trace.svg",
-          "alt": "数组中第 K 大元素 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：维护大小为 k 的最小堆。堆顶是当前 k 个最大值中最小者；新值更大时替换堆顶。"
+          "src": "./assets/diagrams/problem-p043-trace.gif",
+          "alt": "数组中第 K 大元素 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：维护大小为 k 的最小堆。堆顶是当前 k 个最大值中最小者；新值更大时替换堆顶。"
         }
       }
     }
@@ -2712,9 +2712,9 @@
           "短数组二分可减少边界复杂度。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p044-trace.svg",
-          "alt": "两个有序数组中位数 的题解跟踪图（递归、分治与二分）",
-          "caption": "4 步示例跟踪：在较短数组二分分割 i，使左半元素个数为一半且左最大 <= 右最小。"
+          "src": "./assets/diagrams/problem-p044-trace.gif",
+          "alt": "两个有序数组中位数 的题解跟踪动画（递归、分治与二分）",
+          "caption": "4 步动画跟踪：在较短数组二分分割 i，使左半元素个数为一半且左最大 <= 右最小。"
         }
       }
     }
@@ -2773,9 +2773,9 @@
           "递归基线必须包含空树。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p045-trace.svg",
-          "alt": "二叉树最大深度 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：空树深度 0；否则 1+max(depth(left),depth(right))。"
+          "src": "./assets/diagrams/problem-p045-trace.gif",
+          "alt": "二叉树最大深度 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：空树深度 0；否则 1+max(depth(left),depth(right))。"
         }
       }
     }
@@ -2834,9 +2834,9 @@
           "保存递归返回值再交换，避免引用覆盖。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p046-trace.svg",
-          "alt": "翻转二叉树 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：后序先翻转左右子树，再交换 root.left 和 root.right。"
+          "src": "./assets/diagrams/problem-p046-trace.gif",
+          "alt": "翻转二叉树 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：后序先翻转左右子树，再交换 root.left 和 root.right。"
         }
       }
     }
@@ -2895,7 +2895,7 @@
           "中序遍历保持递增也能验证 BST，但重复值和边界要单独处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p047-bst-range.svg",
+          "src": "./assets/diagrams/problem-p047-bst-range.png",
           "alt": "验证 BST 的祖先区间传播",
           "caption": "进入左子树收紧上界，进入右子树收紧下界。"
         }
@@ -2956,9 +2956,9 @@
           "不能在循环中直接用变化的 q.size()。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p048-trace.svg",
-          "alt": "二叉树层序遍历 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：队列保存当前层节点；每轮先记录 q.size()，处理完这些再进入下一层。"
+          "src": "./assets/diagrams/problem-p048-trace.gif",
+          "alt": "二叉树层序遍历 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：队列保存当前层节点；每轮先记录 q.size()，处理完这些再进入下一层。"
         }
       }
     }
@@ -3017,9 +3017,9 @@
           "反转层不会影响队列遍历。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p049-trace.svg",
-          "alt": "锯齿形层序遍历 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：得到每层节点数组后，偶数下标层 reverse。"
+          "src": "./assets/diagrams/problem-p049-trace.gif",
+          "alt": "锯齿形层序遍历 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：得到每层节点数组后，偶数下标层 reverse。"
         }
       }
     }
@@ -3078,9 +3078,9 @@
           "直径是边数，结果不要多加根节点。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p050-trace.svg",
-          "alt": "二叉树直径 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：DFS 返回节点深度；合并左右子树高度时更新全局直径 left+right。"
+          "src": "./assets/diagrams/problem-p050-trace.gif",
+          "alt": "二叉树直径 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：DFS 返回节点深度；合并左右子树高度时更新全局直径 left+right。"
         }
       }
     }
@@ -3139,9 +3139,9 @@
           "-1 作为失败信号可剪枝。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p051-trace.svg",
-          "alt": "平衡二叉树 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：后序返回高度；若某子树不平衡返回 -1 并向上剪枝。"
+          "src": "./assets/diagrams/problem-p051-trace.gif",
+          "alt": "平衡二叉树 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：后序返回高度；若某子树不平衡返回 -1 并向上剪枝。"
         }
       }
     }
@@ -3200,9 +3200,9 @@
           "返回节点本身，不是节点值。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p052-trace.svg",
-          "alt": "二叉搜索树最近公共祖先 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：若 p、q 都小于当前值走左；都大于走右；否则当前节点就是分叉点。"
+          "src": "./assets/diagrams/problem-p052-trace.gif",
+          "alt": "二叉搜索树最近公共祖先 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：若 p、q 都小于当前值走左；都大于走右；否则当前节点就是分叉点。"
         }
       }
     }
@@ -3261,9 +3261,9 @@
           "迭代器/队列避免重复切分字符串。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p053-trace.svg",
-          "alt": "二叉树的序列化与反序列化 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：先序遍历用 # 表示空节点并用分隔符拼接；反序列化按相同顺序消费 token。"
+          "src": "./assets/diagrams/problem-p053-trace.gif",
+          "alt": "二叉树的序列化与反序列化 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：先序遍历用 # 表示空节点并用分隔符拼接；反序列化按相同顺序消费 token。"
         }
       }
     }
@@ -3323,9 +3323,9 @@
           "离开子树必须回溯哈希计数。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p054-trace.svg",
-          "alt": "路径总和 III 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：树上前缀和 + 哈希。当前前缀 cur，目标起点前缀为 cur-target；进入时计数，离开时回溯。"
+          "src": "./assets/diagrams/problem-p054-trace.gif",
+          "alt": "路径总和 III 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：树上前缀和 + 哈希。当前前缀 cur，目标起点前缀为 cur-target；进入时计数，离开时回溯。"
         }
       }
     }
@@ -3384,9 +3384,9 @@
           "首次到达深度时才记录。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p055-trace.svg",
-          "alt": "二叉树右视图 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：DFS 按深度访问。若 depth==ans.length，说明该层首次到达，记录节点值；先递归右子树。"
+          "src": "./assets/diagrams/problem-p055-trace.gif",
+          "alt": "二叉树右视图 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：DFS 按深度访问。若 depth==ans.length，说明该层首次到达，记录节点值；先递归右子树。"
         }
       }
     }
@@ -3445,9 +3445,9 @@
           "先序指针必须全局推进。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p056-trace.svg",
-          "alt": "从中序与先序构造二叉树 的题解跟踪图（树与递归思维）",
-          "caption": "4 步示例跟踪：哈希表中记录中序值到下标。先序 pos 取根，中序区间定位左右子树。"
+          "src": "./assets/diagrams/problem-p056-trace.gif",
+          "alt": "从中序与先序构造二叉树 的题解跟踪动画（树与递归思维）",
+          "caption": "4 步动画跟踪：哈希表中记录中序值到下标。先序 pos 取根，中序区间定位左右子树。"
         }
       }
     }
@@ -3507,9 +3507,9 @@
           "初始数据也要逐个 add 保持堆大小。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p057-trace.svg",
-          "alt": "数据流第 K 大 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：维护大小为 k 的最小堆。add 后若超过 k 弹出最小；堆顶即第 k 大。"
+          "src": "./assets/diagrams/problem-p057-trace.gif",
+          "alt": "数据流第 K 大 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：维护大小为 k 的最小堆。add 后若超过 k 弹出最小；堆顶即第 k 大。"
         }
       }
     }
@@ -3568,9 +3568,9 @@
           "比较平方距离，最后返回原坐标。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p058-trace.svg",
-          "alt": "最接近原点的 K 个点 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：维护大小为 k 的最大堆，堆顶是当前最远候选。更近的点替换堆顶。"
+          "src": "./assets/diagrams/problem-p058-trace.gif",
+          "alt": "最接近原点的 K 个点 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：维护大小为 k 的最大堆，堆顶是当前最远候选。更近的点替换堆顶。"
         }
       }
     }
@@ -3630,9 +3630,9 @@
           "堆项需要链编号，避免值相等时比较不合法对象。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p059-trace.svg",
-          "alt": "合并 K 个升序链表 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：最小堆保存每条链当前节点值；弹出最小节点接入结果，并把该链 next 入堆。"
+          "src": "./assets/diagrams/problem-p059-trace.gif",
+          "alt": "合并 K 个升序链表 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：最小堆保存每条链当前节点值；弹出最小节点接入结果，并把该链 next 入堆。"
         }
       }
     }
@@ -3692,9 +3692,9 @@
           "同频字典序不能忽略。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p060-trace.svg",
-          "alt": "前 K 个高频单词 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：统计频次；排序键为频次降序、字典序升序，取前 k。"
+          "src": "./assets/diagrams/problem-p060-trace.gif",
+          "alt": "前 K 个高频单词 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：统计频次；排序键为频次降序、字典序升序，取前 k。"
         }
       }
     }
@@ -3753,9 +3753,9 @@
           "Python 左堆存负数实现最大堆。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p061-trace.svg",
-          "alt": "数据流中位数 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：左最大堆保存较小半部，右最小堆保存较大半部；两堆大小差不超过 1。"
+          "src": "./assets/diagrams/problem-p061-trace.gif",
+          "alt": "数据流中位数 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：左最大堆保存较小半部，右最小堆保存较大半部；两堆大小差不超过 1。"
         }
       }
     }
@@ -3815,9 +3815,9 @@
           "不需要输出具体顺序，只算长度。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p062-trace.svg",
-          "alt": "任务调度器 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：设最高频次 m，有 tie 个任务达到 m。下界为 max(len(tasks),(m-1)*(n+1)+tie)。"
+          "src": "./assets/diagrams/problem-p062-trace.gif",
+          "alt": "任务调度器 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：设最高频次 m，有 tie 个任务达到 m。下界为 max(len(tasks),(m-1)*(n+1)+tie)。"
         }
       }
     }
@@ -3877,9 +3877,9 @@
           "不要一开始把 m*n 全部入堆。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p063-trace.svg",
-          "alt": "和最小的 K 个数对 的题解跟踪图（堆与优先队列）",
-          "caption": "4 步示例跟踪：小根堆保存候选 (A[i]+B[0],i,0)。弹出后只把 (i,j+1) 加入堆，直到得到 k 个。"
+          "src": "./assets/diagrams/problem-p063-trace.gif",
+          "alt": "和最小的 K 个数对 的题解跟踪动画（堆与优先队列）",
+          "caption": "4 步动画跟踪：小根堆保存候选 (A[i]+B[0],i,0)。弹出后只把 (i,j+1) 加入堆，直到得到 k 个。"
         }
       }
     }
@@ -3938,9 +3938,9 @@
           "可以原地标记或单独 visited。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p064-trace.svg",
-          "alt": "岛屿数量 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：遍历网格，遇到未访问 '1' 就 DFS/BFS 标记整座岛，计数加一。"
+          "src": "./assets/diagrams/problem-p064-trace.gif",
+          "alt": "岛屿数量 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：遍历网格，遇到未访问 '1' 就 DFS/BFS 标记整座岛，计数加一。"
         }
       }
     }
@@ -4000,9 +4000,9 @@
           "入队/递归前检查是否已克隆。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p065-trace.svg",
-          "alt": "克隆图 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：哈希表 old->new。BFS/DFS 访问旧节点；新节点复制邻居时通过映射找到对应新节点。"
+          "src": "./assets/diagrams/problem-p065-trace.gif",
+          "alt": "克隆图 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：哈希表 old->new。BFS/DFS 访问旧节点；新节点复制邻居时通过映射找到对应新节点。"
         }
       }
     }
@@ -4061,7 +4061,7 @@
           "要输出字典序最小方案时，把普通队列换成小根堆。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p066-topological.svg",
+          "src": "./assets/diagrams/problem-p066-topological.png",
           "alt": "课程表的拓扑排序与入度",
           "caption": "入度为 0 才能学；完成后把后续课程入度减 1。"
         }
@@ -4122,9 +4122,9 @@
           "返回长度必须等于节点数。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p067-trace.svg",
-          "alt": "课程表 II 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：Kahn 算法：入度 0 入队；处理 u 时其邻居入度减一，减到 0 入队，并 append 到 order。"
+          "src": "./assets/diagrams/problem-p067-trace.gif",
+          "alt": "课程表 II 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：Kahn 算法：入度 0 入队；处理 u 时其邻居入度减一，减到 0 入队，并 append 到 order。"
         }
       }
     }
@@ -4183,9 +4183,9 @@
           "反向条件与正向流向相反。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p068-trace.svg",
-          "alt": "太平洋大西洋水流 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：太平洋边界反向 DFS 得 pac 集合，大西洋边界反向 DFS 得 atl 集合；交集为答案。"
+          "src": "./assets/diagrams/problem-p068-trace.gif",
+          "alt": "太平洋大西洋水流 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：太平洋边界反向 DFS 得 pac 集合，大西洋边界反向 DFS 得 atl 集合；交集为答案。"
         }
       }
     }
@@ -4244,9 +4244,9 @@
           "初始没有新鲜橘子应返回 0。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p069-trace.svg",
-          "alt": "腐烂的橘子 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：多源 BFS。所有初始腐烂橘子入队；按分钟扩展四方向新鲜橘子，最后检查是否仍有 fresh。"
+          "src": "./assets/diagrams/problem-p069-trace.gif",
+          "alt": "腐烂的橘子 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：多源 BFS。所有初始腐烂橘子入队；按分钟扩展四方向新鲜橘子，最后检查是否仍有 fresh。"
         }
       }
     }
@@ -4306,9 +4306,9 @@
           "BFS 第一次到达 end 即最短。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p070-trace.svg",
-          "alt": "单词接龙 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：BFS 从 begin 出发。生成每个位置替换 a-z 的邻居；若在 wordList 中则入队并移除，防止回头。"
+          "src": "./assets/diagrams/problem-p070-trace.gif",
+          "alt": "单词接龙 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：BFS 从 begin 出发。生成每个位置替换 a-z 的邻居；若在 wordList 中则入队并移除，防止回头。"
         }
       }
     }
@@ -4367,9 +4367,9 @@
           "无向边要加入两个方向。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p071-trace.svg",
-          "alt": "无向图连通分量数 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：邻接表建无向图。遍历节点，若未访问则 DFS 标记整块，计数加一。"
+          "src": "./assets/diagrams/problem-p071-trace.gif",
+          "alt": "无向图连通分量数 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：邻接表建无向图。遍历节点，若未访问则 DFS 标记整块，计数加一。"
         }
       }
     }
@@ -4428,9 +4428,9 @@
           "图可能不连通，每个块都要处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p072-trace.svg",
-          "alt": "判断二分图 的题解跟踪图（图论：搜索、拓扑与连通性）",
-          "caption": "4 步示例跟踪：每个连通块任选起点染 0；BFS/DFS 中邻居必须异色，冲突则非二分图。"
+          "src": "./assets/diagrams/problem-p072-trace.gif",
+          "alt": "判断二分图 的题解跟踪动画（图论：搜索、拓扑与连通性）",
+          "caption": "4 步动画跟踪：每个连通块任选起点染 0；BFS/DFS 中邻居必须异色，冲突则非二分图。"
         }
       }
     }
@@ -4491,7 +4491,7 @@
           "堆中会有过期候选，弹出时必须比较 dist[node]。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p073-dijkstra.svg",
+          "src": "./assets/diagrams/problem-p073-dijkstra.png",
           "alt": "Dijkstra 固定当前最近节点",
           "caption": "非负边权下，当前最近的未确定节点可以安全固定。"
         }
@@ -4553,9 +4553,9 @@
           "必须用上一轮副本松弛。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p074-trace.svg",
-          "alt": "K 站内最便宜航班 的题解跟踪图（最短路、最小生成树与图建模）",
-          "caption": "4 步示例跟踪：Bellman-Ford 限制 k+1 轮。每轮用上一轮 dist 松弛所有边，避免同一轮链式扩展。"
+          "src": "./assets/diagrams/problem-p074-trace.gif",
+          "alt": "K 站内最便宜航班 的题解跟踪动画（最短路、最小生成树与图建模）",
+          "caption": "4 步动画跟踪：Bellman-Ford 限制 k+1 轮。每轮用上一轮 dist 松弛所有边，避免同一轮链式扩展。"
         }
       }
     }
@@ -4614,9 +4614,9 @@
           "代价是最大相邻差，不是总和。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p075-trace.svg",
-          "alt": "最小体力消耗路径 的题解跟踪图（最短路、最小生成树与图建模）",
-          "caption": "4 步示例跟踪：二分允许差 limit；BFS/DFS 判断能否从起点到终点，只走相邻差 <=limit 的边。"
+          "src": "./assets/diagrams/problem-p075-trace.gif",
+          "alt": "最小体力消耗路径 的题解跟踪动画（最短路、最小生成树与图建模）",
+          "caption": "4 步动画跟踪：二分允许差 limit；BFS/DFS 判断能否从起点到终点，只走相邻差 <=limit 的边。"
         }
       }
     }
@@ -4675,9 +4675,9 @@
           "重合点距离 0 是合法边。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p076-trace.svg",
-          "alt": "连接所有点最低成本 的题解跟踪图（最短路、最小生成树与图建模）",
-          "caption": "4 步示例跟踪：Prim：从一个点开始；堆保存未选点到已选集合的最小曼哈顿距离，每次取最小扩张。"
+          "src": "./assets/diagrams/problem-p076-trace.gif",
+          "alt": "连接所有点最低成本 的题解跟踪动画（最短路、最小生成树与图建模）",
+          "caption": "4 步动画跟踪：Prim：从一个点开始；堆保存未选点到已选集合的最小曼哈顿距离，每次取最小扩张。"
         }
       }
     }
@@ -4736,9 +4736,9 @@
           "先 find 再比较根。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p077-trace.svg",
-          "alt": "冗余连接 的题解跟踪图（最短路、最小生成树与图建模）",
-          "caption": "4 步示例跟踪：按输入顺序用并查集连接两端。若 find(a)==find(b)，该边冗余；否则合并。"
+          "src": "./assets/diagrams/problem-p077-trace.gif",
+          "alt": "冗余连接 的题解跟踪动画（最短路、最小生成树与图建模）",
+          "caption": "4 步动画跟踪：按输入顺序用并查集连接两端。若 find(a)==find(b)，该边冗余；否则合并。"
         }
       }
     }
@@ -4798,9 +4798,9 @@
           "图一定连通，因为每个设备都有模块边。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p078-trace.svg",
-          "alt": "最低成本连通所有设备 的题解跟踪图（最短路、最小生成树与图建模）",
-          "caption": "4 步示例跟踪：建 n+1 个节点：0 为虚拟节点，设备 i 到 0 权为模块价；原铺设边照常。跑 Kruskal，直到连通。"
+          "src": "./assets/diagrams/problem-p078-trace.gif",
+          "alt": "最低成本连通所有设备 的题解跟踪动画（最短路、最小生成树与图建模）",
+          "caption": "4 步动画跟踪：建 n+1 个节点：0 为虚拟节点，设备 i 到 0 权为模块价；原铺设边照常。跑 Kruskal，直到连通。"
         }
       }
     }
@@ -4859,9 +4859,9 @@
           "记录答案必须复制 path。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p079-trace.svg",
-          "alt": "全排列 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：DFS 每层选一个未用元素，加入 path；递归后弹出并恢复 used。"
+          "src": "./assets/diagrams/problem-p079-trace.gif",
+          "alt": "全排列 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：DFS 每层选一个未用元素，加入 path；递归后弹出并恢复 used。"
         }
       }
     }
@@ -4920,9 +4920,9 @@
           "递归起点用 i+1 防重复组合。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p080-trace.svg",
-          "alt": "子集 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：DFS(start,path)。每个递归入口先记录当前 path，再从 start 起选择下一个元素。"
+          "src": "./assets/diagrams/problem-p080-trace.gif",
+          "alt": "子集 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：DFS(start,path)。每个递归入口先记录当前 path，再从 start 起选择下一个元素。"
         }
       }
     }
@@ -4982,9 +4982,9 @@
           "排序便于提前 break。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p081-trace.svg",
-          "alt": "组合总和 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：排序后 DFS(i,rest)。选择 candidates[i] 后仍从 i 开始；rest 为 0 记录，小于当前数剪枝。"
+          "src": "./assets/diagrams/problem-p081-trace.gif",
+          "alt": "组合总和 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：排序后 DFS(i,rest)。选择 candidates[i] 后仍从 i 开始；rest 为 0 记录，小于当前数剪枝。"
         }
       }
     }
@@ -5043,9 +5043,9 @@
           "回文判断可 DP 或中心扩展缓存。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p082-trace.svg",
-          "alt": "分割回文串 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：DFS(start,path)。对每个 end 判断 s[start:end] 是否回文；合法则加入并递归 end+1。"
+          "src": "./assets/diagrams/problem-p082-trace.gif",
+          "alt": "分割回文串 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：DFS(start,path)。对每个 end 判断 s[start:end] 是否回文；合法则加入并递归 end+1。"
         }
       }
     }
@@ -5105,9 +5105,9 @@
           "失败路径必须恢复。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p083-trace.svg",
-          "alt": "单词搜索 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：从每个格子尝试匹配 word[k]。匹配后临时标记格子，四方向递归 k+1，返回前恢复。"
+          "src": "./assets/diagrams/problem-p083-trace.gif",
+          "alt": "单词搜索 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：从每个格子尝试匹配 word[k]。匹配后临时标记格子，四方向递归 k+1，返回前恢复。"
         }
       }
     }
@@ -5166,9 +5166,9 @@
           "撤销三个状态缺一不可。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p084-trace.svg",
-          "alt": "N 皇后 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：逐行 DFS。cols、row-col、row+col 三个集合判断冲突；放置后递归下一行，返回前撤销。"
+          "src": "./assets/diagrams/problem-p084-trace.gif",
+          "alt": "N 皇后 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：逐行 DFS。cols、row-col、row+col 三个集合判断冲突；放置后递归下一行，返回前撤销。"
         }
       }
     }
@@ -5228,9 +5228,9 @@
           "宫索引 = (row//3)*3+col//3。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p085-trace.svg",
-          "alt": "解数独 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：记录每个空格。DFS 依次尝试 1-9；若不在对应 row/col/box 集合则放置、递归、失败后清除。"
+          "src": "./assets/diagrams/problem-p085-trace.gif",
+          "alt": "解数独 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：记录每个空格。DFS 依次尝试 1-9；若不在对应 row/col/box 集合则放置、递归、失败后清除。"
         }
       }
     }
@@ -5289,9 +5289,9 @@
           "空 digits 不应返回 ['']。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p086-trace.svg",
-          "alt": "电话号码字母组合 的题解跟踪图（回溯：排列、组合与搜索剪枝）",
-          "caption": "4 步示例跟踪：DFS 按数字下标 i 逐位选择字母；path 长度等于 digits 长度时记录。"
+          "src": "./assets/diagrams/problem-p086-trace.gif",
+          "alt": "电话号码字母组合 的题解跟踪动画（回溯：排列、组合与搜索剪枝）",
+          "caption": "4 步动画跟踪：DFS 按数字下标 i 逐位选择字母；path 长度等于 digits 长度时记录。"
         }
       }
     }
@@ -5351,9 +5351,9 @@
           "i>far 才不可达。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p087-trace.svg",
-          "alt": "跳跃游戏 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：遍历 i。若 i>far 直接 false；否则 far=max(far,i+nums[i])。"
+          "src": "./assets/diagrams/problem-p087-trace.gif",
+          "alt": "跳跃游戏 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：遍历 i。若 i>far 直接 false；否则 far=max(far,i+nums[i])。"
         }
       }
     }
@@ -5413,9 +5413,9 @@
           "最后下标不必再起跳。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p088-trace.svg",
-          "alt": "跳跃游戏 II 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：维护 current_end 当前层边界和 far 下一层最远。i 到达 current_end 时步数加一、current_end=far。"
+          "src": "./assets/diagrams/problem-p088-trace.gif",
+          "alt": "跳跃游戏 II 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：维护 current_end 当前层边界和 far 下一层最远。i 到达 current_end 时步数加一、current_end=far。"
         }
       }
     }
@@ -5474,9 +5474,9 @@
           "合并终点必须 max，不能假设递增。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p089-trace.svg",
-          "alt": "合并区间 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：按起点排序；若当前起点 <= 上一个合并区间终点，则扩展终点为 max；否则新增区间。"
+          "src": "./assets/diagrams/problem-p089-trace.gif",
+          "alt": "合并区间 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：按起点排序；若当前起点 <= 上一个合并区间终点，则扩展终点为 max；否则新增区间。"
         }
       }
     }
@@ -5535,9 +5535,9 @@
           "端点相接视为不重叠。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p090-trace.svg",
-          "alt": "无重叠区间 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：按终点排序。end 保存上一个保留区间终点；起点 >= end 保留并更新，否则计数删除。"
+          "src": "./assets/diagrams/problem-p090-trace.gif",
+          "alt": "无重叠区间 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：按终点排序。end 保存上一个保留区间终点；起点 >= end 保留并更新，否则计数删除。"
         }
       }
     }
@@ -5596,9 +5596,9 @@
           "贪心需要维护当前组最左起点。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p091-trace.svg",
-          "alt": "用最少数量的箭引爆气球 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：按终点排序。pos 保存当前箭位置（当前组最小终点）；若新气球起点 > pos 则需要新箭。"
+          "src": "./assets/diagrams/problem-p091-trace.gif",
+          "alt": "用最少数量的箭引爆气球 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：按终点排序。pos 保存当前箭位置（当前组最小终点）；若新气球起点 > pos 则需要新箭。"
         }
       }
     }
@@ -5657,9 +5657,9 @@
           "饼干指针无论是否满足都前进。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p092-trace.svg",
-          "alt": "分发饼干 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：孩子需求 g 与饼干尺寸 s 升序。若 s[j]>=g[i]，满足孩子 i，双指针前进；否则换更大饼干。"
+          "src": "./assets/diagrams/problem-p092-trace.gif",
+          "alt": "分发饼干 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：孩子需求 g 与饼干尺寸 s 升序。若 s[j]>=g[i]，满足孩子 i，双指针前进；否则换更大饼干。"
         }
       }
     }
@@ -5718,9 +5718,9 @@
           "返回长度而非字符串。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p093-trace.svg",
-          "alt": "划分字母区间 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：记录 last[ch]。扫描时 end=max(end,last[ch])；i==end 时切断并更新 start。"
+          "src": "./assets/diagrams/problem-p093-trace.gif",
+          "alt": "划分字母区间 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：记录 last[ch]。扫描时 end=max(end,last[ch])；i==end 时切断并更新 start。"
         }
       }
     }
@@ -5779,9 +5779,9 @@
           "相等评分不强制增加。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p094-trace.svg",
-          "alt": "分发糖果 的题解跟踪图（贪心：局部决策与全局证明）",
-          "caption": "4 步示例跟踪：左到右满足 ratings[i]>ratings[i-1]；右到左满足反向，最后取两次约束最大值。"
+          "src": "./assets/diagrams/problem-p094-trace.gif",
+          "alt": "分发糖果 的题解跟踪动画（贪心：局部决策与全局证明）",
+          "caption": "4 步动画跟踪：左到右满足 ratings[i]>ratings[i-1]；右到左满足反向，最后取两次约束最大值。"
         }
       }
     }
@@ -5840,9 +5840,9 @@
           "边界从 n=1 开始核对。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p095-trace.svg",
-          "alt": "爬楼梯 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i]=dp[i-1]+dp[i-2]，dp[0]=dp[1]=1；用两个变量滚动。"
+          "src": "./assets/diagrams/problem-p095-trace.gif",
+          "alt": "爬楼梯 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i]=dp[i-1]+dp[i-2]，dp[0]=dp[1]=1；用两个变量滚动。"
         }
       }
     }
@@ -5900,9 +5900,9 @@
           "空数组按题意处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p096-trace.svg",
-          "alt": "打家劫舍 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i]=max(dp[i-1],dp[i-2]+nums[i])；滚动 prev、cur。"
+          "src": "./assets/diagrams/problem-p096-trace.gif",
+          "alt": "打家劫舍 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i]=max(dp[i-1],dp[i-2]+nums[i])；滚动 prev、cur。"
         }
       }
     }
@@ -5962,7 +5962,7 @@
           "完全背包容量正序；0/1 背包容量倒序。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p097-coin-change.svg",
+          "src": "./assets/diagrams/problem-p097-coin-change.png",
           "alt": "零钱兑换的动态规划转移",
           "caption": "只看最后一枚硬币；剩余金额的子问题必须已经最优。"
         }
@@ -6024,9 +6024,9 @@
           "amount=0 返回 1。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p098-trace.svg",
-          "alt": "零钱兑换 II 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[0]=1。对每个 coin 正序更新 dp[c]+=dp[c-coin]。"
+          "src": "./assets/diagrams/problem-p098-trace.gif",
+          "alt": "零钱兑换 II 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[0]=1。对每个 coin 正序更新 dp[c]+=dp[c-coin]。"
         }
       }
     }
@@ -6086,7 +6086,7 @@
           "tails 不是一条真实 LIS，但长度是正确答案。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p099-lis-tails.svg",
+          "src": "./assets/diagrams/problem-p099-lis-tails.png",
           "alt": "最长上升子序列的 tails 数组",
           "caption": "tails[k] 是长度 k+1 的最小尾值；新数决定扩展还是替换。"
         }
@@ -6147,9 +6147,9 @@
           "空间可滚动优化。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p100-trace.svg",
-          "alt": "最长公共子序列 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：字符相等 dp[i][j]=dp[i-1][j-1]+1；否则取左或上最大。"
+          "src": "./assets/diagrams/problem-p100-trace.gif",
+          "alt": "最长公共子序列 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：字符相等 dp[i][j]=dp[i-1][j-1]+1；否则取左或上最大。"
         }
       }
     }
@@ -6209,7 +6209,7 @@
           "只依赖上一行时可滚动数组降维。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p101-edit-distance.svg",
+          "src": "./assets/diagrams/problem-p101-edit-distance.png",
           "alt": "编辑距离的二维 DP 前缀状态",
           "caption": "每个格子代表前 i 个字符变成前 j 个字符的最少操作。"
         }
@@ -6269,9 +6269,9 @@
           "只求总数可滚动数组。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p102-trace.svg",
-          "alt": "不同路径 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i][j]=dp[i-1][j]+dp[i][j-1]，第一行列为 1；可滚动为一维。"
+          "src": "./assets/diagrams/problem-p102-trace.gif",
+          "alt": "不同路径 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i][j]=dp[i-1][j]+dp[i][j-1]，第一行列为 1；可滚动为一维。"
         }
       }
     }
@@ -6329,9 +6329,9 @@
           "可原地或滚动，注意边界。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p103-trace.svg",
-          "alt": "最小路径和 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i][j]=grid[i][j]+min(dp[i-1][j],dp[i][j-1])；第一行/列单独初始化。"
+          "src": "./assets/diagrams/problem-p103-trace.gif",
+          "alt": "最小路径和 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i][j]=grid[i][j]+min(dp[i-1][j],dp[i][j-1])；第一行/列单独初始化。"
         }
       }
     }
@@ -6391,9 +6391,9 @@
           "总和奇数直接 false。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p104-trace.svg",
-          "alt": "分割等和子集 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[0]=True。对每个 x，从 target 到 x 倒序更新 dp[c]|=dp[c-x]。"
+          "src": "./assets/diagrams/problem-p104-trace.gif",
+          "alt": "分割等和子集 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[0]=True。对每个 x，从 target 到 x 倒序更新 dp[c]|=dp[c-x]。"
         }
       }
     }
@@ -6452,9 +6452,9 @@
           "可结合最长短词剪枝。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p105-trace.svg",
-          "alt": "单词拆分 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[0]=True。对 i 枚举 j<i，若 dp[j] 且 s[j:i] 在字典则 dp[i]=True。"
+          "src": "./assets/diagrams/problem-p105-trace.gif",
+          "alt": "单词拆分 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[0]=True。对 i 枚举 j<i，若 dp[j] 且 s[j:i] 在字典则 dp[i]=True。"
         }
       }
     }
@@ -6513,9 +6513,9 @@
           "非法状态返回 0。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p106-trace.svg",
-          "alt": "解码方法 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i] 表示前 i 位解码数。单字符非 0 转移 dp[i-1]；两位在 10..26 时加 dp[i-2]。"
+          "src": "./assets/diagrams/problem-p106-trace.gif",
+          "alt": "解码方法 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i] 表示前 i 位解码数。单字符非 0 转移 dp[i-1]；两位在 10..26 时加 dp[i-2]。"
         }
       }
     }
@@ -6574,9 +6574,9 @@
           "答案是面积，不是边长。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p107-trace.svg",
-          "alt": "最大正方形 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1，仅当格为 1；答案取边长平方。"
+          "src": "./assets/diagrams/problem-p107-trace.gif",
+          "alt": "最大正方形 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：dp[i][j]=min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1，仅当格为 1；答案取边长平方。"
         }
       }
     }
@@ -6634,9 +6634,9 @@
           "开区间边界不参与收益。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p108-trace.svg",
-          "alt": "戳气球 的题解跟踪图（动态规划：状态、转移与记忆）",
-          "caption": "4 步示例跟踪：两端补 1。dp[l][r] 表示开区间内最大收益；枚举最后戳 k：a[l]*a[k]*a[r]+dp[l][k]+dp[k][r]。"
+          "src": "./assets/diagrams/problem-p108-trace.gif",
+          "alt": "戳气球 的题解跟踪动画（动态规划：状态、转移与记忆）",
+          "caption": "4 步动画跟踪：两端补 1。dp[l][r] 表示开区间内最大收益；枚举最后戳 k：a[l]*a[k]*a[r]+dp[l][k]+dp[k][r]。"
         }
       }
     }
@@ -6695,9 +6695,9 @@
           "数字也算有效字符。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p109-trace.svg",
-          "alt": "验证回文串 的题解跟踪图（字符串算法）",
-          "caption": "4 步示例跟踪：左右指针跳过非字母数字，lower 后比较；不相等返回 false。"
+          "src": "./assets/diagrams/problem-p109-trace.gif",
+          "alt": "验证回文串 的题解跟踪动画（字符串算法）",
+          "caption": "4 步动画跟踪：左右指针跳过非字母数字，lower 后比较；不相等返回 false。"
         }
       }
     }
@@ -6756,9 +6756,9 @@
           "32 位截断方向按上/下界。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p110-trace.svg",
-          "alt": "字符串转整数 atoi 的题解跟踪图（字符串算法）",
-          "caption": "4 步示例跟踪：先跳空格，读可选符号，再读连续数字；每步检查溢出并截断。"
+          "src": "./assets/diagrams/problem-p110-trace.gif",
+          "alt": "字符串转整数 atoi 的题解跟踪动画（字符串算法）",
+          "caption": "4 步动画跟踪：先跳空格，读可选符号，再读连续数字；每步检查溢出并截断。"
         }
       }
     }
@@ -6818,7 +6818,7 @@
           "偶数长度不要漏掉两个字符间的中心。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p111-palindrome.svg",
+          "src": "./assets/diagrams/problem-p111-palindrome.png",
           "alt": "回文子串的奇偶中心扩展",
           "caption": "奇数中心是一个字符；偶数中心是两个字符之间。"
         }
@@ -6879,9 +6879,9 @@
           "next 定义必须固定后再写匹配。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p112-trace.svg",
-          "alt": "找出字符串第一个匹配项 的题解跟踪图（字符串算法）",
-          "caption": "4 步示例跟踪：构造 next：最长相等真前后缀。扫描 haystack 失配时 k=next[k-1] 而非归零。"
+          "src": "./assets/diagrams/problem-p112-trace.gif",
+          "alt": "找出字符串第一个匹配项 的题解跟踪动画（字符串算法）",
+          "caption": "4 步动画跟踪：构造 next：最长相等真前后缀。扫描 haystack 失配时 k=next[k-1] 而非归零。"
         }
       }
     }
@@ -6941,9 +6941,9 @@
           "删除不足时从尾部删。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p113-trace.svg",
-          "alt": "移除 K 位数字 的题解跟踪图（字符串算法）",
-          "caption": "4 步示例跟踪：栈保存当前最小前缀。若栈顶 > 新字符且还能删，则弹栈；不足 k 时删尾部，最后去前导零。"
+          "src": "./assets/diagrams/problem-p113-trace.gif",
+          "alt": "移除 K 位数字 的题解跟踪动画（字符串算法）",
+          "caption": "4 步动画跟踪：栈保存当前最小前缀。若栈顶 > 新字符且还能删，则弹栈；不足 k 时删尾部，最后去前导零。"
         }
       }
     }
@@ -7002,9 +7002,9 @@
           "前缀长度判断不能遗漏。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p114-trace.svg",
-          "alt": "验证外星语词典 的题解跟踪图（字符串算法）",
-          "caption": "4 步示例跟踪：相邻单词逐字符比较 rank。前缀相同时较短单词应在前。"
+          "src": "./assets/diagrams/problem-p114-trace.gif",
+          "alt": "验证外星语词典 的题解跟踪动画（字符串算法）",
+          "caption": "4 步动画跟踪：相邻单词逐字符比较 rank。前缀相同时较短单词应在前。"
         }
       }
     }
@@ -7063,9 +7063,9 @@
           "只扫上三角避免重复。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p115-trace.svg",
-          "alt": "省份数量 的题解跟踪图（并查集与高级结构）",
-          "caption": "4 步示例跟踪：初始化 n 个集合。扫描 isConnected[i][j]==1 时 union(i,j)；最终统计 parent[i]==i 数量。"
+          "src": "./assets/diagrams/problem-p115-trace.gif",
+          "alt": "省份数量 的题解跟踪动画（并查集与高级结构）",
+          "caption": "4 步动画跟踪：初始化 n 个集合。扫描 isConnected[i][j]==1 时 union(i,j)；最终统计 parent[i]==i 数量。"
         }
       }
     }
@@ -7125,9 +7125,9 @@
           "坐标编码要避免冲突。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p116-trace.svg",
-          "alt": "岛屿数量 II 的题解跟踪图（并查集与高级结构）",
-          "caption": "4 步示例跟踪：新增格建集合，检查四邻已有岛合并，count 记录分量数；重复坐标直接返回当前 count。"
+          "src": "./assets/diagrams/problem-p116-trace.gif",
+          "alt": "岛屿数量 II 的题解跟踪动画（并查集与高级结构）",
+          "caption": "4 步动画跟踪：新增格建集合，检查四邻已有岛合并，count 记录分量数；重复坐标直接返回当前 count。"
         }
       }
     }
@@ -7186,9 +7186,9 @@
           "输出邮箱要排序，名字不能丢。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p117-trace.svg",
-          "alt": "账户合并 的题解跟踪图（并查集与高级结构）",
-          "caption": "4 步示例跟踪：邮箱映射编号；同账户内邮箱 union。按根聚合邮箱，排序并保留账户名。"
+          "src": "./assets/diagrams/problem-p117-trace.gif",
+          "alt": "账户合并 的题解跟踪动画（并查集与高级结构）",
+          "caption": "4 步动画跟踪：邮箱映射编号；同账户内邮箱 union。按根聚合邮箱，排序并保留账户名。"
         }
       }
     }
@@ -7247,9 +7247,9 @@
           "变量最多 26 个可数组初始化。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p118-trace.svg",
-          "alt": "等式方程的可满足性 的题解跟踪图（并查集与高级结构）",
-          "caption": "4 步示例跟踪：先处理所有 == 的 union；再处理 !=，若两端同根则矛盾。"
+          "src": "./assets/diagrams/problem-p118-trace.gif",
+          "alt": "等式方程的可满足性 的题解跟踪动画（并查集与高级结构）",
+          "caption": "4 步动画跟踪：先处理所有 == 的 union；再处理 !=，若两端同根则矛盾。"
         }
       }
     }
@@ -7308,9 +7308,9 @@
           "不能用哈希时找位运算不变量。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p119-trace.svg",
-          "alt": "只出现一次的数字 的题解跟踪图（数学、位运算与概率思维）",
-          "caption": "4 步示例跟踪：所有数依次异或，成对数抵消，剩下唯一数。"
+          "src": "./assets/diagrams/problem-p119-trace.gif",
+          "alt": "只出现一次的数字 的题解跟踪动画（数学、位运算与概率思维）",
+          "caption": "4 步动画跟踪：所有数依次异或，成对数抵消，剩下唯一数。"
         }
       }
     }
@@ -7369,9 +7369,9 @@
           "i&(i-1) 清最低位 1。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p120-trace.svg",
-          "alt": "比特位计数 的题解跟踪图（数学、位运算与概率思维）",
-          "caption": "4 步示例跟踪：dp[i]=dp[i>>1]+(i&1)，或 dp[i]=dp[i&(i-1)]+1。"
+          "src": "./assets/diagrams/problem-p120-trace.gif",
+          "alt": "比特位计数 的题解跟踪动画（数学、位运算与概率思维）",
+          "caption": "4 步动画跟踪：dp[i]=dp[i>>1]+(i&1)，或 dp[i]=dp[i&(i-1)]+1。"
         }
       }
     }
@@ -7430,9 +7430,9 @@
           "范围是 0..n，数组长度 n。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p121-trace.svg",
-          "alt": "缺失数字 的题解跟踪图（数学、位运算与概率思维）",
-          "caption": "4 步示例跟踪：ans 初始化 n；遍历 i 与 nums[i] 异或，最后 ans 即缺失。"
+          "src": "./assets/diagrams/problem-p121-trace.gif",
+          "alt": "缺失数字 的题解跟踪动画（数学、位运算与概率思维）",
+          "caption": "4 步动画跟踪：ans 初始化 n；遍历 i 与 nums[i] 异或，最后 ans 即缺失。"
         }
       }
     }
@@ -7491,9 +7491,9 @@
           "随机范围必须含 i。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p122-trace.svg",
-          "alt": "打乱数组 的题解跟踪图（数学、位运算与概率思维）",
-          "caption": "4 步示例跟踪：reset 保存原数组。shuffle 时 i 从 n-1 到 1，j 随机取 [0,i]，交换 a[i],a[j]。"
+          "src": "./assets/diagrams/problem-p122-trace.gif",
+          "alt": "打乱数组 的题解跟踪动画（数学、位运算与概率思维）",
+          "caption": "4 步动画跟踪：reset 保存原数组。shuffle 时 i 从 n-1 到 1，j 随机取 [0,i]，交换 a[i],a[j]。"
         }
       }
     }
@@ -7553,9 +7553,9 @@
           "条件判断必须 while。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p123-trace.svg",
-          "alt": "设计有限阻塞队列 的题解跟踪图（工程化调试与面试作战手册）",
-          "caption": "4 步示例跟踪：Lock 保护 items/count/head/tail；not_full、notEmpty 条件变量。put 满则 wait，加入后 notify；get 空则 wait。"
+          "src": "./assets/diagrams/problem-p123-trace.gif",
+          "alt": "设计有限阻塞队列 的题解跟踪动画（工程化调试与面试作战手册）",
+          "caption": "4 步动画跟踪：Lock 保护 items/count/head/tail；not_full、notEmpty 条件变量。put 满则 wait，加入后 notify；get 空则 wait。"
         }
       }
     }
@@ -7615,9 +7615,9 @@
           "时间回拨和取消任务需工程处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p124-trace.svg",
-          "alt": "设计公平调度器 的题解跟踪图（工程化调试与面试作战手册）",
-          "caption": "4 步示例跟踪：按 deadline、调整后 priority、sequence 入堆。priority 加用户使用量惩罚；弹出后更新 usage。"
+          "src": "./assets/diagrams/problem-p124-trace.gif",
+          "alt": "设计公平调度器 的题解跟踪动画（工程化调试与面试作战手册）",
+          "caption": "4 步动画跟踪：按 deadline、调整后 priority、sequence 入堆。priority 加用户使用量惩罚；弹出后更新 usage。"
         }
       }
     }
@@ -7680,7 +7680,7 @@
           "交换型原地排序必须说明换回元素是否会再次处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p125-sort-colors.svg",
+          "src": "./assets/diagrams/problem-p125-sort-colors.png",
           "alt": "颜色分类的三路分区边界",
           "caption": "三个边界把数组切成 0 区、1 区、未处理区和 2 区。"
         }
@@ -7745,7 +7745,7 @@
           "相等元素不是逆序，比较必须用 <= 保持稳定并避免多算。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p126-inversions.svg",
+          "src": "./assets/diagrams/problem-p126-inversions.png",
           "alt": "归并排序统计逆序对",
           "caption": "取出右半元素时，左半剩余元素全部构成跨半逆序。"
         }
@@ -7812,9 +7812,9 @@
           "答案只在桶间时，无需维护桶内完整顺序。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p127-trace.svg",
-          "alt": "无序数组的最大间距 的题解跟踪图（排序：从比较到分桶）",
-          "caption": "4 步示例跟踪：n 个数有 n-1 个间隙。按桶宽 (max-min)/(n-1) 分桶后，最大间距不可能出现在同桶内部，只会出现在下一个非空桶最小值与前一个非空桶最大值之间。"
+          "src": "./assets/diagrams/problem-p127-trace.gif",
+          "alt": "无序数组的最大间距 的题解跟踪动画（排序：从比较到分桶）",
+          "caption": "4 步动画跟踪：n 个数有 n-1 个间隙。按桶宽 (max-min)/(n-1) 分桶后，最大间距不可能出现在同桶内部，只会出现在下一个非空桶最小值与前一个非空桶最大值之间。"
         }
       }
     }
@@ -7876,9 +7876,9 @@
           "不在主顺序中的元素可复用计数结构并按值域排序。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p128-trace.svg",
-          "alt": "相对排序 的题解跟踪图（排序：从比较到分桶）",
-          "caption": "4 步示例跟踪：统计 arr1 频次后，按 arr2 顺序输出；再按值域升序输出剩余元素。"
+          "src": "./assets/diagrams/problem-p128-trace.gif",
+          "alt": "相对排序 的题解跟踪动画（排序：从比较到分桶）",
+          "caption": "4 步动画跟踪：统计 arr1 频次后，按 arr2 顺序输出；再按值域升序输出剩余元素。"
         }
       }
     }
@@ -7944,9 +7944,9 @@
           "结果可能全是 0，必须压缩为单个 0。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p129-trace.svg",
-          "alt": "最大拼接数 的题解跟踪图（排序：从比较到分桶）",
-          "caption": "5 步示例跟踪：两个字符串 a,b 的先后只需比较 a+b 与 b+b 的字典序。这种比较满足传递性，因此排序后拼接最优。"
+          "src": "./assets/diagrams/problem-p129-trace.gif",
+          "alt": "最大拼接数 的题解跟踪动画（排序：从比较到分桶）",
+          "caption": "5 步动画跟踪：两个字符串 a,b 的先后只需比较 a+b 与 b+b 的字典序。这种比较满足传递性，因此排序后拼接最优。"
         }
       }
     }
@@ -8007,7 +8007,7 @@
           "哈希表适合完整词，Trie 适合共享路径。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p130-trie-path.svg",
+          "src": "./assets/diagrams/problem-p130-trie-path.png",
           "alt": "Trie 前缀路径与 end 标记",
           "caption": "app 是路径；apple 才是完整单词。"
         }
@@ -8070,9 +8070,9 @@
           "多字符通配符或正则需要更复杂的自动机状态。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p131-trace.svg",
-          "alt": "添加与搜索单词 的题解跟踪图（Trie：前缀就是路径）",
-          "caption": "4 步示例跟踪：Trie 中非通配符沿单边走；遇到 '.' 时分支所有子节点。搜索状态是 Trie 节点和文本下标。"
+          "src": "./assets/diagrams/problem-p131-trace.gif",
+          "alt": "添加与搜索单词 的题解跟踪动画（Trie：前缀就是路径）",
+          "caption": "4 步动画跟踪：Trie 中非通配符沿单边走；遇到 '.' 时分支所有子节点。搜索状态是 Trie 节点和文本下标。"
         }
       }
     }
@@ -8135,7 +8135,7 @@
           "匹配成功后清除词尾标记可避免重复答案。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p132-trie-dfs.svg",
+          "src": "./assets/diagrams/problem-p132-trie-dfs.png",
           "alt": "网格 DFS 与 Trie 同步匹配",
           "caption": "Trie 无边时剪掉整段网格路径；共享前缀只搜一次。"
         }
@@ -8199,9 +8199,9 @@
           "词根必须完整存在于 Trie，不能只匹配部分字符。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p133-trace.svg",
-          "alt": "单词替换 的题解跟踪图（Trie：前缀就是路径）",
-          "caption": "4 步示例跟踪：把词根建 Trie。沿单词字符走，第一次遇到 is_end 的 Trie 节点就是最短词根；可立即替换。"
+          "src": "./assets/diagrams/problem-p133-trace.gif",
+          "alt": "单词替换 的题解跟踪动画（Trie：前缀就是路径）",
+          "caption": "4 步动画跟踪：把词根建 Trie。沿单词字符走，第一次遇到 is_end 的 Trie 节点就是最短词根；可立即替换。"
         }
       }
     }
@@ -8263,9 +8263,9 @@
           "要求两个不同下标时，先查询已有数再插入当前数。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p134-trace.svg",
-          "alt": "数组中两个数的最大异或值 的题解跟踪图（Trie：前缀就是路径）",
-          "caption": "4 步示例跟踪：异或值从最高位到最低位贪心。对当前数 x 的每一位 b，若历史数中存在相反位 1-b，则当前位可得到 1。"
+          "src": "./assets/diagrams/problem-p134-trace.gif",
+          "alt": "数组中两个数的最大异或值 的题解跟踪动画（Trie：前缀就是路径）",
+          "caption": "4 步动画跟踪：异或值从最高位到最低位贪心。对当前数 x 的每一位 b，若历史数中存在相反位 1-b，则当前位可得到 1。"
         }
       }
     }
@@ -8327,9 +8327,9 @@
           "有序链表建平衡 BST 则应先找中点并断链。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p135-trace.svg",
-          "alt": "有序数组转平衡 BST 的题解跟踪图（AVL 与红黑树）",
-          "caption": "5 步示例跟踪：取区间中点作根，左半递归建左子树，右半递归建右子树。两侧长度最多差 1，因此整体高度平衡。"
+          "src": "./assets/diagrams/problem-p135-trace.gif",
+          "alt": "有序数组转平衡 BST 的题解跟踪动画（AVL 与红黑树）",
+          "caption": "5 步动画跟踪：取区间中点作根，左半递归建左子树，右半递归建右子树。两侧长度最多差 1，因此整体高度平衡。"
         }
       }
     }
@@ -8390,7 +8390,7 @@
           "只查相邻候选即可时，不要线性扫描全量。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p136-calendar.svg",
+          "src": "./assets/diagrams/problem-p136-calendar.png",
           "alt": "日程安排的前驱与后继检查",
           "caption": "有序结构只需检查相邻区间是否重叠。"
         }
@@ -8454,7 +8454,7 @@
           "严格比较要小心 query(r) 还是 query(r-1)。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p137-bit-query.svg",
+          "src": "./assets/diagrams/problem-p137-bit-query.png",
           "alt": "BIT 从右向左查询和插入",
           "caption": "先查询右侧严格小于当前值的数量，再插入当前值。"
         }
@@ -8517,9 +8517,9 @@
           "update 是赋值，必须先求 delta。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p138-trace.svg",
-          "alt": "区域和检索 - 数组可修改 的题解跟踪图（AVL 与红黑树）",
-          "caption": "4 步示例跟踪：BIT 支持单点增量更新和前缀和查询。区间和 = prefix(right+1)-prefix(left)。update 时只需减旧值加新值。"
+          "src": "./assets/diagrams/problem-p138-trace.gif",
+          "alt": "区域和检索 - 数组可修改 的题解跟踪动画（AVL 与红黑树）",
+          "caption": "4 步动画跟踪：BIT 支持单点增量更新和前缀和查询。区间和 = prefix(right+1)-prefix(left)。update 时只需减旧值加新值。"
         }
       }
     }
@@ -8582,7 +8582,7 @@
           "满节点键数和最小度数的关系必须先核对。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p139-bplus-split.svg",
+          "src": "./assets/diagrams/problem-p139-bplus-split.png",
           "alt": "B+ 树满节点分裂",
           "caption": "中间键上移；左右各保留 t-1 个键。"
         }
@@ -8647,9 +8647,9 @@
           "页内二分、页间顺序是两个层次的结构。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p140-trace.svg",
-          "alt": "B+ 树范围查询 的题解跟踪图（B 树与 B+ 树）",
-          "caption": "5 步示例跟踪：先跳过最后一键小于 start 的页；页内二分定位起点；沿页顺序扫描，直到键超过 end。"
+          "src": "./assets/diagrams/problem-p140-trace.gif",
+          "alt": "B+ 树范围查询 的题解跟踪动画（B 树与 B+ 树）",
+          "caption": "5 步动画跟踪：先跳过最后一键小于 start 的页；页内二分定位起点；沿页顺序扫描，直到键超过 end。"
         }
       }
     }
@@ -8713,9 +8713,9 @@
           "若允许拆页，答案与页合并完全不同。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p141-trace.svg",
-          "alt": "合并相邻索引页 的题解跟踪图（B 树与 B+ 树）",
-          "caption": "5 步示例跟踪：顺序扫描即可：当前页能放入则合并；一旦放入下一页会超过 capacity，就关闭当前页并开启新页。"
+          "src": "./assets/diagrams/problem-p141-trace.gif",
+          "alt": "合并相邻索引页 的题解跟踪动画（B 树与 B+ 树）",
+          "caption": "5 步动画跟踪：顺序扫描即可：当前页能放入则合并；一旦放入下一页会超过 capacity，就关闭当前页并开启新页。"
         }
       }
     }
@@ -8778,7 +8778,7 @@
           "先获得较优 best，可显著增强剪枝。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p142-knapsack-bound.svg",
+          "src": "./assets/diagrams/problem-p142-knapsack-bound.png",
           "alt": "0/1 背包的分数背包上界",
           "caption": "上界不超过当前最优值时，整棵子树剪枝。"
         }
@@ -8842,9 +8842,9 @@
           "最后回到起点必须在所有城市访问完后统一处理。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p143-trace.svg",
-          "alt": "旅行商路径 的题解跟踪图（分支限界）",
-          "caption": "5 步示例跟踪：定义 dp[mask][i] 表示已访问集合为 mask、当前在城市 i 的最小成本。扩展未访问城市 nxt 时，只需从 dp[mask][i] 加 cost[i][nxt]。"
+          "src": "./assets/diagrams/problem-p143-trace.gif",
+          "alt": "旅行商路径 的题解跟踪动画（分支限界）",
+          "caption": "5 步动画跟踪：定义 dp[mask][i] 表示已访问集合为 mask、当前在城市 i 的最小成本。扩展未访问城市 nxt 时，只需从 dp[mask][i] 加 cost[i][nxt]。"
         }
       }
     }
@@ -8907,9 +8907,9 @@
           "可行性判断要给出最少资源使用方式。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p144-trace.svg",
-          "alt": "分割数组的最小最大段和 的题解跟踪图（分支限界）",
-          "caption": "5 步示例跟踪：二分 limit。贪心扫描数组，当前元素会超过 limit 就新开一段；若总段数 <= k，则 limit 可行。"
+          "src": "./assets/diagrams/problem-p144-trace.gif",
+          "alt": "分割数组的最小最大段和 的题解跟踪动画（分支限界）",
+          "caption": "5 步动画跟踪：二分 limit。贪心扫描数组，当前元素会超过 limit 就新开一段；若总段数 <= k，则 limit 可行。"
         }
       }
     }
@@ -8971,9 +8971,9 @@
           "0 是否表示无边或权 0，必须由题面定义。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p145-trace.svg",
-          "alt": "邻接矩阵转邻接表 的题解跟踪图（图的表示与建模选型）",
-          "caption": "4 步示例跟踪：按行扫描 matrix[i][j]。非零值表示一条 i->j 的有向边，直接加入 adj[i]。"
+          "src": "./assets/diagrams/problem-p145-trace.gif",
+          "alt": "邻接矩阵转邻接表 的题解跟踪动画（图的表示与建模选型）",
+          "caption": "4 步动画跟踪：按行扫描 matrix[i][j]。非零值表示一条 i->j 的有向边，直接加入 adj[i]。"
         }
       }
     }
@@ -9034,9 +9034,9 @@
           "递归深度过大时使用显式栈。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p146-trace.svg",
-          "alt": "有向图可达性 的题解跟踪图（图的表示与建模选型）",
-          "caption": "4 步示例跟踪：邻接表只加入 u->v。从 source 开始栈式 DFS，visited 记录已访问节点；遇到 target 立即返回。"
+          "src": "./assets/diagrams/problem-p146-trace.gif",
+          "alt": "有向图可达性 的题解跟踪动画（图的表示与建模选型）",
+          "caption": "4 步动画跟踪：邻接表只加入 u->v。从 source 开始栈式 DFS，visited 记录已访问节点；遇到 target 立即返回。"
         }
       }
     }
@@ -9097,9 +9097,9 @@
           "同一目标的多源可达性一次遍历即可。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p147-trace.svg",
-          "alt": "反向图可达性 的题解跟踪图（图的表示与建模选型）",
-          "caption": "4 步示例跟踪：原图边 u->v 表示 v 可由 u 到达。反向建边 v->u 后，从 target 出发能访问的所有节点都满足“可到达 target”。"
+          "src": "./assets/diagrams/problem-p147-trace.gif",
+          "alt": "反向图可达性 的题解跟踪动画（图的表示与建模选型）",
+          "caption": "4 步动画跟踪：原图边 u->v 表示 v 可由 u 到达。反向建边 v->u 后，从 target 出发能访问的所有节点都满足“可到达 target”。"
         }
       }
     }
@@ -9161,9 +9161,9 @@
           "对角相邻是否成边必须由题面明确。"
         ],
         "diagram": {
-          "src": "./assets/diagrams/problem-p148-trace.svg",
-          "alt": "隐式网格图边数 的题解跟踪图（图的表示与建模选型）",
-          "caption": "5 步示例跟踪：每条水平边由左端点的右邻居确定，每条竖直边由上端点的下邻居确定。只检查右和下，即可不重不漏。"
+          "src": "./assets/diagrams/problem-p148-trace.gif",
+          "alt": "隐式网格图边数 的题解跟踪动画（图的表示与建模选型）",
+          "caption": "5 步动画跟踪：每条水平边由左端点的右邻居确定，每条竖直边由上端点的下邻居确定。只检查右和下，即可不重不漏。"
         }
       }
     }

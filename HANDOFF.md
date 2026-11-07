@@ -39,11 +39,11 @@
 3. 已生成 `data/problems.json`，固定 148 题；每题包含约束、示例、思路、复杂度、至少三个易错点。每题已同时包含 Python 和 Java 两个参考实现；148 个 Java 片段已通过 javac 编译检查。
 4. 已通过 `py_compile`、`node --check`、JSON 数量、ID 唯一性和章节引用校验。
 5. 设计文档已覆盖运行时文件、生成器、核心方法、路由和错误契约。
-6. 已实现视觉学习层：169 个静态 SVG = 21 张章节图 + 25 张手写题解图 + 123 张 trace 题解跟踪图；148 题全部有题解专用图；引用可通过 `scripts/validate_diagrams.py` 校验。
+6. 视觉学习层已迁移到 Pillow 渲染管线：169 张图 = 21 张章节 PNG + 25 张手写题解 PNG + 123 张 trace 题解动画 GIF（15MB）；所有定位基于实测字宽，148 题全部有题解专用图；引用可通过 `scripts/validate_diagrams.py` 校验。
 7. 已完成核心模块覆盖审计，并补齐排序、Trie、AVL/红黑树、B/B+ 树、分支限界和图表示章。
 8. 新增 p125-p148 共 24 题，总题库 148；新增 `scripts/validate_java.py`，148 个 Java 片段编译通过。
 9. 已抽查 p125-p148 的 Python 实现示例，修复了 B+ 树页合并、Trie 回溯示例和分支限界溢出问题。
-10. M7 已完成：`scripts/remaining_teaching_notes.py` 补齐剩余 107 题五问法；`scripts/trace_diagrams.py` 用五问法 trace 生成 123 张题解跟踪图；`problem-*-model.svg` 占位图已全部删除，校验器拒绝回潮；app.js 移除模型图回退分支。
+10. M7 已完成：`scripts/remaining_teaching_notes.py` 补齐剩余 107 题五问法；`scripts/trace_diagrams.py` 用五问法 trace 生成 123 张题解动画 GIF；全部旧 SVG（含 `problem-*-model.svg` 占位图）已删除，校验器拒绝回潮；app.js 移除模型图回退分支。
 11. 生成器重跑哈希一致（幂等）；`py_compile`、`node --check`、`validate_diagrams.py`、`validate_java.py` 全部通过。
 12. 下一件事是浏览器端人工冒烟：首页、章节、题库、题目、搜索、主题、双语言代码块、移动端与掌握状态。
 

@@ -91,4 +91,4 @@ def max_sliding_window(nums, k):
 
 ## 一图看懂
 
-![单调栈维护未解决候选](./assets/diagrams/chapter-monotonic-stack.svg)
+![单调栈维护未解决候选](./assets/diagrams/chapter-monotonic-stack.png)

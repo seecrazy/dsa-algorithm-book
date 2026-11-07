@@ -94,4 +94,4 @@ MST 选择 n-1 条边，使图连通且总权最小。
 
 ## 一图看懂
 
-![非负边权下的 Dijkstra 最近节点固定过程](./assets/diagrams/problem-p073-dijkstra.svg)
+![非负边权下的 Dijkstra 最近节点固定过程](./assets/diagrams/problem-p073-dijkstra.png)

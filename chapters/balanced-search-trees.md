@@ -75,4 +75,4 @@ A   B            B   C
 
 ## 一图看懂
 
-![AVL 旋转保持中序顺序](./assets/diagrams/chapter-avl-rotation.svg)
+![AVL 旋转保持中序顺序](./assets/diagrams/chapter-avl-rotation.png)

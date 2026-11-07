@@ -87,4 +87,4 @@ def subarray_sum(nums, k):
 
 ## 一图看懂
 
-![前缀和与哈希表查询关系](./assets/diagrams/chapter-hash-prefix-sum.svg)
+![前缀和与哈希表查询关系](./assets/diagrams/chapter-hash-prefix-sum.png)

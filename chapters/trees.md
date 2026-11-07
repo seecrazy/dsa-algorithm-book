@@ -103,4 +103,4 @@ BST 版本可利用大小关系不用全搜索。
 
 ## 一图看懂
 
-![树的后序遍历先取子问题答案再合并](./assets/diagrams/chapter-tree-recursion.svg)
+![树的后序遍历先取子问题答案再合并](./assets/diagrams/chapter-tree-recursion.png)

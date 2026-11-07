@@ -85,4 +85,4 @@ def counting_sort(a, max_value):
 
 ## 一图看懂
 
-![比较排序、计数、基数和桶排序的选型路径](./assets/diagrams/chapter-sorting-models.svg)
+![比较排序、计数、基数和桶排序的选型路径](./assets/diagrams/chapter-sorting-models.png)

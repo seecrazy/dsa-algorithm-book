@@ -79,4 +79,4 @@ count_word(w): find(w).end_count
 
 ## 一图看懂
 
-![Trie 共享前缀与查询路径](./assets/diagrams/chapter-trie-prefix.svg)
+![Trie 共享前缀与查询路径](./assets/diagrams/chapter-trie-prefix.png)

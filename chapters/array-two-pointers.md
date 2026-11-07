@@ -79,6 +79,6 @@ for right, x in enumerate(a):
 
 ## 一图看懂
 
-![对撞双指针淘汰较弱一侧](./assets/diagrams/chapter-array-two-pointers.svg)
+![对撞双指针淘汰较弱一侧](./assets/diagrams/chapter-array-two-pointers.png)
 
-![滑动窗口用 left 修复非法区间](./assets/diagrams/chapter-sliding-window.svg)
+![滑动窗口用 left 修复非法区间](./assets/diagrams/chapter-sliding-window.png)

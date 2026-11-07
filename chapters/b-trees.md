@@ -65,4 +65,4 @@ B+ 树与 B 树最大的差异：
 
 ## 一图看懂
 
-![B+ 树节点分裂与叶子链表](./assets/diagrams/chapter-btree-split.svg)
+![B+ 树节点分裂与叶子链表](./assets/diagrams/chapter-btree-split.png)

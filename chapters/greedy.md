@@ -108,4 +108,4 @@ ans = [max(l, r) for l, r in zip(left, right)]
 
 ## 一图看懂
 
-![按结束时间选择互不重叠区间](./assets/diagrams/chapter-interval-scheduling.svg)
+![按结束时间选择互不重叠区间](./assets/diagrams/chapter-interval-scheduling.png)

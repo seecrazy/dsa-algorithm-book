@@ -81,4 +81,4 @@ T(n) = 2T(n-1) + O(1)      -> O(2^n)
 
 ## 一图看懂
 
-![复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)](./assets/diagrams/chapter-complexity-growth.svg)
+![复杂度增长形状对比：O(log n)、O(n)、O(n log n)、O(n²)](./assets/diagrams/chapter-complexity-growth.png)
