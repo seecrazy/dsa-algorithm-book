@@ -332,7 +332,6 @@
     const solved = state.solved.has(id);
     const chapter = state.chapters.find(c => c.id === p.chapter);
     const understanding = p.solution && p.solution.understanding;
-    const modelDiagram = p.solution && p.solution.diagram;
     const deepExplanation = understanding ? `
       <h2>从“看答案”到“知其所以然”</h2>
       ${understanding.diagram ? `
@@ -355,11 +354,6 @@
         <ul>${(understanding.transfer || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
       </div>` : `
       <h2>从“看答案”到“知其所以然”</h2>
-      ${modelDiagram ? `
-        <figure class="diagram">
-          <img src="${escapeHtml(modelDiagram.src)}" alt="${escapeHtml(modelDiagram.alt)}" loading="lazy" decoding="async">
-          <figcaption>${escapeHtml(modelDiagram.caption)}</figcaption>
-        </figure>` : ''}
       <div class="problem">
         <p>这题的完整五问讲解还在分批撰写中。先按下面的脚手架自己推导，比直接抄模板更有效：</p>
         <ol>

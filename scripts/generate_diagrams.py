@@ -5,7 +5,7 @@ from html import escape
 from pathlib import Path
 import json
 
-from model_diagrams import diagram_key, model_diagram
+from trace_diagrams import diagram_key, trace_state_svg
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "diagrams"
@@ -546,26 +546,6 @@ DIAGRAMS = {
     "problem-p111-palindrome": problem_palindrome,
 }
 
-def model_state_svg(problem, chapter_lookup):
-    model = model_diagram(problem, chapter_lookup)
-    body = [
-        text(32, 52, model["title"], "title"),
-        text(34, 80, model["subtitle"], "small"),
-        node(58, 112, 190, 82, model["kind"], "blue", "当前状态"),
-        node(270, 112, 190, 82, model["action"], "orange", "操作"),
-        node(482, 112, 190, 82, model["result"], "green", "目标"),
-        path([248, 153], "arrow"),
-        path([460, 153], "arrow"),
-    ]
-    body += [rect(58, 225, 614, 76, "purple")]
-    body += [text(360, 252, "本题 focus"), text(360, 281, model["focus"])]
-    body += [rect(58, 325, 614, 76, "green")]
-    body += [text(360, 352, "不变量"), text(360, 381, model["invariant"])]
-    body += [rect(58, 425, 614, 56, "plain")]
-    body += [text(360, 450, "模型图先展示状态迁移骨架；五问法内容仍按批次深化")]
-    return svg(720, 505, "".join(body))
-
-
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     chapter_lookup = {
@@ -578,18 +558,18 @@ def main():
         for name in DIAGRAMS
         if name.startswith("problem-")
     }
-    model_count = 0
+    trace_count = 0
     for problem in problems:
         if problem["id"] in custom_problem_ids:
             continue
         target = OUT / diagram_key(problem["id"])
-        target.write_text(model_state_svg(problem, chapter_lookup), encoding="utf-8")
-        model_count += 1
+        target.write_text(trace_state_svg(problem, chapter_lookup), encoding="utf-8")
+        trace_count += 1
 
     for name, builder in DIAGRAMS.items():
         target = OUT / f"{name}.svg"
         target.write_text(builder(), encoding="utf-8")
-    print(f"generated {len(DIAGRAMS)} hand-made diagrams and {model_count} model diagrams")
+    print(f"generated {len(DIAGRAMS)} hand-made diagrams and {trace_count} trace-driven diagrams")
 
 
 def chapter_interval_schedule():

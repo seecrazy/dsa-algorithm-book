@@ -393,12 +393,11 @@ localStorage keys：
 | `validate(problems)` | 校验固定 148 题、ID 唯一、章节引用、难度、约束、示例、>=3 个陷阱和代码 |
 | `main()` | 合并 `java_solutions.JAVA_SOLUTIONS`、校验双语言、写 JSON、输出按章节统计 |
 | `scripts/java_solutions.py` | 以 `problem.id` 为键保存 Java 参考实现；`main()` 重跑时不得丢失 |
-| `scripts/model_diagrams.py` | 按章节定义模型关键词；`diagram_key()` 生成 SVG 文件名；`model_diagram()` 返回题解图元数据 |
-| `scripts/generate_diagrams.py:model_state_svg()` | 将模型元数据渲染为“状态 -> 操作 -> 目标”的 SVG |
-| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成模型图，再重建手写章节/题解图；当前为 123 张模型图和 46 张手写图 |
+| `scripts/trace_diagrams.py` | `diagram_key()` 生成 `problem-<id>-trace.svg` 文件名；`trace_diagram_meta()` 返回题解图元数据；`trace_state_svg()` 渲染题解跟踪图 |
+| `scripts/generate_diagrams.py:main()` | 先为无手写图的题目生成 trace 题解图，再重建手写章节/题解图；当前为 123 张 trace 图和 46 张手写图 |
 | `scripts/new_module_problems.py` | 定义 p125-p148 题目、Python 实现和 `NEW_JAVA`；不含前端运行时逻辑 |
 | `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
-| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、148 题图引用和无未引用文件；图来源可为 `understanding.diagram` 或 `solution.diagram` |
+| `scripts/validate_diagrams.py` | 校验 SVG XML、章节引用、148 题图引用、五问法全覆盖和无未引用文件；同时拒绝任何 `-model.svg` 占位图回潮 |
 | `scripts/validate_java.py` | 为 148 个 Java 片段注入共享类型并在唯一 package 中编译 |
 
 内容不变量补充：
@@ -441,7 +440,6 @@ interface ProblemSolution {
   complexity: string;
   pitfalls: string[];
   code: { language: string; source: string }[];
-  diagram?: ProblemDiagram; // 模型级图；若 understanding.diagram 存在则优先使用它
 }
 
 interface Problem {
@@ -499,11 +497,10 @@ interface ProblemDiagram {
 }
 ```
 
-- 尚无五问法讲解的题可先挂 `Problem.solution.diagram`；结构相同。
-- 前端读取顺序是 `understanding.diagram -> solution.diagram`。
+- 前端在五问法块内渲染 `understanding.diagram`。
 - 前端使用 `figure.diagram` 渲染，`img` 使用 `loading="lazy"`。
 - Markdown 行内解析支持图片语法，但不允许用户输入执行 SVG/HTML。
-- 当前生成 169 个 SVG：46 个手写图（20 个章节图 + 26 个题解图）和 123 个模型题图；148 题全部有题解图。
+- 当前生成 169 个 SVG：46 个手写图（21 个章节图 + 25 个题解图）和 123 个 trace 题解图；148 题全部有题解专用图。
 
 ### 14.2a 题解理解层
 
@@ -520,18 +517,7 @@ interface ProblemUnderstanding {
 }
 
 Problem.solution.understanding?: ProblemUnderstanding;
-
-对于尚无五问法讲解的题，可先挂 `Problem.solution.diagram`；它的结构同样是：
-
-```ts
-interface ProblemDiagram {
-  src: string;
-  alt: string;
-  caption: string;
-}
 ```
-
-前端读取顺序是 `understanding.diagram -> solution.diagram`。
 
 题解渲染顺序固定为“五问法”：
 
@@ -546,7 +532,7 @@ interface ProblemDiagram {
 - 不允许只写“使用哈希表优化”这类结论，必须说明“记录什么、之后查什么、为什么查得到”。
 - 不允许只写“动态规划”，必须说明状态含义和转移来源。
 - 已升级题的 `trace` 至少 3 步，并使用示例中的具体值。
-- 148 题按批次补齐；字段缺失时前端显示通用五问脚手架，不允许伪装成已完整讲解。
+- 148 题已全部具备五问法；若未来新增题暂时缺失字段，前端显示通用五问脚手架，不允许伪装成已完整讲解。
 
 ### 14.3 内容索引
 
@@ -570,15 +556,15 @@ interface ProblemDiagram {
 
 这些模块先提供原理、模板、复杂度、陷阱和章节图；题库问题暂不强行迁移。后续若新增题目，必须沿用 Python/Java、五问法和题解图约定。
 
-### 14.4d 全量五问法与 trace 驱动图
+### 14.4d 全量五问法与 trace 驱动图（已完成）
 
-为完成“知其所以然”目标，剩余题采用统一批次补齐：
+剩余题已按统一批次补齐：
 
-1. 为 `p004-p124` 中尚无五问法的 107 题补齐完整 `understanding`。
+1. `p004-p124` 中尚无五问法的 107 题已补齐完整 `understanding`（`scripts/remaining_teaching_notes.py`）。
 2. 五问法的 `trace` 不只用于文字说明，还作为题解专用图的输入。
 3. 无手写专用图的题自动生成“trace 状态图”：标题来自题目，节点来自示例状态，边来自操作，底部展示不变量。
-4. 该图与模型级图不同：内容必须引用该题的示例、状态和迁移，而不是只展示章节模型。
-5. 完成后 148 题全部具备五问法与题解专用图。
+4. 该图与旧模型级图不同：内容引用该题的示例、状态和迁移，而不是只展示章节模型。
+5. 完成后 148 题全部具备五问法与题解专用图；123 张旧 `problem-<id>-model.svg` 已删除，校验器拒绝模型占位图回潮。
 
 ### 14.4c 新增模块讲解批次 2
 
@@ -613,7 +599,7 @@ interface ProblemDiagram {
 - `id` 从 `p125` 到 `p148`，全局唯一。
 - 每题有 Python 与 Java 参考。
 - 每题至少一个约束、一个示例、三个易错点。
-- 每题挂 `solution.diagram` 模型级状态图；后续可升级为手写图。
+- 每题挂 `understanding.diagram` 题解专用图（手写图或 trace 图）。
 - `validate()` 预期数量改为 148。
 
 ### 14.4a 新增模块图示
@@ -627,15 +613,15 @@ interface ProblemDiagram {
 - `branch-and-bound`：界剪枝。
 - `graph-representation`：四种图容器对比。
 
-## 14.5 剩余题图示策略
+## 14.5 题解图示策略（已升级为 trace 驱动）
 
-首批 17 题使用手写专用 SVG。为了让每题达到“有图可看”，无手写图的题采用“模型级状态图”：
+首批 17 题与 8 个新模块代表题使用手写专用 SVG。其余题由 `scripts/trace_diagrams.py` 生成“题解跟踪图”：
 
-- 每个剩余题至少一张 SVG，文件名包含题目 ID。
-- 图中包含题目标题、核心状态对象、操作方向、不变量和当前题 focus。
-- 图示按所属章节模型生成：数组指针、栈/队列、哈希映射、链表、树、堆、图、回溯树、DP 网格、区间决策、位运算、系统流水线。
-- 这类图先保证“能看见状态迁移”，后续可逐题替换为手写专用图。
-- 校验器要求：148 题全部有题解图；SVG 引用存在；无未引用 SVG。
+- 每题至少一张 SVG，文件名为 `problem-<id>-trace.svg`。
+- 标题来自题目；副标题标注章节与“示例驱动”。
+- 节点来自该题 `understanding.trace` 的每一步示例状态，按“初始（蓝）→ 中间（橙）→ 答案（绿）”着色。
+- 边表示相邻步骤之间的操作；底部紫色块展示 `why_correct` 的不变量。
+- 中文按全角宽度估算换行，图内文字不越界；校验器要求：148 题全部有题解图、五问法全覆盖、无 `-model.svg` 占位图、无未引用 SVG。
 
 ## 15. 错误处理矩阵
 

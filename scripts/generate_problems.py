@@ -8,7 +8,7 @@ from pathlib import Path
 from java_solutions import JAVA_SOLUTIONS
 from teaching_notes import TEACHING_NOTES
 from remaining_teaching_notes import FIVE_QUESTION_NOTES
-from model_diagrams import diagram_key, model_diagram
+from trace_diagrams import trace_diagram_meta
 from new_module_problems import NEW_JAVA, NEW_PROBLEMS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1340,12 +1340,10 @@ def main():
             problem["solution"]["understanding"] = TEACHING_NOTES[problem_id]
         elif problem_id in FIVE_QUESTION_NOTES:
             problem["solution"]["understanding"] = FIVE_QUESTION_NOTES[problem_id]
-        if not problem["solution"].get("understanding", {}).get("diagram") and not problem["solution"].get("diagram"):
+        understanding = problem["solution"].get("understanding")
+        if understanding and not understanding.get("diagram"):
             chapter_lookup = {chapter["id"]: chapter for chapter in json.loads((ROOT / "data/chapters.json").read_text(encoding="utf-8"))}
-            model = model_diagram(problem, chapter_lookup)
-            problem["solution"]["diagram"] = {
-                key: model[key] for key in ("src", "alt", "caption")
-            }
+            problem["solution"]["understanding"]["diagram"] = trace_diagram_meta(problem, chapter_lookup)
 
     validate(P)
     OUT.parent.mkdir(parents=True, exist_ok=True)

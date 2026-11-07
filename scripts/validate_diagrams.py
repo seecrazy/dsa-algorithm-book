@@ -32,16 +32,30 @@ for path in CHAPTERS.glob("*.md"):
 
 problems = json.loads(PROBLEMS.read_text(encoding="utf-8"))
 diagrammed = 0
+explained = 0
 for problem in problems:
     solution = problem.get("solution", {})
-    diagram = solution.get("understanding", {}).get("diagram") or solution.get("diagram")
+    understanding = solution.get("understanding", {})
+    if understanding.get("trace") and understanding.get("why_correct"):
+        explained += 1
+    diagram = understanding.get("diagram") or solution.get("diagram")
     if not diagram:
+        errors.append(f"{problem['id']}: missing diagram")
         continue
     diagrammed += 1
+    if "-model.svg" in diagram["src"]:
+        errors.append(f"{problem['id']}: model placeholder diagram {diagram['src']}")
     source = Path(diagram["src"].removeprefix("./"))
     if not source.is_file():
         errors.append(f"{problem['id']}: missing {diagram['src']}")
     referenced.add(source.name)
+
+if explained != len(problems):
+    errors.append(f"five-question coverage {explained}/{len(problems)}, expected full coverage")
+
+model_files = [path.name for path in svg_files if "-model.svg" in path.name]
+if model_files:
+    errors.append("model placeholder SVGs still on disk: " + ", ".join(model_files))
 
 unused = sorted(path.name for path in svg_files if path.name not in referenced)
 if unused:

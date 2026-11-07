@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 558" role="img" aria-labelledby="t d">
+<title id="t">算法状态图</title><desc id="d">可视化算法状态迁移</desc>
+<defs>
+<marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#334155"/></marker>
+<marker id="blue-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#2563eb"/></marker>
+<marker id="green-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#059669"/></marker>
+<marker id="red-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7 Z" fill="#dc2626"/></marker>
+</defs>
+<style>
+.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}
+.box{stroke-width:2}
+.plain{fill:#f8fafc;stroke:#94a3b8}
+.blue{fill:#dbeafe;stroke:#2563eb}
+.green{fill:#dcfce7;stroke:#059669}
+.orange{fill:#ffedd5;stroke:#d97706}
+.red{fill:#fee2e2;stroke:#dc2626}
+.purple{fill:#ede9fe;stroke:#7c3aed}
+.line{stroke:#64748b;stroke-width:2;fill:none}
+.arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+.flow{stroke:#2563eb;stroke-width:3;fill:none;marker-end:url(#blue-arrow)}
+.bad{stroke:#dc2626;stroke-width:3;fill:none;marker-end:url(#red-arrow)}
+.good{stroke:#059669;stroke-width:3;fill:none;marker-end:url(#green-arrow)}
+.t{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:17px;fill:#111827;text-anchor:middle;font-weight:650}
+.s{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;fill:#475569;text-anchor:middle}
+.small{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC','PingFang SC',sans-serif;font-size:13px;fill:#64748b;text-anchor:middle}
+.axis{stroke:#94a3b8;stroke-width:2}
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;font-size:21px;fill:#0f172a;text-anchor:start;font-weight:800}
+</style>
+<rect class="panel" x="10" y="10" width="700" height="538" rx="18"/>
+<text class="title" x="32" y="52">解数独 · 题解跟踪</text><text class="small" x="360" y="80">示例驱动：回溯：排列、组合与搜索剪枝 · 每个节点是本题示例的一个状态</text><rect class="box blue" x="76" y="104" width="592" height="56" rx="12"/><text class="s" x="372" y="137">标准 9x9。</text><circle cx="38" cy="132" r="17" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text class="t" x="38" y="138">1</text><rect class="box orange" x="76" y="186" width="592" height="56" rx="12"/><text class="s" x="372" y="219">找第一个空格。</text><circle cx="38" cy="214" r="17" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text class="t" x="38" y="220">2</text><rect class="box orange" x="76" y="268" width="592" height="56" rx="12"/><text class="s" x="372" y="301">尝试合法数字。</text><circle cx="38" cy="296" r="17" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text class="t" x="38" y="302">3</text><rect class="box green" x="76" y="350" width="592" height="56" rx="12"/><text class="s" x="372" y="383">唯一解递归成功后停止。</text><circle cx="38" cy="378" r="17" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/><text class="t" x="38" y="384">4</text><path class="arrow" d="M372,163 L372,183"/><text class="small" x="414" y="178">操作</text><path class="arrow" d="M372,245 L372,265"/><text class="small" x="414" y="260">操作</text><path class="arrow" d="M372,327 L372,347"/><text class="small" x="414" y="342">操作</text><rect class="box purple" x="76" y="432" width="592" height="96" rx="12"/><text class="t" x="372" y="461">为什么正确（本题不变量）</text><text class="s" x="372" y="485">数独约束等价于数字不在同行、同列、同宫集合中。递归填满全部空格即完成；撤</text><text class="s" x="372" y="509">销保证尝试其他数字。</text>
+</svg>
