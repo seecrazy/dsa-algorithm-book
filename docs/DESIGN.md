@@ -39,42 +39,13 @@
 
 ### 顶层结构
 
-1. 开篇：如何使用本书
-2. 复杂度：性能的地图
-3. 数组与双指针
-4. 栈、队列与单调结构
-5. 哈希表与计数
-6. 链表与边界控制
-7. 递归、分治与二分
-8. 树与递归思维
-9. 堆与优先队列
-10. 图论：搜索、拓扑与连通性
-11. 最短路、最小生成树与图建模
-12. 回溯：排列、组合与搜索剪枝
-13. 贪心：局部决策与全局证明
-14. 动态规划：状态、转移与记忆
-15. 字符串算法
-16. 并查集与高级结构
-17. 数学、位运算与概率思维
-18. 工程化调试与面试作战手册
-8. 排序：从比较到分桶
-9. 树与递归思维
-10. AVL 与红黑树
-11. 堆与优先队列
-12. B 树与 B+ 树
-13. 图论：搜索、拓扑与连通性
-14. 图的表示与建模选型
-15. 最短路、最小生成树与图建模
-16. 回溯：排列、组合与搜索剪枝
-17. 分支限界
-18. 贪心：局部决策与全局证明
-19. 动态规划：状态、转移与记忆
-20. Trie：前缀就是路径
-21. 字符串算法
-22. 并查集与高级结构
-23. 数学、位运算与概率思维
-24. 工程化调试与面试作战手册
-25. 题库索引
+按 `data/chapters.json` 顺序，共 24 章正文 + 题库索引 + 学习工具页：
+
+- 开始（start）：1. 如何使用这本书 · 2. 复杂度：性能的地图
+- 核心结构（structures）：3. 数组与双指针 · 4. 栈、队列与单调结构 · 5. 哈希表与计数 · 6. Trie：前缀就是路径 · 7. 链表与边界控制 · 10. 树与递归思维 · 11. AVL 与红黑树 · 13. 堆与优先队列
+- 核心思想（techniques）：8. 递归、分治与二分 · 9. 排序：从比较到分桶 · 14. 图论：搜索、拓扑与连通性 · 17. 回溯 · 18. 分支限界 · 19. 贪心 · 20. 动态规划
+- 进阶与实战（advanced）：12. B 树与 B+ 树 · 15. 图的表示与建模选型 · 16. 最短路、最小生成树与图建模 · 21. 字符串算法 · 22. 并查集与高级结构 · 23. 数学、位运算与概率思维 · 24. 工程化调试与面试作战手册
+- 练习工具：题库索引（`#/problems`）· 复习中心（`#/review`）· 30 天冲刺计划（`#/plan`）
 
 ### 章节正文约定
 
@@ -129,15 +100,31 @@ Problem {
 5. 题库页可按难度和主题筛选。
 6. 已完成题目标记保存在浏览器本地。
 
+### 复习流程（M8）
+
+1. 用户在题目页或题目卡片点“＋复习”，题目进入复习队列（第 1 轮，当天到期）。
+2. 复习中心展示“今日到期”与“间隔中”两组；“间隔中”最多显示 20 题。
+3. 到期题点“记得”进入下一档间隔（1 → 2 → 4 → 7 → 15 → 30 天），走完最后一档自动毕业。
+4. 点“忘了”回到第 1 轮并累计遗忘次数，次日再到期。
+5. “移出复习”随时退出队列；毕业数与队列状态都保存在 localStorage。
+
+### 冲刺流程（M8）
+
+1. 用户进入 `#/plan`，看到由 24 章 + 148 题运行时推导的 30 天计划：24 个学习日（每章一个）+ 6 个复习日（每 5 天一个）。
+2. 题目按章节顺序从该章学习日起摊排，学习日上限 6 题、复习日上限 3 题，超出顺延。
+3. 点“开始 30 天冲刺”后以当天为第 1 天，高亮“今天”卡片；进度 = 已读章节 + 已掌握题 / 总项数，与掌握状态实时联动。
+4. “标记已读”与“标记掌握”分别写 `dsa.read` 与 `dsa.solved`，可随时重置开始日期而不丢学习记录。
+
 ## 6. 前端架构
 
 - `index.html`：应用外壳、侧边栏、内容区、搜索控件。
 - `assets/style.css`：版式、排版、暗色模式、响应式规则。
-- `assets/app.js`：路由、数据加载、Markdown 渲染、搜索、状态管理。
+- `assets/app.js`：路由、数据加载、Markdown 渲染、搜索、复习、冲刺计划、状态管理。
 - `data/chapters.json`：章节顺序与元数据。
 - `data/problems.json`：题库与筛选索引。
+- `data/search-index.json`：章节正文分节搜索索引（`scripts/generate_search_index.py` 生成，首次搜索时惰性加载）。
 - `chapters/*.md`：章节内容。
-- 状态保存使用 `localStorage`，包括主题、最近章节、已完成题目标记。
+- 状态保存使用 `localStorage`，包括主题、最近章节、已掌握题、复习队列、冲刺开始日期和章节已读标记。
 
 ### Markdown 支持范围
 
@@ -284,7 +271,12 @@ SEO 契约：静态 `title`、`description` 和 Book JSON-LD 必须存在；动�
 AppState {
   chapters: Chapter[]
   problems: Problem[]
-  solved: Set<string>
+  solved: Set<string>          // 已掌握题目 ID
+  review: Record<string, { stage: number, due: number, lapses: number, added: number }>
+  graduated: number            // 走完间隔序列的毕业题数
+  read: Set<string>            // 计划中标记已读的章节 ID
+  planStart: number | null     // 冲刺计划开始时间戳
+  searchIndex: Section[] | null// 惰性加载的正文搜索索引
   query: string
   difficulty: 'all' | 'easy' | 'medium' | 'hard'
   tag: string
@@ -297,7 +289,11 @@ localStorage keys：
 |---|---|---|
 | `dsa.theme` | `"light" | "dark"` | 主题 |
 | `dsa.solved` | `string[]` | 已掌握题目 ID |
-| `dsa.last` | `string` | 最近章节路由 |
+| `dsa.last` | `string` | 最近章节路由，首页“继续阅读”使用 |
+| `dsa.review` | `Record<string, ReviewEntry>` | 复习队列（莱特纳式间隔） |
+| `dsa.graduated` | `number` | 复习毕业题数 |
+| `dsa.read` | `string[]` | 已读章节 ID（冲刺计划用） |
+| `dsa.planStart` | `number | null` | 冲刺计划开始时间戳 |
 
 #### 方法清单
 
@@ -319,7 +315,17 @@ localStorage keys：
 | `chapterPage` | id | 异步章节 HTML | 章节缺失或文件加载失败显示错误面板 |
 | `problemsPage` | state | 筛选后的题库 HTML | 空结果显示 `.empty` |
 | `problemPage` | id | 题目详情 HTML | 未知 ID 显示错误面板 |
-| `bindPageEvents` | 当前 DOM | 绑定复制、筛选、掌握按钮 | 每次渲染后只绑定当前节点 |
+| `reviewPage` | state | 复习中心 HTML | 无在册题显示引导文案 |
+| `buildPlan` | state | 30 天计划结构（学习/复习日 + 摊排题目） | 确定性推导，无随机 |
+| `planPage` | state | 冲刺计划 HTML | 无 |
+| `ensureSearchIndex` | 无 | 惰性加载 search-index.json，成功后刷新导航 | 失败时置空并保持标题搜索可用 |
+| `snippet` | text、query | 命中片段（前后截断加省略号） | 未命中返回开头 64 字 |
+| `slugify` / `stripMd` | 标题文本 | 与生成器一致的锚点 slug | 与 13.6 契约同步 |
+| `pagerNav` | prev/next | 章节或题目上下页卡片 | 无相邻项时返回空串 |
+| `toggleSolved` / `toggleReview` / `toggleRead` | id | 切换掌握/复习/已读并持久化 | 无 |
+| `reviewRemember` / `reviewForget` | id | 推进或重置间隔并持久化 | 走完间隔自动毕业 |
+| `pagerTarget` | direction | 键盘导航目标路由 | 非章节/题目页返回 null |
+| `bindPageEvents` | 当前 DOM | 绑定复制、筛选输入 | 每次渲染后只绑定当前节点；按钮动作用 #content 全局委托 |
 | `renderRoute` | 当前 hash | 主内容渲染 | 未知 hash 回退错误面板 |
 | `initialize` | 无 | 加载数据、恢复状态、绑定全局事件 | JSON 初始化失败不白屏 |
 
@@ -329,16 +335,25 @@ localStorage keys：
 |---|---|
 | `#/` | 首页 |
 | `#/chapter/:id` | 章节页 |
+| `#/chapter/:id?h=<slug>` | 章节页并平滑滚动到锚点标题（搜索命中跳转） |
 | `#/problem/:id` | 题目详情 |
 | `#/problems` | 题库筛选页 |
+| `#/review` | 复习中心 |
+| `#/plan` | 30 天冲刺计划 |
 | 其他 | 错误面板 |
 
 路由规则：
 
-- `:id` 仅允许 `[\w-]+`，防止路径拼接歧义。
+- `:id` 仅允许 `[\w-]+`，防止路径拼接歧义；`h` 参数由 `URLSearchParams` 解码。
 - 章节异步加载期间先显示 `.empty`。
 - 题库筛选器变化时调用 `renderRoute({ preserveFilters: true })`，不重置滚动位置。
 - 最近章节在进入 `#/chapter/:id` 成功发起读取前写入 `dsa.last`。
+- 锚点命中后为目标标题加 1.8 秒 `anchor-flash` 高亮；锚点不存在时静默忽略。
+
+键盘契约：
+
+- `/` 聚焦搜索框（输入态除外）。
+- `←` / `→` 在章节页或题目页跳上一章/题、下一章/题（输入态与组合键除外）。
 
 #### Markdown 渲染契约
 
@@ -356,14 +371,17 @@ localStorage keys：
 
 行内解析顺序：HTML escape -> inline code -> bold/italic -> delete -> link。链接协议是 `http/https` 时加 `target="_blank" rel="noopener noreferrer"`。
 
+heading 渲染附加 `id` 锚点：slug 由 `stripMd` 剥离行内标记后经 `slugify`（NFKC + 小写 + 非 `[字母数字_]` 折叠为 `-`）生成，章内重名追加 `-2`、`-3` 后缀；该算法必须与 `scripts/generate_search_index.py` 保持一致，否则搜索命中无法定位标题。
+
 #### 状态与事件生命周期
 
-1. `initialize()` 恢复主题和 solved。
+1. `initialize()` 恢复主题、solved、review、read、graduated 和 planStart。
 2. 并发加载 `chapters.json`、`problems.json`。
-3. 渲染侧边栏，绑定 hash/search/theme/menu/overlay。
+3. 渲染侧边栏，绑定 hash/search/theme/menu/overlay 与全局键盘事件。
 4. `renderRoute()` 根据 hash 生成页面。
-5. `bindPageEvents()` 只绑定本次渲染生成的节点，避免全局委托重复绑定。
-6. 掌握状态变化后重新渲染当前路由，并同步 localStorage。
+5. `bindPageEvents()` 只绑定本次渲染生成的输入类节点；按钮类动作用 `#content` 上的全局 `data-action` 委托（toggle-solved / toggle-review / review-remember / review-forget / toggle-read / print / plan-start / plan-reset），避免重复绑定。
+6. 任何状态变化后重新渲染当前路由，并同步 localStorage；复习与掌握状态同时刷新侧边栏徽标。
+7. 搜索框输入达到 2 个字符时惰性加载 `search-index.json`（只加载一次），加载完成后若仍有查询则刷新导航结果。
 
 ### 13.4 `/scripts/generate_content.py`
 
@@ -405,6 +423,20 @@ localStorage keys：
 - 当前题库固定为 148 题。
 - 难度分布不是硬约束，但生成日志会输出，便于检查内容倾斜。
 - 调整题库数量时，必须同步更新本节、README、首页文案、侧边栏文案和校验器预期值。
+
+### 13.6 `/scripts/generate_search_index.py`
+
+职责：生成 `data/search-index.json`（正文全文搜索索引）。产物入库，仅本地维护时执行。
+
+| 方法 / 契约 | 说明 |
+|---|---|
+| `slugify(text)` / `strip_inline(text)` | 与 `assets/app.js` 的 `slugify`/`stripMd` 保持逐字符一致 |
+| `parse_chapter(chapter)` | 按 `##`/`###` 切分小节；代码块整体丢弃；表格保留单元格文字；正文上限 4000 字符 |
+| slug 去重 | 章内重名标题追加 `-2`、`-3`，与渲染器逻辑一致 |
+| `main()` 校验 | 每章至少一个小节、章内 slug 唯一；失败退出码 1 |
+| 幂等性 | 输出顺序与缩进固定，重跑必须逐字节一致 |
+
+运行方式：`python3 scripts/generate_search_index.py`。章节内容变更后必须重跑并入库。
 
 ## 14. 数据模型与校验
 
@@ -463,6 +495,30 @@ interface Problem {
 - 题目至少一个示例和三个易错点。
 - 每题必须同时提供 Python 和 Java 两个参考实现。
 - `summary` 若缺失，前端回退显示 `prompt`。
+
+### 14.3 `search-index.json` 与复习条目
+
+```ts
+interface SearchSection {
+  chapter: string;       // Chapter.id
+  chapterTitle: string;  // 冗余标题，供导航直接显示
+  heading: string;       // 小节标题（## / ###）
+  slug: string;          // 与渲染器 heading id 一致
+  text: string;          // 剥离 Markdown 后的纯文本（<= 4000 字符）
+}
+
+interface ReviewEntry {
+  stage: number;   // 0..5，对应间隔天数 [1, 2, 4, 7, 15, 30]
+  due: number;     // 到期时间戳（毫秒）
+  lapses: number;  // 累计“忘了”次数
+  added: number;   // 加入时间戳
+}
+```
+
+不变量：
+
+- `search-index.json` 的 slug 必须能在对应章节渲染产物中找到同 id 元素，否则视为生成器与渲染器契约破裂。
+- `ReviewEntry.due` 永远是“上一次操作时间 + 当前档间隔”；`stage` 达到 6 时条目删除并累加 `dsa.graduated`。
 
 ### 14.1a 视觉学习层
 

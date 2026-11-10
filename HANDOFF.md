@@ -45,7 +45,10 @@
 9. M7 已完成：`scripts/remaining_teaching_notes.py` 补齐剩余 107 题五问法；`scripts/trace_diagrams.py` 用五问法 trace 生成 123 张题解动画 GIF；全部旧 SVG（含 `problem-*-model.svg` 占位图）已删除，校验器拒绝回潮。
 10. 本地渲染依赖：`python3 -m pip install --user pillow fonttools`（仅生成器需要）。
 11. 生成器重跑哈希一致（幂等）；`py_compile`、`node --check`、`validate_diagrams.py`、`validate_java.py` 全部通过；169 个被引用资源 HTTP 200。
-12. 下一件事是浏览器端人工冒烟：首页、章节、题库、题目、搜索、主题、双语言代码块、GIF 动画播放、移动端与掌握状态。
+12. 浏览器端人工冒烟（2026-11-10，M8 收口完成）：首页、章节、题库、题目、搜索、主题、双语言代码块、GIF 动画播放、移动端与掌握状态。
+13. M8 学习闭环升级（2026-11-10）：新增 `scripts/generate_search_index.py` 与 `data/search-index.json`（24 章 197 小节，幂等）；`assets/app.js` 升级——复习中心 `#/review`（莱特纳间隔 1/2/4/7/15/30 天）、30 天冲刺计划 `#/plan`（24 学习日 + 6 复习日、题目确定性摊排）、全文搜索（惰性加载索引、片段预览、`?h=` 锚点高亮）、章节/题目上下页、首页继续阅读（启用 `dsa.last`）、`/` 与 `←`/`→` 快捷键、打印本章。
+14. M8 文档同步：DESIGN.md 修复顶层结构编号错乱并新增 13.6 生成器契约与 14.3 数据模型；index.html 修 124→148 过时 meta；ROADMAP/README 对齐口径。
+15. 下一件事：backlog 剩余项——每章可视化/可交互演示、章节模板 Java 版、UI 自动化冒烟、错题原因笔记。
 
 ## Git 纪律
 
